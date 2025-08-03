@@ -26,6 +26,8 @@ export const hi: LanguageTranslation = {
                 hide_sidebar: 'साइडबार छिपाएँ',
                 hide_cardinality: 'कार्डिनैलिटी छिपाएँ',
                 show_cardinality: 'कार्डिनैलिटी दिखाएँ',
+                hide_field_attributes: 'फ़ील्ड विशेषताएँ छिपाएँ',
+                show_field_attributes: 'फ़ील्ड विशेषताएँ दिखाएँ',
                 zoom_on_scroll: 'स्क्रॉल पर ज़ूम',
                 theme: 'थीम',
                 show_dependencies: 'निर्भरता दिखाएँ',
@@ -74,8 +76,8 @@ export const hi: LanguageTranslation = {
             title: 'एकाधिक स्कीमा',
             description:
                 '{{schemasCount}} स्कीमा इस आरेख में हैं। वर्तमान में प्रदर्शित: {{formattedSchemas}}।',
-            dont_show_again: 'फिर से न दिखाएँ',
-            change_schema: 'बदलें',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'कोई नहीं',
         },
 
@@ -151,7 +153,12 @@ export const hi: LanguageTranslation = {
                         no_comments: 'कोई टिप्पणी नहीं',
                         delete_field: 'फ़ील्ड हटाएँ',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'Precision',
+                        scale: 'Scale',
                     },
                     index_actions: {
                         title: 'सूचकांक विशेषताएँ',
@@ -252,9 +259,12 @@ export const hi: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -269,7 +279,13 @@ export const hi: LanguageTranslation = {
             undo: 'पूर्ववत करें',
             redo: 'पुनः करें',
             reorder_diagram: 'आरेख पुनः व्यवस्थित करें',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'ओवरलैपिंग तालिकाओं को हाइलाइट करें',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -402,6 +418,14 @@ export const hi: LanguageTranslation = {
             description: 'तालिका "{{tableName}}" का स्कीमा अपडेट करें',
             cancel: 'रद्द करें',
             confirm: 'बदलें',
+        },
+
+        create_table_schema_dialog: {
+            title: 'नया स्कीमा बनाएं',
+            description:
+                'अभी तक कोई स्कीमा मौजूद नहीं है। अपनी तालिकाओं को व्यवस्थित करने के लिए अपना पहला स्कीमा बनाएं।',
+            create: 'बनाएं',
+            cancel: 'रद्द करें',
         },
 
         star_us_dialog: {

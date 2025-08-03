@@ -26,6 +26,8 @@ export const te: LanguageTranslation = {
                 hide_sidebar: 'సైడ్‌బార్ దాచండి',
                 hide_cardinality: 'కార్డినాలిటీని దాచండి',
                 show_cardinality: 'కార్డినాలిటీని చూపించండి',
+                show_field_attributes: 'ఫీల్డ్ గుణాలను చూపించు',
+                hide_field_attributes: 'ఫీల్డ్ గుణాలను దాచండి',
                 zoom_on_scroll: 'స్క్రోల్‌పై జూమ్',
                 theme: 'థీమ్',
                 show_dependencies: 'ఆధారాలు చూపించండి',
@@ -75,8 +77,8 @@ export const te: LanguageTranslation = {
             title: 'బహుళ స్కీమాలు',
             description:
                 '{{schemasCount}} స్కీమాలు ఈ చిత్రంలో ఉన్నాయి. ప్రస్తుత స్కీమాలు: {{formattedSchemas}}.',
-            dont_show_again: 'మరలా చూపించవద్దు',
-            change_schema: 'మార్చు',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'ఎదరికాదు',
         },
 
@@ -151,7 +153,12 @@ export const te: LanguageTranslation = {
                         no_comments: 'వ్యాఖ్యలు లేవు',
                         delete_field: 'ఫీల్డ్ తొలగించు',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'సూక్ష్మత',
+                        scale: 'స్కేల్',
                     },
                     index_actions: {
                         title: 'ఇండెక్స్ గుణాలు',
@@ -252,9 +259,12 @@ export const te: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -269,7 +279,13 @@ export const te: LanguageTranslation = {
             undo: 'తిరిగి చేయు',
             redo: 'మరలా చేయు',
             reorder_diagram: 'చిత్రాన్ని పునఃసరిచేయండి',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'అవకాశించు పట్టికలను హైలైట్ చేయండి',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -401,6 +417,14 @@ export const te: LanguageTranslation = {
             description: '{{tableName}} పట్టిక యొక్క స్కీమాను నవీకరించండి',
             cancel: 'రద్దు',
             confirm: 'మార్చు',
+        },
+
+        create_table_schema_dialog: {
+            title: 'కొత్త స్కీమా సృష్టించండి',
+            description:
+                'ఇంకా ఏ స్కీమాలు లేవు. మీ పట్టికలను వ్యవస్థీకరించడానికి మీ మొదటి స్కీమాను సృష్టించండి.',
+            create: 'సృష్టించు',
+            cancel: 'రద్దు',
         },
 
         star_us_dialog: {

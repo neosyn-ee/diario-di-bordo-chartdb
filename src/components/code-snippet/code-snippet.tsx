@@ -43,6 +43,8 @@ export interface CodeSnippetProps {
     isComplete?: boolean;
     editorProps?: React.ComponentProps<EditorType>;
     actions?: CodeSnippetAction[];
+    actionsTooltipSide?: 'top' | 'right' | 'bottom' | 'left';
+    allowCopy?: boolean;
 }
 
 export const CodeSnippet: React.FC<CodeSnippetProps> = React.memo(
@@ -56,6 +58,8 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = React.memo(
         isComplete = true,
         editorProps,
         actions,
+        actionsTooltipSide,
+        allowCopy = true,
     }) => {
         const { t } = useTranslation();
         const monaco = useMonaco();
@@ -129,33 +133,37 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = React.memo(
                     <Suspense fallback={<Spinner />}>
                         {isComplete ? (
                             <div className="absolute right-1 top-1 z-10 flex flex-col gap-1">
-                                <Tooltip
-                                    onOpenChange={setTooltipOpen}
-                                    open={isCopied || tooltipOpen}
-                                >
-                                    <TooltipTrigger asChild>
-                                        <span>
-                                            <Button
-                                                className="h-fit p-1.5"
-                                                variant="outline"
-                                                onClick={copyToClipboard}
-                                            >
-                                                {isCopied ? (
-                                                    <CopyCheck size={16} />
-                                                ) : (
-                                                    <Copy size={16} />
-                                                )}
-                                            </Button>
-                                        </span>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        {t(
-                                            isCopied
-                                                ? 'copied'
-                                                : 'copy_to_clipboard'
-                                        )}
-                                    </TooltipContent>
-                                </Tooltip>
+                                {allowCopy ? (
+                                    <Tooltip
+                                        onOpenChange={setTooltipOpen}
+                                        open={isCopied || tooltipOpen}
+                                    >
+                                        <TooltipTrigger asChild>
+                                            <span>
+                                                <Button
+                                                    className="h-fit p-1.5"
+                                                    variant="outline"
+                                                    onClick={copyToClipboard}
+                                                >
+                                                    {isCopied ? (
+                                                        <CopyCheck size={16} />
+                                                    ) : (
+                                                        <Copy size={16} />
+                                                    )}
+                                                </Button>
+                                            </span>
+                                        </TooltipTrigger>
+                                        <TooltipContent
+                                            side={actionsTooltipSide}
+                                        >
+                                            {t(
+                                                isCopied
+                                                    ? 'copied'
+                                                    : 'copy_to_clipboard'
+                                            )}
+                                        </TooltipContent>
+                                    </Tooltip>
+                                ) : null}
 
                                 {actions &&
                                     actions.length > 0 &&
@@ -174,7 +182,9 @@ export const CodeSnippet: React.FC<CodeSnippetProps> = React.memo(
                                                     </Button>
                                                 </span>
                                             </TooltipTrigger>
-                                            <TooltipContent>
+                                            <TooltipContent
+                                                side={actionsTooltipSide}
+                                            >
                                                 {action.label}
                                             </TooltipContent>
                                         </Tooltip>

@@ -26,6 +26,8 @@ export const uk: LanguageTranslation = {
                 hide_sidebar: 'Приховати бічну панель',
                 hide_cardinality: 'Приховати потужність',
                 show_cardinality: 'Показати кардинальність',
+                show_field_attributes: 'Показати атрибути полів',
+                hide_field_attributes: 'Приховати атрибути полів',
                 zoom_on_scroll: 'Масштабувати прокручуванням',
                 theme: 'Тема',
                 show_dependencies: 'Показати залежності',
@@ -73,8 +75,8 @@ export const uk: LanguageTranslation = {
             title: 'Кілька схем',
             description:
                 '{{schemasCount}} схеми на цій діаграмі. Зараз відображається: {{formattedSchemas}}.',
-            dont_show_again: 'Більше не показувати',
-            change_schema: 'Зміна',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'немає',
         },
 
@@ -149,7 +151,12 @@ export const uk: LanguageTranslation = {
                         no_comments: 'Немає коментарів',
                         delete_field: 'Видалити поле',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'Точність',
+                        scale: 'Масштаб',
                     },
                     index_actions: {
                         title: 'Атрибути індексу',
@@ -249,9 +256,12 @@ export const uk: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -266,7 +276,13 @@ export const uk: LanguageTranslation = {
             undo: 'Скасувати',
             redo: 'Повторити',
             reorder_diagram: 'Перевпорядкувати діаграму',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'Показати таблиці, що перекриваються',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -398,6 +414,14 @@ export const uk: LanguageTranslation = {
             description: 'Оновити схему таблиці "{{tableName}}"',
             cancel: 'Скасувати',
             confirm: 'Змінити',
+        },
+
+        create_table_schema_dialog: {
+            title: 'Створити нову схему',
+            description:
+                'Поки що не існує жодної схеми. Створіть свою першу схему, щоб організувати ваші таблиці.',
+            create: 'Створити',
+            cancel: 'Скасувати',
         },
 
         star_us_dialog: {

@@ -9,6 +9,38 @@ import { genericDataTypes } from '@/lib/data/data-types/generic-data-types';
 import { randomColor } from '@/lib/colors';
 import { DatabaseType } from '@/lib/domain/database-type';
 
+// Preprocess DBML to handle unsupported features
+export const preprocessDBML = (content: string): string => {
+    let processed = content;
+
+    // Remove TableGroup blocks (not supported by parser)
+    processed = processed.replace(/TableGroup\s+[^{]*\{[^}]*\}/gs, '');
+
+    // Remove Note blocks
+    processed = processed.replace(/Note\s+\w+\s*\{[^}]*\}/gs, '');
+
+    // Remove enum definitions (blocks)
+    processed = processed.replace(/enum\s+\w+\s*\{[^}]*\}/gs, '');
+
+    // Handle array types by converting them to text
+    processed = processed.replace(/(\w+)\[\]/g, 'text');
+
+    // Handle inline enum types without values by converting to varchar
+    processed = processed.replace(
+        /^\s*(\w+)\s+enum\s*(?:\/\/.*)?$/gm,
+        '$1 varchar'
+    );
+
+    // Handle Table headers with color attributes
+    // This regex handles both simple table names and schema.table patterns with quotes
+    processed = processed.replace(
+        /Table\s+((?:"[^"]+"\."[^"]+")|(?:\w+))\s*\[[^\]]*\]\s*\{/g,
+        'Table $1 {'
+    );
+
+    return processed;
+};
+
 // Simple function to replace Spanish special characters
 export const sanitizeDBML = (content: string): string => {
     return content
@@ -55,7 +87,7 @@ interface DBMLIndexColumn {
 }
 
 interface DBMLIndex {
-    columns: string | (string | DBMLIndexColumn)[];
+    columns: (string | DBMLIndexColumn)[];
     unique?: boolean;
     name?: string;
 }
@@ -65,6 +97,7 @@ interface DBMLTable {
     schema?: string | { name: string };
     fields: DBMLField[];
     indexes?: DBMLIndex[];
+    note?: string | { value: string } | null;
 }
 
 interface DBMLEndpoint {
@@ -82,9 +115,11 @@ const mapDBMLTypeToGenericType = (dbmlType: string): DataType => {
     const matchedType = genericDataTypes.find((t) => t.id === normalizedType);
     if (matchedType) return matchedType;
     const typeMap: Record<string, string> = {
-        int: 'integer',
+        int: 'int',
+        integer: 'int',
         varchar: 'varchar',
         bool: 'boolean',
+        boolean: 'boolean',
         number: 'numeric',
         string: 'varchar',
         text: 'text',
@@ -102,7 +137,12 @@ const mapDBMLTypeToGenericType = (dbmlType: string): DataType => {
         const foundType = genericDataTypes.find((t) => t.id === mappedType);
         if (foundType) return foundType;
     }
-    return genericDataTypes.find((t) => t.id === 'varchar')!;
+    const type = genericDataTypes.find((t) => t.id === 'varchar')!;
+
+    return {
+        id: type.id,
+        name: type.name,
+    };
 };
 
 const determineCardinality = (
@@ -126,77 +166,163 @@ export const importDBMLToDiagram = async (
     dbmlContent: string
 ): Promise<Diagram> => {
     try {
+        // Handle empty content
+        if (!dbmlContent.trim()) {
+            return {
+                id: generateDiagramId(),
+                name: 'DBML Import',
+                databaseType: DatabaseType.GENERIC,
+                tables: [],
+                relationships: [],
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+        }
+
         const parser = new Parser();
-        // Sanitize DBML content to remove special characters
-        const sanitizedContent = sanitizeDBML(dbmlContent);
+        // Preprocess and sanitize DBML content
+        const preprocessedContent = preprocessDBML(dbmlContent);
+        const sanitizedContent = sanitizeDBML(preprocessedContent);
+
+        // Handle content that becomes empty after preprocessing
+        if (!sanitizedContent.trim()) {
+            return {
+                id: generateDiagramId(),
+                name: 'DBML Import',
+                databaseType: DatabaseType.GENERIC,
+                tables: [],
+                relationships: [],
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+        }
+
         const parsedData = parser.parse(sanitizedContent, 'dbml');
-        const dbmlData = parsedData.schemas[0];
+
+        // Handle case where no schemas are found
+        if (!parsedData.schemas || parsedData.schemas.length === 0) {
+            return {
+                id: generateDiagramId(),
+                name: 'DBML Import',
+                databaseType: DatabaseType.GENERIC,
+                tables: [],
+                relationships: [],
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+        }
+
+        // Process all schemas, not just the first one
+        const allTables: DBMLTable[] = [];
+        const allRefs: DBMLRef[] = [];
+
+        parsedData.schemas.forEach((schema) => {
+            if (schema.tables) {
+                schema.tables.forEach((table) => {
+                    // For tables with explicit schema, use the schema name
+                    // For tables without explicit schema, use empty string
+                    const schemaName =
+                        typeof table.schema === 'string'
+                            ? table.schema
+                            : table.schema?.name || '';
+
+                    allTables.push({
+                        name: table.name,
+                        schema: schemaName,
+                        note: table.note,
+                        fields: table.fields.map(
+                            (field) =>
+                                ({
+                                    name: field.name,
+                                    type: field.type,
+                                    unique: field.unique,
+                                    pk: field.pk,
+                                    not_null: field.not_null,
+                                    increment: field.increment,
+                                }) satisfies DBMLField
+                        ),
+                        indexes:
+                            table.indexes?.map((dbmlIndex) => {
+                                let indexColumns: string[];
+
+                                // Handle both string and array formats
+                                if (typeof dbmlIndex.columns === 'string') {
+                                    // Handle composite index case "(col1, col2)"
+                                    // @ts-expect-error "columns" can be a string in some DBML versions
+                                    if (dbmlIndex.columns.includes('(')) {
+                                        const columnsStr: string =
+                                            // @ts-expect-error "columns" can be a string in some DBML versions
+                                            dbmlIndex.columns.replace(
+                                                /[()]/g,
+                                                ''
+                                            );
+                                        indexColumns = columnsStr
+                                            .split(',')
+                                            .map((c) => c.trim());
+                                    } else {
+                                        // Single column as string
+
+                                        indexColumns = [
+                                            // @ts-expect-error "columns" can be a string in some DBML versions
+                                            dbmlIndex.columns.trim(),
+                                        ];
+                                    }
+                                } else {
+                                    // Handle array of columns
+                                    indexColumns = dbmlIndex.columns.map(
+                                        (col) => {
+                                            if (typeof col === 'string') {
+                                                // @ts-expect-error "columns" can be a string in some DBML versions
+                                                return col.trim();
+                                            } else if (
+                                                typeof col === 'object' &&
+                                                'value' in col
+                                            ) {
+                                                return col.value.trim();
+                                            } else {
+                                                return String(col).trim();
+                                            }
+                                        }
+                                    );
+                                }
+
+                                // Generate a consistent index name
+                                const indexName =
+                                    dbmlIndex.name ||
+                                    `idx_${table.name}_${indexColumns.join('_')}`;
+
+                                return {
+                                    columns: indexColumns,
+                                    unique: dbmlIndex.unique || false,
+                                    name: indexName,
+                                };
+                            }) || [],
+                    });
+                });
+            }
+
+            if (schema.refs) {
+                schema.refs.forEach((ref) => {
+                    // Convert the ref to ensure it has exactly two endpoints
+                    if (ref.endpoints && ref.endpoints.length >= 2) {
+                        allRefs.push({
+                            endpoints: [ref.endpoints[0], ref.endpoints[1]] as [
+                                DBMLEndpoint,
+                                DBMLEndpoint,
+                            ],
+                        });
+                    }
+                });
+            }
+        });
 
         // Extract only the necessary data from the parsed DBML
-        const extractedData = {
-            tables: (dbmlData.tables as unknown as DBMLTable[]).map(
-                (table) => ({
-                    name: table.name,
-                    schema: table.schema,
-                    fields: table.fields.map((field: DBMLField) => ({
-                        name: field.name,
-                        type: field.type,
-                        unique: field.unique,
-                        pk: field.pk,
-                        not_null: field.not_null,
-                        increment: field.increment,
-                    })),
-                    indexes:
-                        table.indexes?.map((dbmlIndex) => {
-                            let indexColumns: string[];
-
-                            // Handle composite index case "(col1, col2)"
-                            if (typeof dbmlIndex.columns === 'string') {
-                                if (dbmlIndex.columns.includes('(')) {
-                                    // Composite index
-                                    const columnsStr =
-                                        dbmlIndex.columns.replace(/[()]/g, '');
-                                    indexColumns = columnsStr
-                                        .split(',')
-                                        .map((c) => c.trim());
-                                } else {
-                                    // Single column
-                                    indexColumns = [dbmlIndex.columns.trim()];
-                                }
-                            } else {
-                                // Handle array of columns
-                                indexColumns = Array.isArray(dbmlIndex.columns)
-                                    ? dbmlIndex.columns.map((col) =>
-                                          typeof col === 'object' &&
-                                          'value' in col
-                                              ? (col.value as string).trim()
-                                              : (col as string).trim()
-                                      )
-                                    : [String(dbmlIndex.columns).trim()];
-                            }
-
-                            // Generate a consistent index name
-                            const indexName =
-                                dbmlIndex.name ||
-                                `idx_${table.name}_${indexColumns.join('_')}`;
-
-                            return {
-                                columns: indexColumns,
-                                unique: dbmlIndex.unique || false,
-                                name: indexName,
-                            };
-                        }) || [],
-                })
-            ),
-            refs: (dbmlData.refs as unknown as DBMLRef[]).map((ref) => ({
-                endpoints: (ref.endpoints as [DBMLEndpoint, DBMLEndpoint]).map(
-                    (endpoint) => ({
-                        tableName: endpoint.tableName,
-                        fieldNames: endpoint.fieldNames,
-                        relation: endpoint.relation,
-                    })
-                ),
-            })),
+        const extractedData: {
+            tables: DBMLTable[];
+            refs: DBMLRef[];
+        } = {
+            tables: allTables,
+            refs: allRefs,
         };
 
         // Convert DBML tables to ChartDB table objects
@@ -233,12 +359,25 @@ export const importDBMLToDiagram = async (
                         id: generateId(),
                         name:
                             dbmlIndex.name ||
-                            `idx_${table.name}_${dbmlIndex.columns.join('_')}`,
+                            `idx_${table.name}_${(dbmlIndex.columns as string[]).join('_')}`,
                         fieldIds,
                         unique: dbmlIndex.unique || false,
                         createdAt: Date.now(),
                     };
                 }) || [];
+
+            // Extract table note/comment
+            let tableComment: string | undefined;
+            if (table.note) {
+                if (typeof table.note === 'string') {
+                    tableComment = table.note;
+                } else if (
+                    typeof table.note === 'object' &&
+                    'value' in table.note
+                ) {
+                    tableComment = table.note.value;
+                }
+            }
 
             return {
                 id: generateId(),
@@ -255,6 +394,7 @@ export const importDBMLToDiagram = async (
                 color: randomColor(),
                 isView: false,
                 createdAt: Date.now(),
+                comments: tableComment,
             };
         });
 

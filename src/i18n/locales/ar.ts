@@ -26,6 +26,8 @@ export const ar: LanguageTranslation = {
                 hide_sidebar: 'إخفاء الشريط الجانبي',
                 hide_cardinality: 'إخفاء الكاردينالية',
                 show_cardinality: 'إظهار الكاردينالية',
+                hide_field_attributes: 'إخفاء خصائص الحقل',
+                show_field_attributes: 'إظهار خصائص الحقل',
                 zoom_on_scroll: 'تكبير/تصغير عند التمرير',
                 theme: 'المظهر',
                 show_dependencies: 'إظهار الاعتمادات',
@@ -74,8 +76,8 @@ export const ar: LanguageTranslation = {
             title: 'مخططات متعددة',
             description:
                 '{{formattedSchemas}} :مخططات في هذا الرسم البياني. يتم حاليا عرض {{schemasCount}} هناك',
-            dont_show_again: 'لا تظهره مجدداً',
-            change_schema: 'تغيير',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'لا شيء',
         },
 
@@ -151,6 +153,10 @@ export const ar: LanguageTranslation = {
                         delete_field: 'حذف الحقل',
                         // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'الدقة',
+                        scale: 'النطاق',
+                        default_value: 'Default Value',
+                        no_default: 'No default',
                     },
                     index_actions: {
                         title: 'خصائص الفهرس',
@@ -251,9 +257,12 @@ export const ar: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -269,6 +278,11 @@ export const ar: LanguageTranslation = {
             redo: 'إعادة',
             reorder_diagram: 'إعادة ترتيب الرسم البياني',
             highlight_overlapping_tables: 'تمييز الجداول المتداخلة',
+            // TODO: Translate
+            filter: 'Filter Tables',
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
         },
 
         new_diagram_dialog: {
@@ -399,6 +413,13 @@ export const ar: LanguageTranslation = {
             description: '"{{tableName}}" تحديث مخطط الجدول',
             cancel: 'إلغاء',
             confirm: 'تغيير',
+        },
+        create_table_schema_dialog: {
+            title: 'إنشاء مخطط جديد',
+            description:
+                'لا توجد مخططات حتى الآن. قم بإنشاء أول مخطط لتنظيم جداولك.',
+            create: 'إنشاء',
+            cancel: 'إلغاء',
         },
 
         star_us_dialog: {

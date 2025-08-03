@@ -78,6 +78,9 @@ export interface ChartDBContext {
     events: EventEmitter<ChartDBEvent>;
     readonly?: boolean;
 
+    highlightedCustomType?: DBCustomType;
+    highlightCustomTypeId: (id?: string) => void;
+
     filteredSchemas?: string[];
     filterSchemas: (schemaIds: string[]) => void;
 
@@ -277,6 +280,11 @@ export interface ChartDBContext {
         customType: Partial<DBCustomType>,
         options?: { updateHistory: boolean }
     ) => Promise<void>;
+
+    // Filters
+    hiddenTableIds?: string[];
+    addHiddenTableId: (tableId: string) => Promise<void>;
+    removeHiddenTableId: (tableId: string) => Promise<void>;
 }
 
 export const chartDBContext = createContext<ChartDBContext>({
@@ -289,6 +297,7 @@ export const chartDBContext = createContext<ChartDBContext>({
     areas: [],
     customTypes: [],
     schemas: [],
+    highlightCustomTypeId: emptyFn,
     filteredSchemas: [],
     filterSchemas: emptyFn,
     currentDiagram: {
@@ -372,4 +381,9 @@ export const chartDBContext = createContext<ChartDBContext>({
     removeCustomType: emptyFn,
     removeCustomTypes: emptyFn,
     updateCustomType: emptyFn,
+
+    // Filters
+    hiddenTableIds: [],
+    addHiddenTableId: emptyFn,
+    removeHiddenTableId: emptyFn,
 });

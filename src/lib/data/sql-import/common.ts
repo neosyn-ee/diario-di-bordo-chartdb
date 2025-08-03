@@ -3,10 +3,13 @@ import { generateDiagramId, generateId } from '@/lib/utils';
 import type { DBTable } from '@/lib/domain/db-table';
 import type { Cardinality, DBRelationship } from '@/lib/domain/db-relationship';
 import type { DBField } from '@/lib/domain/db-field';
+import type { DBIndex } from '@/lib/domain/db-index';
 import type { DataType } from '@/lib/data/data-types/data-types';
 import { genericDataTypes } from '@/lib/data/data-types/generic-data-types';
 import { randomColor } from '@/lib/colors';
 import { DatabaseType } from '@/lib/domain/database-type';
+import type { DBCustomType } from '@/lib/domain/db-custom-type';
+import { DBCustomTypeKind } from '@/lib/domain/db-custom-type';
 
 // Common interfaces for SQL entities
 export interface SQLColumn {
@@ -15,11 +18,14 @@ export interface SQLColumn {
     nullable: boolean;
     primaryKey: boolean;
     unique: boolean;
-    typeArgs?: {
-        length?: number;
-        precision?: number;
-        scale?: number;
-    };
+    typeArgs?:
+        | {
+              length?: number;
+              precision?: number;
+              scale?: number;
+          }
+        | number[]
+        | string;
     comment?: string;
     default?: string;
     increment?: boolean;
@@ -62,6 +68,7 @@ export interface SQLParserResult {
     relationships: SQLForeignKey[];
     types?: SQLCustomType[];
     enums?: SQLEnumType[];
+    warnings?: string[];
 }
 
 // Define more specific types for SQL AST nodes
@@ -543,6 +550,50 @@ export function convertToChartDBDiagram(
             ) {
                 // Ensure integer types are preserved
                 mappedType = { id: 'integer', name: 'integer' };
+            } else if (
+                sourceDatabaseType === DatabaseType.POSTGRESQL &&
+                parserResult.enums &&
+                parserResult.enums.some(
+                    (e) => e.name.toLowerCase() === column.type.toLowerCase()
+                )
+            ) {
+                // If the column type matches a custom enum type, preserve it
+                mappedType = {
+                    id: column.type.toLowerCase(),
+                    name: column.type,
+                };
+            }
+            // Handle SQL Server types specifically
+            else if (
+                sourceDatabaseType === DatabaseType.SQL_SERVER &&
+                targetDatabaseType === DatabaseType.SQL_SERVER
+            ) {
+                const normalizedType = column.type.toLowerCase();
+
+                // Preserve SQL Server specific types when target is also SQL Server
+                if (
+                    normalizedType === 'nvarchar' ||
+                    normalizedType === 'nchar' ||
+                    normalizedType === 'ntext' ||
+                    normalizedType === 'uniqueidentifier' ||
+                    normalizedType === 'datetime2' ||
+                    normalizedType === 'datetimeoffset' ||
+                    normalizedType === 'money' ||
+                    normalizedType === 'smallmoney' ||
+                    normalizedType === 'bit' ||
+                    normalizedType === 'xml' ||
+                    normalizedType === 'hierarchyid' ||
+                    normalizedType === 'geography' ||
+                    normalizedType === 'geometry'
+                ) {
+                    mappedType = { id: normalizedType, name: normalizedType };
+                } else {
+                    // Use the standard mapping for other types
+                    mappedType = mapSQLTypeToGenericType(
+                        column.type,
+                        sourceDatabaseType
+                    );
+                }
             } else {
                 // Use the standard mapping for other types
                 mappedType = mapSQLTypeToGenericType(
@@ -565,22 +616,68 @@ export function convertToChartDBDiagram(
 
             // Add type arguments if present
             if (column.typeArgs) {
-                // Transfer length for varchar/char types
-                if (
-                    column.typeArgs.length !== undefined &&
-                    (field.type.id === 'varchar' || field.type.id === 'char')
-                ) {
-                    field.characterMaximumLength =
-                        column.typeArgs.length.toString();
+                // Handle string typeArgs (e.g., 'max' for varchar(max))
+                if (typeof column.typeArgs === 'string') {
+                    if (
+                        (field.type.id === 'varchar' ||
+                            field.type.id === 'nvarchar') &&
+                        column.typeArgs === 'max'
+                    ) {
+                        field.characterMaximumLength = 'max';
+                    }
                 }
-
-                // Transfer precision/scale for numeric types
-                if (
-                    column.typeArgs.precision !== undefined &&
-                    (field.type.id === 'numeric' || field.type.id === 'decimal')
+                // Handle array typeArgs (SQL Server format)
+                else if (
+                    Array.isArray(column.typeArgs) &&
+                    column.typeArgs.length > 0
                 ) {
-                    field.precision = column.typeArgs.precision;
-                    field.scale = column.typeArgs.scale;
+                    if (
+                        field.type.id === 'varchar' ||
+                        field.type.id === 'nvarchar' ||
+                        field.type.id === 'char' ||
+                        field.type.id === 'nchar'
+                    ) {
+                        field.characterMaximumLength =
+                            column.typeArgs[0].toString();
+                    } else if (
+                        (field.type.id === 'numeric' ||
+                            field.type.id === 'decimal') &&
+                        column.typeArgs.length >= 2
+                    ) {
+                        field.precision = column.typeArgs[0];
+                        field.scale = column.typeArgs[1];
+                    }
+                }
+                // Handle object typeArgs (standard format)
+                else if (
+                    typeof column.typeArgs === 'object' &&
+                    !Array.isArray(column.typeArgs)
+                ) {
+                    const typeArgsObj = column.typeArgs as {
+                        length?: number;
+                        precision?: number;
+                        scale?: number;
+                    };
+
+                    // Transfer length for varchar/char types
+                    if (
+                        typeArgsObj.length !== undefined &&
+                        (field.type.id === 'varchar' ||
+                            field.type.id === 'char')
+                    ) {
+                        field.characterMaximumLength =
+                            typeArgsObj.length.toString();
+                    }
+
+                    // Transfer precision/scale for numeric types
+                    if (
+                        typeArgsObj.precision !== undefined &&
+                        (field.type.id === 'numeric' ||
+                            field.type.id === 'decimal')
+                    ) {
+                        field.precision = typeArgsObj.precision;
+                        field.scale = typeArgsObj.scale;
+                    }
                 }
             }
 
@@ -588,25 +685,38 @@ export function convertToChartDBDiagram(
         });
 
         // Create indexes
-        const indexes = table.indexes.map((sqlIndex) => {
-            const fieldIds = sqlIndex.columns.map((columnName) => {
-                const field = fields.find((f) => f.name === columnName);
-                if (!field) {
-                    throw new Error(
-                        `Index references non-existent column: ${columnName}`
-                    );
-                }
-                return field.id;
-            });
+        const indexes = table.indexes
+            .map((sqlIndex) => {
+                const fieldIds = sqlIndex.columns
+                    .map((columnName) => {
+                        const field = fields.find((f) => f.name === columnName);
+                        if (!field) {
+                            console.warn(
+                                `Index ${sqlIndex.name} references non-existent column: ${columnName} in table ${table.name}. Skipping this column.`
+                            );
+                            return null;
+                        }
+                        return field.id;
+                    })
+                    .filter((id): id is string => id !== null);
 
-            return {
-                id: generateId(),
-                name: sqlIndex.name,
-                fieldIds,
-                unique: sqlIndex.unique,
-                createdAt: Date.now(),
-            };
-        });
+                // Only create index if at least one column was found
+                if (fieldIds.length === 0) {
+                    console.warn(
+                        `Index ${sqlIndex.name} has no valid columns. Skipping index.`
+                    );
+                    return null;
+                }
+
+                return {
+                    id: generateId(),
+                    name: sqlIndex.name,
+                    fieldIds,
+                    unique: sqlIndex.unique,
+                    createdAt: Date.now(),
+                };
+            })
+            .filter((idx): idx is DBIndex => idx !== null);
 
         return {
             id: newId,
@@ -708,12 +818,29 @@ export function convertToChartDBDiagram(
         });
     });
 
+    // Convert SQL enum types to ChartDB custom types
+    const customTypes: DBCustomType[] = [];
+
+    if (parserResult.enums) {
+        parserResult.enums.forEach((enumType, index) => {
+            customTypes.push({
+                id: generateId(),
+                name: enumType.name,
+                schema: 'public', // Default to public schema for now
+                kind: DBCustomTypeKind.enum,
+                values: enumType.values,
+                order: index,
+            });
+        });
+    }
+
     const diagram = {
         id: generateDiagramId(),
         name: `SQL Import (${sourceDatabaseType})`,
         databaseType: targetDatabaseType,
         tables,
         relationships,
+        customTypes: customTypes.length > 0 ? customTypes : undefined,
         createdAt: new Date(),
         updatedAt: new Date(),
     };

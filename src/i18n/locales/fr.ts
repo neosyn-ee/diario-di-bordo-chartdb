@@ -26,6 +26,8 @@ export const fr: LanguageTranslation = {
                 hide_sidebar: 'Cacher la Barre Latérale',
                 hide_cardinality: 'Cacher la Cardinalité',
                 show_cardinality: 'Afficher la Cardinalité',
+                hide_field_attributes: 'Masquer les Attributs de Champ',
+                show_field_attributes: 'Afficher les Attributs de Champ',
                 zoom_on_scroll: 'Zoom sur le Défilement',
                 theme: 'Thème',
                 show_dependencies: 'Afficher les Dépendances',
@@ -139,7 +141,12 @@ export const fr: LanguageTranslation = {
                         no_comments: 'Pas de commentaires',
                         delete_field: 'Supprimer le Champ',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'Précision',
+                        scale: 'Échelle',
                     },
                     index_actions: {
                         title: "Attributs de l'Index",
@@ -239,9 +246,12 @@ export const fr: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -256,7 +266,13 @@ export const fr: LanguageTranslation = {
             undo: 'Annuler',
             redo: 'Rétablir',
             reorder_diagram: 'Réorganiser le Diagramme',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'Surligner les tables chevauchées',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -345,8 +361,8 @@ export const fr: LanguageTranslation = {
             title: 'Schémas Multiples',
             description:
                 '{{schemasCount}} schémas dans ce diagramme. Actuellement affiché(s) : {{formattedSchemas}}.',
-            dont_show_again: 'Ne plus afficher',
-            change_schema: 'Changer',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'Aucun',
         },
 
@@ -371,6 +387,13 @@ export const fr: LanguageTranslation = {
             description: 'Mettre à jour le schéma de la table "{{tableName}}"',
             cancel: 'Annuler',
             confirm: 'Modifier',
+        },
+        create_table_schema_dialog: {
+            title: 'Créer un Nouveau Schéma',
+            description:
+                "Aucun schéma n'existe encore. Créez votre premier schéma pour organiser vos tables.",
+            create: 'Créer',
+            cancel: 'Annuler',
         },
 
         create_relationship_dialog: {

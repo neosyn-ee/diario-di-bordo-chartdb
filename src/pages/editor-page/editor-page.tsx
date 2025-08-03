@@ -26,7 +26,7 @@ import { Spinner } from '@/components/spinner/spinner';
 import { Helmet } from 'react-helmet-async';
 import { AlertProvider } from '@/context/alert-context/alert-provider';
 import { CanvasProvider } from '@/context/canvas-context/canvas-provider';
-import { HIDE_BUCKLE_DOT_DEV } from '@/lib/env';
+import { HIDE_CHARTDB_CLOUD } from '@/lib/env';
 import { useDiagramLoader } from './use-diagram-loader';
 import { DiffProvider } from '@/context/diff-context/diff-provider';
 import { TopNavbarMock } from './top-navbar/top-navbar-mock';
@@ -61,7 +61,7 @@ const EditorPageComponent: React.FC = () => {
     const { initialDiagram } = useDiagramLoader();
 
     useEffect(() => {
-        if (HIDE_BUCKLE_DOT_DEV) {
+        if (HIDE_CHARTDB_CLOUD) {
             return;
         }
 
@@ -111,7 +111,7 @@ const EditorPageComponent: React.FC = () => {
                       .map((schema) => `'${schema?.name}'`)
                       .join(', ');
             toast({
-                duration: 5500,
+                duration: Infinity,
                 title: t('multiple_schemas_alert.title'),
                 description: t('multiple_schemas_alert.description', {
                     schemasCount: schemas.length,
@@ -119,23 +119,21 @@ const EditorPageComponent: React.FC = () => {
                 }),
                 variant: 'default',
                 layout: 'column',
+                hideCloseButton: true,
                 className:
                     'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4',
                 action: (
                     <div className="flex justify-between gap-1">
+                        <div />
                         <ToastAction
-                            altText="Don't show this notification again"
-                            className="flex-nowrap"
-                            onClick={() => setHideMultiSchemaNotification(true)}
-                        >
-                            {t('multiple_schemas_alert.dont_show_again')}
-                        </ToastAction>
-                        <ToastAction
-                            onClick={() => handleChangeSchema()}
-                            altText="Change the schema"
+                            onClick={() => {
+                                handleChangeSchema();
+                                setHideMultiSchemaNotification(true);
+                            }}
+                            altText="Show me the schemas"
                             className="border border-pink-600 bg-pink-600 text-white hover:bg-pink-500"
                         >
-                            {t('multiple_schemas_alert.change_schema')}
+                            {t('multiple_schemas_alert.show_me')}
                         </ToastAction>
                     </div>
                 ),

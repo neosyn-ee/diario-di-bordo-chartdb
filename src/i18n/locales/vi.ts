@@ -26,6 +26,8 @@ export const vi: LanguageTranslation = {
                 hide_sidebar: 'Ẩn thanh bên',
                 hide_cardinality: 'Ẩn số lượng',
                 show_cardinality: 'Hiển thị số lượng',
+                show_field_attributes: 'Hiển thị thuộc tính trường',
+                hide_field_attributes: 'Ẩn thuộc tính trường',
                 zoom_on_scroll: 'Thu phóng khi cuộn',
                 theme: 'Chủ đề',
                 show_dependencies: 'Hiển thị các phụ thuộc',
@@ -74,8 +76,8 @@ export const vi: LanguageTranslation = {
             title: 'Có nhiều lược đồ',
             description:
                 'Có {{schemasCount}} lược đồ trong sơ đồ này. Hiện đang hiển thị: {{formattedSchemas}}.',
-            dont_show_again: 'Không hiển thị lại',
-            change_schema: 'Thay đổi',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'không có',
         },
 
@@ -150,7 +152,12 @@ export const vi: LanguageTranslation = {
                         no_comments: 'Không có bình luận',
                         delete_field: 'Xóa trường',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'Độ chính xác',
+                        scale: 'Tỷ lệ',
                     },
                     index_actions: {
                         title: 'Thuộc tính chỉ mục',
@@ -250,9 +257,12 @@ export const vi: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -267,7 +277,13 @@ export const vi: LanguageTranslation = {
             undo: 'Hoàn tác',
             redo: 'Làm lại',
             reorder_diagram: 'Sắp xếp lại sơ đồ',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'Làm nổi bật các bảng chồng chéo',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -397,6 +413,14 @@ export const vi: LanguageTranslation = {
             description: 'Cập nhật lược đồ bảng "{{tableName}}"',
             cancel: 'Hủy',
             confirm: 'Xác nhận',
+        },
+
+        create_table_schema_dialog: {
+            title: 'Tạo lược đồ mới',
+            description:
+                'Chưa có lược đồ nào. Tạo lược đồ đầu tiên của bạn để tổ chức các bảng.',
+            create: 'Tạo',
+            cancel: 'Hủy',
         },
 
         star_us_dialog: {

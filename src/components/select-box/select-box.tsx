@@ -93,6 +93,8 @@ export const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
             (isOpen: boolean) => {
                 setOpen?.(isOpen);
                 setIsOpen(isOpen);
+
+                setTimeout(() => (document.body.style.pointerEvents = ''), 500);
             },
             [setOpen]
         );
@@ -227,7 +229,7 @@ export const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                         onSelect={() =>
                             handleSelect(
                                 option.value,
-                                matches?.map((match) => match.toString())
+                                matches?.map((match) => match?.toString())
                             )
                         }
                     >

@@ -26,6 +26,8 @@ export const gu: LanguageTranslation = {
                 hide_sidebar: 'સાઇડબાર છુપાવો',
                 hide_cardinality: 'કાર્ડિનાલિટી છુપાવો',
                 show_cardinality: 'કાર્ડિનાલિટી બતાવો',
+                hide_field_attributes: 'ફીલ્ડ અટ્રિબ્યુટ્સ છુપાવો',
+                show_field_attributes: 'ફીલ્ડ અટ્રિબ્યુટ્સ બતાવો',
                 zoom_on_scroll: 'સ્ક્રોલ પર ઝૂમ કરો',
                 theme: 'થિમ',
                 show_dependencies: 'નિર્ભરતાઓ બતાવો',
@@ -75,8 +77,8 @@ export const gu: LanguageTranslation = {
             title: 'કઈંક વધારે સ્કીમા',
             description:
                 '{{schemasCount}} સ્કીમા આ ડાયાગ્રામમાં છે. હાલમાં દર્શાવેલ છે: {{formattedSchemas}}.',
-            dont_show_again: 'ફરીથી ન બતાવો',
-            change_schema: 'બદલો',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'કઈ નહીં',
         },
 
@@ -152,7 +154,12 @@ export const gu: LanguageTranslation = {
                         no_comments: 'કોઈ ટિપ્પણીઓ નથી',
                         delete_field: 'ફીલ્ડ કાઢી નાખો',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'ચોકસાઈ',
+                        scale: 'માપ',
                     },
                     index_actions: {
                         title: 'ઇન્ડેક્સ લક્ષણો',
@@ -252,9 +259,12 @@ export const gu: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -269,7 +279,13 @@ export const gu: LanguageTranslation = {
             undo: 'અનડુ',
             redo: 'રીડુ',
             reorder_diagram: 'ડાયાગ્રામ ફરીથી વ્યવસ્થિત કરો',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'ઓવરલેપ કરતો ટેબલ હાઇલાઇટ કરો',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -399,6 +415,14 @@ export const gu: LanguageTranslation = {
             description: 'ટેબલ "{{tableName}}" માટે સ્કીમા અપડેટ કરો',
             cancel: 'રદ કરો',
             confirm: 'બદલો',
+        },
+
+        create_table_schema_dialog: {
+            title: 'નવું સ્કીમા બનાવો',
+            description:
+                'હજી સુધી કોઈ સ્કીમા અસ્તિત્વમાં નથી. તમારા ટેબલ્સ ને વ્યવસ્થિત કરવા માટે તમારું પહેલું સ્કીમા બનાવો.',
+            create: 'બનાવો',
+            cancel: 'રદ કરો',
         },
 
         star_us_dialog: {

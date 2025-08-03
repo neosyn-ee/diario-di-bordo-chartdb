@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { GripVertical, KeyRound } from 'lucide-react';
 import { Input } from '@/components/input/input';
-import type { DBField } from '@/lib/domain/db-field';
+import { generateDBFieldSuffix, type DBField } from '@/lib/domain/db-field';
 import { useChartDB } from '@/hooks/use-chartdb';
+import type { DataTypeData } from '@/lib/data/data-types/data-types';
 import {
     dataTypeDataToDataType,
     sortedDataTypeMap,
@@ -22,14 +23,62 @@ import type {
 } from '@/components/select-box/select-box';
 import { SelectBox } from '@/components/select-box/select-box';
 import { TableFieldPopover } from './table-field-modal/table-field-modal';
+import type { DBTable } from '@/lib/domain';
 
 export interface TableFieldProps {
+    table: DBTable;
     field: DBField;
     updateField: (attrs: Partial<DBField>) => void;
     removeField: () => void;
 }
 
+const generateFieldRegexPatterns = (
+    dataType: DataTypeData
+): {
+    regex?: string;
+    extractRegex?: RegExp;
+} => {
+    if (!dataType.fieldAttributes) {
+        return { regex: undefined, extractRegex: undefined };
+    }
+
+    const typeName = dataType.name;
+    const fieldAttributes = dataType.fieldAttributes;
+
+    if (fieldAttributes.hasCharMaxLength) {
+        if (fieldAttributes.hasCharMaxLengthOption) {
+            return {
+                regex: `^${typeName}\\((\\d+|[mM][aA][xX])\\)$`,
+                extractRegex: /\((\d+|max)\)/i,
+            };
+        }
+        return {
+            regex: `^${typeName}\\(\\d+\\)$`,
+            extractRegex: /\((\d+)\)/,
+        };
+    }
+
+    if (fieldAttributes.precision && fieldAttributes.scale) {
+        return {
+            regex: `^${typeName}\\s*\\(\\s*\\d+\\s*(?:,\\s*\\d+\\s*)?\\)$`,
+            extractRegex: new RegExp(
+                `${typeName}\\s*\\(\\s*(\\d+)\\s*(?:,\\s*(\\d+)\\s*)?\\)`
+            ),
+        };
+    }
+
+    if (fieldAttributes.precision) {
+        return {
+            regex: `^${typeName}\\s*\\(\\s*\\d+\\s*\\)$`,
+            extractRegex: /\((\d+)\)/,
+        };
+    }
+
+    return { regex: undefined, extractRegex: undefined };
+};
+
 export const TableField: React.FC<TableFieldProps> = ({
+    table,
     field,
     updateField,
     removeField,
@@ -37,21 +86,30 @@ export const TableField: React.FC<TableFieldProps> = ({
     const { databaseType, customTypes } = useChartDB();
     const { t } = useTranslation();
 
+    // Only calculate primary key fields, not just count
+    const primaryKeyFields = useMemo(() => {
+        return table.fields.filter((f) => f.primaryKey);
+    }, [table.fields]);
+
+    const primaryKeyCount = primaryKeyFields.length;
+
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({ id: field.id });
 
     const dataFieldOptions = useMemo(() => {
         const standardTypes: SelectBoxOption[] = sortedDataTypeMap[
             databaseType
-        ].map((type) => ({
-            label: type.name,
-            value: type.id,
-            regex: type.hasCharMaxLength
-                ? `^${type.name}\\(\\d+\\)$`
-                : undefined,
-            extractRegex: type.hasCharMaxLength ? /\((\d+)\)/ : undefined,
-            group: customTypes?.length ? 'Standard Types' : undefined,
-        }));
+        ].map((type) => {
+            const regexPatterns = generateFieldRegexPatterns(type);
+
+            return {
+                label: type.name,
+                value: type.id,
+                regex: regexPatterns.regex,
+                extractRegex: regexPatterns.extractRegex,
+                group: customTypes?.length ? 'Standard Types' : undefined,
+            };
+        });
 
         if (!customTypes?.length) {
             return standardTypes;
@@ -83,18 +141,44 @@ export const TableField: React.FC<TableFieldProps> = ({
             };
 
             let characterMaximumLength: string | undefined = undefined;
+            let precision: number | undefined = undefined;
+            let scale: number | undefined = undefined;
 
-            if (regexMatches?.length && dataType?.hasCharMaxLength) {
-                characterMaximumLength = regexMatches[1];
-            } else if (
-                field.characterMaximumLength &&
-                dataType?.hasCharMaxLength
-            ) {
-                characterMaximumLength = field.characterMaximumLength;
+            if (regexMatches?.length) {
+                if (dataType?.fieldAttributes?.hasCharMaxLength) {
+                    characterMaximumLength = regexMatches[1]?.toLowerCase();
+                } else if (
+                    dataType?.fieldAttributes?.precision &&
+                    dataType?.fieldAttributes?.scale
+                ) {
+                    precision = parseInt(regexMatches[1]);
+                    scale = regexMatches[2]
+                        ? parseInt(regexMatches[2])
+                        : undefined;
+                } else if (dataType?.fieldAttributes?.precision) {
+                    precision = parseInt(regexMatches[1]);
+                }
+            } else {
+                if (
+                    dataType?.fieldAttributes?.hasCharMaxLength &&
+                    field.characterMaximumLength
+                ) {
+                    characterMaximumLength = field.characterMaximumLength;
+                }
+
+                if (dataType?.fieldAttributes?.precision && field.precision) {
+                    precision = field.precision;
+                }
+
+                if (dataType?.fieldAttributes?.scale && field.scale) {
+                    scale = field.scale;
+                }
             }
 
             updateField({
                 characterMaximumLength,
+                precision,
+                scale,
                 type: dataTypeDataToDataType(
                     dataType ?? {
                         id: value as string,
@@ -103,7 +187,13 @@ export const TableField: React.FC<TableFieldProps> = ({
                 ),
             });
         },
-        [updateField, databaseType, field.characterMaximumLength]
+        [
+            updateField,
+            databaseType,
+            field.characterMaximumLength,
+            field.precision,
+            field.scale,
+        ]
     );
 
     const style = {
@@ -111,14 +201,50 @@ export const TableField: React.FC<TableFieldProps> = ({
         transition,
     };
 
+    const handlePrimaryKeyToggle = useCallback(
+        (value: boolean) => {
+            if (value) {
+                // When setting as primary key
+                const updates: Partial<DBField> = {
+                    primaryKey: true,
+                };
+                // Only auto-set unique if this will be the only primary key
+                if (primaryKeyCount === 0) {
+                    updates.unique = true;
+                }
+                updateField(updates);
+            } else {
+                // When removing primary key
+                updateField({
+                    primaryKey: false,
+                });
+            }
+        },
+        [primaryKeyCount, updateField]
+    );
+
+    const handleNullableToggle = useCallback(
+        (value: boolean) => {
+            updateField({ nullable: value });
+        },
+        [updateField]
+    );
+
+    const handleNameChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            updateField({ name: e.target.value });
+        },
+        [updateField]
+    );
+
     return (
         <div
-            className="flex flex-1 touch-none flex-row justify-between p-1"
+            className="flex flex-1 touch-none flex-row justify-between gap-2 p-1"
             ref={setNodeRef}
             style={style}
             {...attributes}
         >
-            <div className="flex w-8/12 items-center justify-start gap-1 overflow-hidden">
+            <div className="flex flex-1 items-center justify-start gap-1 overflow-hidden">
                 <div
                     className="flex w-4 shrink-0 cursor-move items-center justify-center"
                     {...listeners}
@@ -127,7 +253,7 @@ export const TableField: React.FC<TableFieldProps> = ({
                 </div>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <span className="w-5/12">
+                        <span className="min-w-0 flex-1">
                             <Input
                                 className="h-8 w-full !truncate focus-visible:ring-0"
                                 type="text"
@@ -135,18 +261,14 @@ export const TableField: React.FC<TableFieldProps> = ({
                                     'side_panel.tables_section.table.field_name'
                                 )}
                                 value={field.name}
-                                onChange={(e) =>
-                                    updateField({
-                                        name: e.target.value,
-                                    })
-                                }
+                                onChange={handleNameChange}
                             />
                         </span>
                     </TooltipTrigger>
                     <TooltipContent>{field.name}</TooltipContent>
                 </Tooltip>
                 <Tooltip>
-                    <TooltipTrigger className="flex h-8 !w-5/12" asChild>
+                    <TooltipTrigger className="flex h-8 min-w-0 flex-1" asChild>
                         <span>
                             <SelectBox
                                 className="flex h-8 min-h-8 w-full"
@@ -156,26 +278,14 @@ export const TableField: React.FC<TableFieldProps> = ({
                                     'side_panel.tables_section.table.field_type'
                                 )}
                                 value={field.type.id}
-                                valueSuffix={
-                                    field.characterMaximumLength
-                                        ? `(${field.characterMaximumLength})`
-                                        : ''
+                                valueSuffix={generateDBFieldSuffix(field)}
+                                optionSuffix={(option) =>
+                                    generateDBFieldSuffix(field, {
+                                        databaseType,
+                                        forceExtended: true,
+                                        typeId: option.value,
+                                    })
                                 }
-                                optionSuffix={(option) => {
-                                    const type = sortedDataTypeMap[
-                                        databaseType
-                                    ].find((v) => v.id === option.value);
-
-                                    if (!type) {
-                                        return '';
-                                    }
-
-                                    if (type.hasCharMaxLength) {
-                                        return `(${!field.characterMaximumLength ? 'n' : field.characterMaximumLength})`;
-                                    }
-
-                                    return '';
-                                }}
                                 onChange={onChangeDataType}
                                 emptyPlaceholder={t(
                                     'side_panel.tables_section.table.no_types_found'
@@ -191,17 +301,13 @@ export const TableField: React.FC<TableFieldProps> = ({
                     </TooltipContent>
                 </Tooltip>
             </div>
-            <div className="flex w-4/12 justify-end gap-1 overflow-hidden">
+            <div className="flex shrink-0 items-center justify-end gap-1">
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <span>
                             <TableFieldToggle
                                 pressed={field.nullable}
-                                onPressedChange={(value) =>
-                                    updateField({
-                                        nullable: value,
-                                    })
-                                }
+                                onPressedChange={handleNullableToggle}
                             >
                                 N
                             </TableFieldToggle>
@@ -216,12 +322,7 @@ export const TableField: React.FC<TableFieldProps> = ({
                         <span>
                             <TableFieldToggle
                                 pressed={field.primaryKey}
-                                onPressedChange={(value) =>
-                                    updateField({
-                                        unique: value,
-                                        primaryKey: value,
-                                    })
-                                }
+                                onPressedChange={handlePrimaryKeyToggle}
                             >
                                 <KeyRound className="h-3.5" />
                             </TableFieldToggle>
@@ -233,8 +334,10 @@ export const TableField: React.FC<TableFieldProps> = ({
                 </Tooltip>
                 <TableFieldPopover
                     field={field}
+                    table={table}
                     updateField={updateField}
                     removeField={removeField}
+                    databaseType={databaseType}
                 />
             </div>
         </div>

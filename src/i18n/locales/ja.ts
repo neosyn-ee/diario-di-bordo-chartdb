@@ -26,6 +26,8 @@ export const ja: LanguageTranslation = {
                 hide_sidebar: 'サイドバーを非表示',
                 hide_cardinality: 'カーディナリティを非表示',
                 show_cardinality: 'カーディナリティを表示',
+                hide_field_attributes: 'フィールド属性を非表示',
+                show_field_attributes: 'フィールド属性を表示',
                 zoom_on_scroll: 'スクロールでズーム',
                 theme: 'テーマ',
                 // TODO: Translate
@@ -76,8 +78,8 @@ export const ja: LanguageTranslation = {
             title: '複数のスキーマ',
             description:
                 'このダイアグラムには{{schemasCount}}個のスキーマがあります。現在表示中: {{formattedSchemas}}。',
-            dont_show_again: '再表示しない',
-            change_schema: '変更',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'なし',
         },
 
@@ -154,7 +156,12 @@ export const ja: LanguageTranslation = {
                         no_comments: 'コメントがありません',
                         delete_field: 'フィールドを削除',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: '精度',
+                        scale: '小数点以下桁数',
                     },
                     index_actions: {
                         title: 'インデックス属性',
@@ -256,9 +263,12 @@ export const ja: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -275,6 +285,10 @@ export const ja: LanguageTranslation = {
             reorder_diagram: 'ダイアグラムを並べ替え',
             // TODO: Translate
             highlight_overlapping_tables: 'Highlight Overlapping Tables',
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear', // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -406,6 +420,14 @@ export const ja: LanguageTranslation = {
             description: 'テーブル「{{tableName}}」のスキーマを更新',
             cancel: 'キャンセル',
             confirm: '変更',
+        },
+
+        create_table_schema_dialog: {
+            title: '新しいスキーマを作成',
+            description:
+                'スキーマがまだ存在しません。テーブルを整理するために最初のスキーマを作成してください。',
+            create: '作成',
+            cancel: 'キャンセル',
         },
 
         star_us_dialog: {

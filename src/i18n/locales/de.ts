@@ -26,6 +26,8 @@ export const de: LanguageTranslation = {
                 hide_sidebar: 'Seitenleiste ausblenden',
                 hide_cardinality: 'Kardinalität ausblenden',
                 show_cardinality: 'Kardinalität anzeigen',
+                hide_field_attributes: 'Feldattribute ausblenden',
+                show_field_attributes: 'Feldattribute anzeigen',
                 zoom_on_scroll: 'Zoom beim Scrollen',
                 theme: 'Stil',
                 show_dependencies: 'Abhängigkeiten anzeigen',
@@ -75,8 +77,8 @@ export const de: LanguageTranslation = {
             title: 'Mehrere Schemas',
             description:
                 '{{schemasCount}} Schemas in diesem Diagramm. Derzeit angezeigt: {{formattedSchemas}}.',
-            dont_show_again: 'Nicht erneut anzeigen',
-            change_schema: 'Schema ändern',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'Keine',
         },
 
@@ -152,7 +154,12 @@ export const de: LanguageTranslation = {
                         no_comments: 'Keine Kommentare',
                         delete_field: 'Feld löschen',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'Präzision',
+                        scale: 'Skalierung',
                     },
                     index_actions: {
                         title: 'Indexattribute',
@@ -253,9 +260,12 @@ export const de: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -270,7 +280,14 @@ export const de: LanguageTranslation = {
             undo: 'Rückgängig',
             redo: 'Wiederholen',
             reorder_diagram: 'Diagramm neu anordnen',
+
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'Überlappende Tabellen hervorheben',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -402,6 +419,13 @@ export const de: LanguageTranslation = {
             description: 'Schema der Tabelle "{{tableName}}" ändern',
             cancel: 'Abbrechen',
             confirm: 'Ändern',
+        },
+        create_table_schema_dialog: {
+            title: 'Neues Schema erstellen',
+            description:
+                'Es existieren noch keine Schemas. Erstellen Sie Ihr erstes Schema, um Ihre Tabellen zu organisieren.',
+            create: 'Erstellen',
+            cancel: 'Abbrechen',
         },
 
         star_us_dialog: {

@@ -37,6 +37,8 @@ import {
     TooltipTrigger,
 } from '@/components/tooltip/tooltip';
 import { cloneTable } from '@/lib/clone';
+import type { DBSchema } from '@/lib/domain';
+import { defaultSchemas } from '@/lib/data/default-schemas';
 
 export interface TableListItemHeaderProps {
     table: DBTable;
@@ -47,12 +49,14 @@ export const TableListItemHeader: React.FC<TableListItemHeaderProps> = ({
 }) => {
     const {
         updateTable,
+        updateTablesState,
         removeTable,
         createIndex,
         createField,
         createTable,
         schemas,
         filteredSchemas,
+        databaseType,
     } = useChartDB();
     const { openTableSchemaDialog } = useDialog();
     const { t } = useTranslation();
@@ -126,10 +130,16 @@ export const TableListItemHeader: React.FC<TableListItemHeaderProps> = ({
     }, [table.id, removeTable]);
 
     const updateTableSchema = useCallback(
-        (schema: string) => {
-            updateTable(table.id, { schema });
+        ({ schema }: { schema: DBSchema }) => {
+            updateTablesState((currentTables) =>
+                currentTables.map((t) =>
+                    t.id === table.id || !t.schema
+                        ? { ...t, schema: schema.name }
+                        : t
+                )
+            );
         },
-        [table.id, updateTable]
+        [table.id, updateTablesState]
     );
 
     const changeSchema = useCallback(() => {
@@ -137,6 +147,7 @@ export const TableListItemHeader: React.FC<TableListItemHeaderProps> = ({
             table,
             schemas,
             onConfirm: updateTableSchema,
+            allowSchemaCreation: true,
         });
     }, [openTableSchemaDialog, table, schemas, updateTableSchema]);
 
@@ -169,7 +180,7 @@ export const TableListItemHeader: React.FC<TableListItemHeaderProps> = ({
                         )}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {schemas.length > 0 ? (
+                    {schemas.length > 0 || defaultSchemas?.[databaseType] ? (
                         <>
                             <DropdownMenuGroup>
                                 <DropdownMenuItem
@@ -250,6 +261,7 @@ export const TableListItemHeader: React.FC<TableListItemHeaderProps> = ({
             t,
             changeSchema,
             schemas.length,
+            databaseType,
         ]
     );
 

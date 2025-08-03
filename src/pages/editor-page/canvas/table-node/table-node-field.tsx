@@ -21,7 +21,7 @@ import {
     SquarePlus,
     Trash2,
 } from 'lucide-react';
-import type { DBField } from '@/lib/domain/db-field';
+import { generateDBFieldSuffix, type DBField } from '@/lib/domain/db-field';
 import { useChartDB } from '@/hooks/use-chartdb';
 import { cn } from '@/lib/utils';
 import {
@@ -32,6 +32,7 @@ import {
 import { useClickAway, useKeyPressEvent } from 'react-use';
 import { Input } from '@/components/input/input';
 import { useDiff } from '@/context/diff-context/use-diff';
+import { useLocalConfig } from '@/hooks/use-local-config';
 
 export const LEFT_HANDLE_ID_PREFIX = 'left_rel_';
 export const RIGHT_HANDLE_ID_PREFIX = 'right_rel_';
@@ -46,10 +47,40 @@ export interface TableNodeFieldProps {
     isConnectable: boolean;
 }
 
+const arePropsEqual = (
+    prevProps: TableNodeFieldProps,
+    nextProps: TableNodeFieldProps
+) => {
+    return (
+        prevProps.field.id === nextProps.field.id &&
+        prevProps.field.name === nextProps.field.name &&
+        prevProps.field.primaryKey === nextProps.field.primaryKey &&
+        prevProps.field.nullable === nextProps.field.nullable &&
+        prevProps.field.comments === nextProps.field.comments &&
+        prevProps.field.unique === nextProps.field.unique &&
+        prevProps.field.type.id === nextProps.field.type.id &&
+        prevProps.field.type.name === nextProps.field.type.name &&
+        prevProps.field.characterMaximumLength ===
+            nextProps.field.characterMaximumLength &&
+        prevProps.field.precision === nextProps.field.precision &&
+        prevProps.field.scale === nextProps.field.scale &&
+        prevProps.focused === nextProps.focused &&
+        prevProps.highlighted === nextProps.highlighted &&
+        prevProps.visible === nextProps.visible &&
+        prevProps.isConnectable === nextProps.isConnectable &&
+        prevProps.tableNodeId === nextProps.tableNodeId
+    );
+};
+
 export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
     ({ field, focused, tableNodeId, highlighted, visible, isConnectable }) => {
-        const { removeField, relationships, readonly, updateField } =
-            useChartDB();
+        const {
+            removeField,
+            relationships,
+            readonly,
+            updateField,
+            highlightedCustomType,
+        } = useChartDB();
         const [editMode, setEditMode] = useState(false);
         const [fieldName, setFieldName] = useState(field.name);
         const inputRef = React.useRef<HTMLInputElement>(null);
@@ -64,17 +95,25 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                     connection.fromHandle.id?.startsWith(
                         LEFT_HANDLE_ID_PREFIX
                     )),
-            [connection, tableNodeId]
+            [
+                connection.inProgress,
+                connection.fromNode?.id,
+                connection.fromHandle?.id,
+                tableNodeId,
+            ]
         );
-        const numberOfEdgesToField = useMemo(
-            () =>
-                relationships.filter(
-                    (relationship) =>
-                        relationship.targetTableId === tableNodeId &&
-                        relationship.targetFieldId === field.id
-                ).length,
-            [relationships, tableNodeId, field.id]
-        );
+        const numberOfEdgesToField = useMemo(() => {
+            let count = 0;
+            for (const rel of relationships) {
+                if (
+                    rel.targetTableId === tableNodeId &&
+                    rel.targetFieldId === field.id
+                ) {
+                    count++;
+                }
+            }
+            return count;
+        }, [relationships, tableNodeId, field.id]);
 
         const previousNumberOfEdgesToFieldRef = useRef(numberOfEdgesToField);
 
@@ -82,8 +121,12 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
             if (
                 previousNumberOfEdgesToFieldRef.current !== numberOfEdgesToField
             ) {
-                updateNodeInternals(tableNodeId);
-                previousNumberOfEdgesToFieldRef.current = numberOfEdgesToField;
+                const timer = setTimeout(() => {
+                    updateNodeInternals(tableNodeId);
+                    previousNumberOfEdgesToFieldRef.current =
+                        numberOfEdgesToField;
+                }, 100);
+                return () => clearTimeout(timer);
             }
         }, [tableNodeId, updateNodeInternals, numberOfEdgesToField]);
 
@@ -112,39 +155,69 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
             checkIfFieldHasChange,
         } = useDiff();
 
-        const isDiffFieldRemoved = useMemo(
-            () => checkIfFieldRemoved({ fieldId: field.id }),
-            [checkIfFieldRemoved, field.id]
-        );
+        const [diffState, setDiffState] = useState<{
+            isDiffFieldRemoved: boolean;
+            isDiffNewField: boolean;
+            fieldDiffChangedName: string | null;
+            fieldDiffChangedType: DBField['type'] | null;
+            isDiffFieldChanged: boolean;
+        }>({
+            isDiffFieldRemoved: false,
+            isDiffNewField: false,
+            fieldDiffChangedName: null,
+            fieldDiffChangedType: null,
+            isDiffFieldChanged: false,
+        });
 
-        const isDiffNewField = useMemo(
-            () => checkIfNewField({ fieldId: field.id }),
-            [checkIfNewField, field.id]
-        );
+        useEffect(() => {
+            // Calculate diff state asynchronously
+            const timer = requestAnimationFrame(() => {
+                setDiffState({
+                    isDiffFieldRemoved: checkIfFieldRemoved({
+                        fieldId: field.id,
+                    }),
+                    isDiffNewField: checkIfNewField({ fieldId: field.id }),
+                    fieldDiffChangedName: getFieldNewName({
+                        fieldId: field.id,
+                    }),
+                    fieldDiffChangedType: getFieldNewType({
+                        fieldId: field.id,
+                    }),
+                    isDiffFieldChanged: checkIfFieldHasChange({
+                        fieldId: field.id,
+                        tableId: tableNodeId,
+                    }),
+                });
+            });
+            return () => cancelAnimationFrame(timer);
+        }, [
+            checkIfFieldRemoved,
+            checkIfNewField,
+            getFieldNewName,
+            getFieldNewType,
+            checkIfFieldHasChange,
+            field.id,
+            tableNodeId,
+        ]);
 
-        const fieldDiffChangedName = useMemo(
-            () => getFieldNewName({ fieldId: field.id }),
-            [getFieldNewName, field.id]
-        );
+        const {
+            isDiffFieldRemoved,
+            isDiffNewField,
+            fieldDiffChangedName,
+            fieldDiffChangedType,
+            isDiffFieldChanged,
+        } = diffState;
 
-        const fieldDiffChangedType = useMemo(
-            () => getFieldNewType({ fieldId: field.id }),
-            [getFieldNewType, field.id]
-        );
-
-        const isDiffFieldChanged = useMemo(
-            () =>
-                checkIfFieldHasChange({
-                    fieldId: field.id,
-                    tableId: tableNodeId,
-                }),
-            [checkIfFieldHasChange, field.id, tableNodeId]
-        );
-
-        const enterEditMode = (e: React.MouseEvent) => {
+        const enterEditMode = useCallback((e: React.MouseEvent) => {
             e.stopPropagation();
             setEditMode(true);
-        };
+        }, []);
+
+        const isCustomTypeHighlighted = useMemo(() => {
+            if (!highlightedCustomType) return false;
+            return field.type.name === highlightedCustomType.name;
+        }, [highlightedCustomType, field.type.name]);
+        const { showFieldAttributes } = useLocalConfig();
 
         return (
             <div
@@ -152,7 +225,10 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                     'group relative flex h-8 items-center justify-between gap-1 border-t px-3 text-sm last:rounded-b-[6px] hover:bg-slate-100 dark:hover:bg-slate-800',
                     'transition-all duration-200 ease-in-out',
                     {
-                        'bg-pink-100 dark:bg-pink-900': highlighted,
+                        'bg-pink-100 dark:bg-pink-900':
+                            highlighted && !isCustomTypeHighlighted,
+                        'bg-yellow-100 dark:bg-yellow-900':
+                            isCustomTypeHighlighted,
                         'max-h-8 opacity-100': visible,
                         'z-0 max-h-0 overflow-hidden opacity-0': !visible,
                         'bg-sky-200 dark:bg-sky-800 hover:bg-sky-100 dark:hover:bg-sky-900 border-sky-300 dark:border-sky-700':
@@ -210,7 +286,7 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                 )}
                 <div
                     className={cn(
-                        'flex items-center gap-1 truncate text-left',
+                        'flex items-center gap-1 min-w-0 flex-1 text-left',
                         {
                             'font-semibold': field.primaryKey || field.unique,
                             'w-full': editMode,
@@ -246,14 +322,8 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                             </Button>
                         </>
                     ) : (
-                        // <span
-                        //     className="truncate"
-                        //     onClick={readonly ? undefined : enterEditMode}
-                        // >
-                        //     {field.name}
-                        // </span>
                         <span
-                            className={cn('truncate', {
+                            className={cn('truncate min-w-0', {
                                 'text-red-800 font-normal dark:text-red-200':
                                     isDiffFieldRemoved,
                                 'text-green-800 font-normal dark:text-green-200':
@@ -276,7 +346,6 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                             )}
                         </span>
                     )}
-                    {/* <span className="truncate">{field.name}</span> */}
                     {field.comments && !editMode ? (
                         <Tooltip>
                             <TooltipTrigger asChild>
@@ -289,7 +358,7 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                     ) : null}
                 </div>
                 {editMode ? null : (
-                    <div className="flex max-w-[35%] justify-end gap-1.5 truncate hover:shrink-0">
+                    <div className="ml-2 flex shrink-0 items-center justify-end gap-1.5">
                         {field.primaryKey ? (
                             <div
                                 className={cn(
@@ -314,7 +383,8 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
 
                         <div
                             className={cn(
-                                'content-center truncate text-right text-xs text-muted-foreground',
+                                'content-center text-right text-xs text-muted-foreground overflow-hidden max-w-[8rem]',
+                                field.primaryKey ? 'min-w-0' : 'min-w-[3rem]',
                                 !readonly ? 'group-hover:hidden' : '',
                                 isDiffFieldRemoved
                                     ? 'text-red-800 dark:text-red-200'
@@ -329,17 +399,23 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                                     : ''
                             )}
                         >
-                            {fieldDiffChangedType ? (
-                                <>
-                                    <span className="line-through">
-                                        {field.type.name.split(' ')[0]}
-                                    </span>{' '}
-                                    {fieldDiffChangedType.name.split(' ')[0]}
-                                </>
-                            ) : (
-                                field.type.name.split(' ')[0]
-                            )}
-                            {field.nullable ? '?' : ''}
+                            <span className="block truncate">
+                                {fieldDiffChangedType ? (
+                                    <>
+                                        <span className="line-through">
+                                            {field.type.name.split(' ')[0]}
+                                        </span>{' '}
+                                        {
+                                            fieldDiffChangedType.name.split(
+                                                ' '
+                                            )[0]
+                                        }
+                                    </>
+                                ) : (
+                                    `${field.type.name.split(' ')[0]}${showFieldAttributes ? generateDBFieldSuffix(field) : ''}`
+                                )}
+                                {field.nullable ? '?' : ''}
+                            </span>
                         </div>
                         {readonly ? null : (
                             <div className="hidden flex-row group-hover:flex">
@@ -359,7 +435,8 @@ export const TableNodeField: React.FC<TableNodeFieldProps> = React.memo(
                 )}
             </div>
         );
-    }
+    },
+    arePropsEqual
 );
 
 TableNodeField.displayName = 'TableNodeField';

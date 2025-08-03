@@ -26,6 +26,8 @@ export const pt_BR: LanguageTranslation = {
                 hide_sidebar: 'Ocultar Barra Lateral',
                 hide_cardinality: 'Ocultar Cardinalidade',
                 show_cardinality: 'Mostrar Cardinalidade',
+                hide_field_attributes: 'Ocultar Atributos de Campo',
+                show_field_attributes: 'Mostrar Atributos de Campo',
                 zoom_on_scroll: 'Zoom ao Rolar',
                 theme: 'Tema',
                 show_dependencies: 'Mostrar Dependências',
@@ -75,8 +77,8 @@ export const pt_BR: LanguageTranslation = {
             title: 'Múltiplos Esquemas',
             description:
                 '{{schemasCount}} esquemas neste diagrama. Atualmente exibindo: {{formattedSchemas}}.',
-            dont_show_again: 'Não mostrar novamente',
-            change_schema: 'Alterar',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'nenhum',
         },
 
@@ -151,7 +153,12 @@ export const pt_BR: LanguageTranslation = {
                         no_comments: 'Sem comentários',
                         delete_field: 'Excluir Campo',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'Precisão',
+                        scale: 'Escala',
                     },
                     index_actions: {
                         title: 'Atributos do Índice',
@@ -251,9 +258,12 @@ export const pt_BR: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -268,7 +278,13 @@ export const pt_BR: LanguageTranslation = {
             undo: 'Desfazer',
             redo: 'Refazer',
             reorder_diagram: 'Reordenar Diagrama',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'Destacar Tabelas Sobrepostas',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -400,6 +416,14 @@ export const pt_BR: LanguageTranslation = {
             description: 'Atualizar o esquema da tabela "{{tableName}}"',
             cancel: 'Cancelar',
             confirm: 'Alterar',
+        },
+
+        create_table_schema_dialog: {
+            title: 'Criar Novo Esquema',
+            description:
+                'Ainda não existem esquemas. Crie seu primeiro esquema para organizar suas tabelas.',
+            create: 'Criar',
+            cancel: 'Cancelar',
         },
 
         star_us_dialog: {

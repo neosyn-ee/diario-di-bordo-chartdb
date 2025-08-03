@@ -26,6 +26,8 @@ export const id_ID: LanguageTranslation = {
                 hide_sidebar: 'Sembunyikan Sidebar',
                 hide_cardinality: 'Sembunyikan Kardinalitas',
                 show_cardinality: 'Tampilkan Kardinalitas',
+                hide_field_attributes: 'Sembunyikan Atribut Kolom',
+                show_field_attributes: 'Tampilkan Atribut Kolom',
                 zoom_on_scroll: 'Perbesar saat Scroll',
                 theme: 'Tema',
                 show_dependencies: 'Tampilkan Dependensi',
@@ -74,8 +76,8 @@ export const id_ID: LanguageTranslation = {
             title: 'Schema Lebih dari satu',
             description:
                 '{{schemasCount}} schema di diagram ini. Sedang ditampilkan: {{formattedSchemas}}.',
-            dont_show_again: 'Jangan tampilkan lagi',
-            change_schema: 'Ubah',
+            // TODO: Translate
+            show_me: 'Show me',
             none: 'Tidak ada',
         },
 
@@ -150,7 +152,12 @@ export const id_ID: LanguageTranslation = {
                         no_comments: 'Tidak ada komentar',
                         delete_field: 'Hapus Kolom',
                         // TODO: Translate
+                        default_value: 'Default Value',
+                        no_default: 'No default',
+                        // TODO: Translate
                         character_length: 'Max Length',
+                        precision: 'Presisi',
+                        scale: 'Skala',
                     },
                     index_actions: {
                         title: 'Atribut Indeks',
@@ -250,9 +257,12 @@ export const id_ID: LanguageTranslation = {
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
+                    no_fields_tooltip: 'No fields defined for this custom type',
                     custom_type_actions: {
                         title: 'Actions',
+                        highlight_fields: 'Highlight Fields',
                         delete_custom_type: 'Delete',
+                        clear_field_highlight: 'Clear Highlight',
                     },
                     delete_custom_type: 'Delete Type',
                 },
@@ -267,7 +277,13 @@ export const id_ID: LanguageTranslation = {
             undo: 'Undo',
             redo: 'Redo',
             reorder_diagram: 'Atur Ulang Diagram',
+            // TODO: Translate
+            clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
+            custom_type_highlight_tooltip:
+                'Highlighting "{{typeName}}" - Click to clear',
             highlight_overlapping_tables: 'Sorot Tabel yang Tumpang Tindih',
+            // TODO: Translate
+            filter: 'Filter Tables',
         },
 
         new_diagram_dialog: {
@@ -397,6 +413,14 @@ export const id_ID: LanguageTranslation = {
             description: 'Perbarui skema tabel "{{tableName}}"',
             cancel: 'Batal',
             confirm: 'Ubah',
+        },
+
+        create_table_schema_dialog: {
+            title: 'Buat Skema Baru',
+            description:
+                'Belum ada skema yang tersedia. Buat skema pertama Anda untuk mengatur tabel-tabel Anda.',
+            create: 'Buat',
+            cancel: 'Batal',
         },
 
         star_us_dialog: {
