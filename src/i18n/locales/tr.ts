@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const tr: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'Yeni',
+            browse: 'Gözat',
+            tables: 'Tablolar',
+            refs: 'Refs',
+            areas: 'Alanlar',
+            dependencies: 'Bağımlılıklar',
+            custom_types: 'Özel Tipler',
+        },
         menu: {
-            file: {
-                file: 'Dosya',
-                new: 'Yeni',
-                open: 'Aç',
+            actions: {
+                actions: 'Eylemler',
+                new: 'Yeni Diyagram',
+                browse: 'Gözat...',
                 save: 'Kaydet',
                 import: 'Veritabanı İçe Aktar',
                 export_sql: 'SQL Olarak Dışa Aktar',
                 export_as: 'Olarak Dışa Aktar',
                 delete_diagram: 'Diyagramı Sil',
-                exit: 'Çıkış',
             },
             edit: {
                 edit: 'Düzenle',
@@ -29,6 +37,7 @@ export const tr: LanguageTranslation = {
                 show_field_attributes: 'Alan Özelliklerini Göster',
                 hide_field_attributes: 'Alan Özelliklerini Gizle',
                 zoom_on_scroll: 'Kaydırarak Yakınlaştır',
+                show_views: 'Veritabanı Görünümleri',
                 theme: 'Tema',
                 show_dependencies: 'Bağımlılıkları Göster',
                 hide_dependencies: 'Bağımlılıkları Gizle',
@@ -73,15 +82,6 @@ export const tr: LanguageTranslation = {
             cancel: 'İptal',
         },
 
-        multiple_schemas_alert: {
-            title: 'Birden Fazla Şema',
-            description:
-                'Bu diyagramda {{schemasCount}} şema var. Şu anda görüntülenen: {{formattedSchemas}}.',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'yok',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'Kopyalama başarısız',
@@ -115,14 +115,11 @@ export const tr: LanguageTranslation = {
         copy_to_clipboard: 'Panoya Kopyala',
         copied: 'Kopyalandı!',
         side_panel: {
-            schema: 'Şema:',
-            filter_by_schema: 'Şemaya Göre Filtrele',
-            search_schema: 'Şema ara...',
-            no_schemas_found: 'Şema bulunamadı.',
             view_all_options: 'Tüm Seçenekleri Gör...',
             tables_section: {
                 tables: 'Tablolar',
                 add_table: 'Tablo Ekle',
+                add_view: 'Görünüm Ekle',
                 filter: 'Filtrele',
                 collapse: 'Hepsini Daralt',
                 // TODO: Translate
@@ -148,6 +145,7 @@ export const tr: LanguageTranslation = {
                     field_actions: {
                         title: 'Alan Özellikleri',
                         unique: 'Tekil',
+                        auto_increment: 'Otomatik Artış',
                         comments: 'Yorumlar',
                         no_comments: 'Yorum yok',
                         delete_field: 'Alanı Sil',
@@ -163,6 +161,7 @@ export const tr: LanguageTranslation = {
                         title: 'İndeks Özellikleri',
                         name: 'Ad',
                         unique: 'Tekil',
+                        index_type: 'İndeks Türü',
                         delete_index: 'İndeksi Sil',
                     },
                     table_actions: {
@@ -180,12 +179,15 @@ export const tr: LanguageTranslation = {
                     description: 'Başlamak için bir tablo oluşturun',
                 },
             },
-            relationships_section: {
-                relationships: 'İlişkiler',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'Filtrele',
-                add_relationship: 'İlişki Ekle',
                 collapse: 'Hepsini Daralt',
+                add_relationship: 'İlişki Ekle',
+                relationships: 'İlişkiler',
+                dependencies: 'Bağımlılıklar',
                 relationship: {
+                    relationship: 'İlişki',
                     primary: 'Birincil Tablo',
                     foreign: 'Referans Tablo',
                     cardinality: 'Kardinalite',
@@ -195,16 +197,8 @@ export const tr: LanguageTranslation = {
                         delete_relationship: 'Sil',
                     },
                 },
-                empty_state: {
-                    title: 'İlişki yok',
-                    description: 'Tabloları bağlamak için bir ilişki oluşturun',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'Bağımlılıklar',
-                filter: 'Filtrele',
-                collapse: 'Hepsini Daralt',
                 dependency: {
+                    dependency: 'Bağımlılık',
                     table: 'Tablo',
                     dependent_table: 'Bağımlı Görünüm',
                     delete_dependency: 'Sil',
@@ -214,8 +208,8 @@ export const tr: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'Bağımlılık yok',
-                    description: 'Başlamak için bir görünüm oluşturun',
+                    title: 'İlişki yok',
+                    description: 'Başlamak için bir ilişki oluşturun',
                 },
             },
 
@@ -328,6 +322,12 @@ export const tr: LanguageTranslation = {
             },
             cancel: 'İptal',
             open: 'Aç',
+
+            diagram_actions: {
+                open: 'Aç',
+                duplicate: 'Kopyala',
+                delete: 'Diyagramı Sil',
+            },
         },
 
         export_sql_dialog: {
@@ -470,6 +470,7 @@ export const tr: LanguageTranslation = {
         },
         canvas_context_menu: {
             new_table: 'Yeni Tablo',
+            new_view: 'Yeni Görünüm',
             new_relationship: 'Yeni İlişki',
             // TODO: Translate
             new_area: 'New Area',
@@ -492,6 +493,9 @@ export const tr: LanguageTranslation = {
         language_select: {
             change_language: 'Dil',
         },
+
+        on: 'Açık',
+        off: 'Kapalı',
     },
 };
 

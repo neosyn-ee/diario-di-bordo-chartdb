@@ -44,7 +44,7 @@ export const TableSchemaDialog: React.FC<TableSchemaDialogProps> = ({
     allowSchemaCreation = false,
 }) => {
     const { t } = useTranslation();
-    const { databaseType, filteredSchemas, filterSchemas } = useChartDB();
+    const { databaseType } = useChartDB();
     const [selectedSchemaId, setSelectedSchemaId] = useState<string>(
         table?.schema
             ? schemaNameToSchemaId(table.schema)
@@ -93,7 +93,6 @@ export const TableSchemaDialog: React.FC<TableSchemaDialogProps> = ({
     const { closeTableSchemaDialog } = useDialog();
 
     const handleConfirm = useCallback(() => {
-        let createdSchemaId: string;
         if (isCreatingNew && newSchemaName.trim()) {
             const newSchema: DBSchema = {
                 id: schemaNameToSchemaId(newSchemaName.trim()),
@@ -101,30 +100,14 @@ export const TableSchemaDialog: React.FC<TableSchemaDialogProps> = ({
                 tableCount: 0,
             };
 
-            createdSchemaId = newSchema.id;
-
             onConfirm({ schema: newSchema });
         } else {
             const schema = schemas.find((s) => s.id === selectedSchemaId);
             if (!schema) return;
 
-            createdSchemaId = schema.id;
             onConfirm({ schema });
         }
-
-        filterSchemas([
-            ...(filteredSchemas ?? schemas.map((s) => s.id)),
-            createdSchemaId,
-        ]);
-    }, [
-        onConfirm,
-        selectedSchemaId,
-        schemas,
-        isCreatingNew,
-        newSchemaName,
-        filteredSchemas,
-        filterSchemas,
-    ]);
+    }, [onConfirm, selectedSchemaId, schemas, isCreatingNew, newSchemaName]);
 
     const schemaOptions: SelectBoxOption[] = useMemo(
         () =>

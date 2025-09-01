@@ -1,19 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { exportBaseSQL } from '../export-sql-script';
 import { DatabaseType } from '@/lib/domain/database-type';
 import type { Diagram } from '@/lib/domain/diagram';
 import type { DBTable } from '@/lib/domain/db-table';
 import type { DBField } from '@/lib/domain/db-field';
-
-// Mock the dbml/core importer
-vi.mock('@dbml/core', () => ({
-    importer: {
-        import: vi.fn((sql: string) => {
-            // Return a simplified DBML for testing
-            return sql;
-        }),
-    },
-}));
 
 describe('DBML Export - SQL Generation Tests', () => {
     // Helper to generate test IDs and timestamps
@@ -116,12 +106,102 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should contain composite primary key syntax
-            expect(sql).toContain('PRIMARY KEY (spell_id, component_id)');
+            expect(sql).toContain('PRIMARY KEY ("spell_id", "component_id")');
             // Should NOT contain individual PRIMARY KEY constraints
             expect(sql).not.toMatch(/spell_id\s+uuid\s+NOT NULL\s+PRIMARY KEY/);
             expect(sql).not.toMatch(
                 /component_id\s+uuid\s+NOT NULL\s+PRIMARY KEY/
             );
+        });
+
+        it('should not create duplicate index for composite primary key', () => {
+            const tableId = testId();
+            const field1Id = testId();
+            const field2Id = testId();
+            const field3Id = testId();
+
+            const diagram: Diagram = createDiagram({
+                id: testId(),
+                name: 'Landlord System',
+                databaseType: DatabaseType.POSTGRESQL,
+                tables: [
+                    createTable({
+                        id: tableId,
+                        name: 'users_master_table',
+                        schema: 'landlord',
+                        fields: [
+                            createField({
+                                id: field1Id,
+                                name: 'master_user_id',
+                                type: { id: 'bigint', name: 'bigint' },
+                                primaryKey: true,
+                                nullable: false,
+                                unique: false,
+                            }),
+                            createField({
+                                id: field2Id,
+                                name: 'tenant_id',
+                                type: { id: 'bigint', name: 'bigint' },
+                                primaryKey: true,
+                                nullable: false,
+                                unique: false,
+                            }),
+                            createField({
+                                id: field3Id,
+                                name: 'tenant_user_id',
+                                type: { id: 'bigint', name: 'bigint' },
+                                primaryKey: true,
+                                nullable: false,
+                                unique: false,
+                            }),
+                            createField({
+                                id: testId(),
+                                name: 'enabled',
+                                type: { id: 'boolean', name: 'boolean' },
+                                primaryKey: false,
+                                nullable: true,
+                                unique: false,
+                            }),
+                        ],
+                        indexes: [
+                            {
+                                id: testId(),
+                                name: 'idx_users_master_table_master_user_id_tenant_id_tenant_user_id',
+                                unique: false,
+                                fieldIds: [field1Id, field2Id, field3Id],
+                                createdAt: testTime,
+                            },
+                            {
+                                id: testId(),
+                                name: 'index_1',
+                                unique: true,
+                                fieldIds: [field2Id, field3Id],
+                                createdAt: testTime,
+                            },
+                        ],
+                    }),
+                ],
+                relationships: [],
+            });
+
+            const sql = exportBaseSQL({
+                diagram,
+                targetDatabaseType: DatabaseType.POSTGRESQL,
+                isDBMLFlow: true,
+            });
+
+            // Should contain composite primary key constraint
+            expect(sql).toContain(
+                'PRIMARY KEY ("master_user_id", "tenant_id", "tenant_user_id")'
+            );
+
+            // Should NOT contain the duplicate index for the primary key fields
+            expect(sql).not.toContain(
+                'CREATE INDEX idx_users_master_table_master_user_id_tenant_id_tenant_user_id'
+            );
+
+            // Should still contain the unique index on subset of fields
+            expect(sql).toContain('CREATE UNIQUE INDEX index_1');
         });
 
         it('should handle single primary keys inline', () => {
@@ -165,7 +245,7 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should contain inline PRIMARY KEY
-            expect(sql).toMatch(/id\s+uuid\s+NOT NULL\s+PRIMARY KEY/);
+            expect(sql).toMatch(/"id"\s+uuid\s+NOT NULL\s+PRIMARY KEY/);
             // Should NOT contain separate PRIMARY KEY constraint
             expect(sql).not.toContain('PRIMARY KEY (id)');
         });
@@ -226,8 +306,8 @@ describe('DBML Export - SQL Generation Tests', () => {
             expect(sql).not.toContain('DEFAULT has default');
             expect(sql).not.toContain('DEFAULT DEFAULT has default');
             // The fields should still be in the table
-            expect(sql).toContain('is_active boolean');
-            expect(sql).toContain('stock_count int NOT NULL'); // integer gets simplified to int
+            expect(sql).toContain('"is_active" boolean');
+            expect(sql).toContain('"stock_count" integer NOT NULL'); // integer gets simplified to int
         });
 
         it('should handle valid default values correctly', () => {
@@ -349,8 +429,8 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should convert NOW to NOW() and ('now') to now()
-            expect(sql).toContain('created_at timestamp DEFAULT NOW');
-            expect(sql).toContain('updated_at timestamp DEFAULT now()');
+            expect(sql).toContain('"created_at" timestamp DEFAULT NOW');
+            expect(sql).toContain('"updated_at" timestamp DEFAULT now()');
         });
     });
 
@@ -405,9 +485,9 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should handle char with explicit length
-            expect(sql).toContain('element_code char(2)');
+            expect(sql).toContain('"element_code" char(2)');
             // Should add default length for char without length
-            expect(sql).toContain('status char(1)');
+            expect(sql).toContain('"status" char(1)');
         });
 
         it('should not have spaces between char and parentheses', () => {
@@ -516,7 +596,7 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should create a valid table without primary key
-            expect(sql).toContain('CREATE TABLE experiment_logs');
+            expect(sql).toContain('CREATE TABLE "experiment_logs"');
             expect(sql).not.toContain('PRIMARY KEY');
         });
 
@@ -631,11 +711,11 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should create both tables
-            expect(sql).toContain('CREATE TABLE guilds');
-            expect(sql).toContain('CREATE TABLE guild_members');
+            expect(sql).toContain('CREATE TABLE "guilds"');
+            expect(sql).toContain('CREATE TABLE "guild_members"');
             // Should create foreign key
             expect(sql).toContain(
-                'ALTER TABLE guild_members ADD CONSTRAINT fk_guild_members_guild FOREIGN KEY (guild_id) REFERENCES guilds (id)'
+                'ALTER TABLE "guild_members" ADD CONSTRAINT fk_guild_members_guild FOREIGN KEY ("guild_id") REFERENCES "guilds" ("id");'
             );
         });
     });
@@ -709,12 +789,9 @@ describe('DBML Export - SQL Generation Tests', () => {
                 isDBMLFlow: true,
             });
 
-            // Should create schemas
-            expect(sql).toContain('CREATE SCHEMA IF NOT EXISTS transportation');
-            expect(sql).toContain('CREATE SCHEMA IF NOT EXISTS magic');
             // Should use schema-qualified table names
-            expect(sql).toContain('CREATE TABLE transportation.portals');
-            expect(sql).toContain('CREATE TABLE magic.spells');
+            expect(sql).toContain('CREATE TABLE "transportation"."portals"');
+            expect(sql).toContain('CREATE TABLE "magic"."spells"');
         });
     });
 
@@ -761,7 +838,7 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should still create table structure
-            expect(sql).toContain('CREATE TABLE empty_table');
+            expect(sql).toContain('CREATE TABLE "empty_table"');
             expect(sql).toContain('(\n\n)');
         });
 
@@ -862,9 +939,9 @@ describe('DBML Export - SQL Generation Tests', () => {
             });
 
             // Should include precision and scale
-            expect(sql).toContain('amount numeric(15, 2)');
+            expect(sql).toContain('"amount" numeric(15, 2)');
             // Should include precision only when scale is not provided
-            expect(sql).toContain('interest_rate numeric(5)');
+            expect(sql).toContain('"interest_rate" numeric(5)');
         });
     });
 });

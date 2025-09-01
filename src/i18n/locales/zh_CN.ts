@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const zh_CN: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: '新建',
+            browse: '浏览',
+            tables: '表',
+            refs: '引用',
+            areas: '区域',
+            dependencies: '依赖关系',
+            custom_types: '自定义类型',
+        },
         menu: {
-            file: {
-                file: '文件',
-                new: '新建',
-                open: '打开',
+            actions: {
+                actions: '操作',
+                new: '新建关系图',
+                browse: '浏览...',
                 save: '保存',
                 import: '导入数据库',
                 export_sql: '导出 SQL 语句',
                 export_as: '导出为',
                 delete_diagram: '删除关系图',
-                exit: '退出',
             },
             edit: {
                 edit: '编辑',
@@ -29,6 +37,7 @@ export const zh_CN: LanguageTranslation = {
                 show_field_attributes: '展示字段属性',
                 hide_field_attributes: '隐藏字段属性',
                 zoom_on_scroll: '滚动缩放',
+                show_views: '数据库视图',
                 theme: '主题',
                 show_dependencies: '展示依赖',
                 hide_dependencies: '隐藏依赖',
@@ -69,15 +78,6 @@ export const zh_CN: LanguageTranslation = {
             cancel: '取消',
         },
 
-        multiple_schemas_alert: {
-            title: '多个模式',
-            description:
-                '此关系图中有 {{schemasCount}} 个模式，当前显示：{{formattedSchemas}}。',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: '无',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: '复制失败',
@@ -112,14 +112,11 @@ export const zh_CN: LanguageTranslation = {
         copied: '复制了！',
 
         side_panel: {
-            schema: '模式：',
-            filter_by_schema: '按模式筛选',
-            search_schema: '搜索模式...',
-            no_schemas_found: '未找到模式。',
             view_all_options: '查看所有选项...',
             tables_section: {
                 tables: '表',
                 add_table: '添加表',
+                add_view: '添加视图',
                 filter: '筛选',
                 collapse: '全部折叠',
                 // TODO: Translate
@@ -145,6 +142,7 @@ export const zh_CN: LanguageTranslation = {
                     field_actions: {
                         title: '字段属性',
                         unique: '唯一',
+                        auto_increment: '自动递增',
                         comments: '注释',
                         no_comments: '空',
                         delete_field: '删除字段',
@@ -160,6 +158,7 @@ export const zh_CN: LanguageTranslation = {
                         title: '索引属性',
                         name: '名称',
                         unique: '唯一',
+                        index_type: '索引类型',
                         delete_index: '删除索引',
                     },
                     table_actions: {
@@ -176,12 +175,15 @@ export const zh_CN: LanguageTranslation = {
                     description: '新建表以开始',
                 },
             },
-            relationships_section: {
-                relationships: '关系',
+            refs_section: {
+                refs: '引用',
                 filter: '筛选',
-                add_relationship: '添加关系',
                 collapse: '全部折叠',
+                add_relationship: '添加关系',
+                relationships: '关系',
+                dependencies: '依赖关系',
                 relationship: {
+                    relationship: '关系',
                     primary: '主表',
                     foreign: '被引用表',
                     cardinality: '基数',
@@ -191,16 +193,8 @@ export const zh_CN: LanguageTranslation = {
                         delete_relationship: '删除',
                     },
                 },
-                empty_state: {
-                    title: '无关系',
-                    description: '创建关系以连接表',
-                },
-            },
-            dependencies_section: {
-                dependencies: '依赖关系',
-                filter: '筛选',
-                collapse: '全部折叠',
                 dependency: {
+                    dependency: '依赖',
                     table: '表',
                     dependent_table: '依赖视图',
                     delete_dependency: '删除',
@@ -210,8 +204,8 @@ export const zh_CN: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: '无依赖',
-                    description: '创建视图以开始',
+                    title: '无关系',
+                    description: '创建关系以开始',
                 },
             },
 
@@ -327,6 +321,12 @@ export const zh_CN: LanguageTranslation = {
             },
             cancel: '取消',
             open: '打开',
+
+            diagram_actions: {
+                open: '打开',
+                duplicate: '复制',
+                delete: '删除图表',
+            },
         },
 
         export_sql_dialog: {
@@ -472,6 +472,7 @@ export const zh_CN: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: '新建表',
+            new_view: '新建视图',
             new_relationship: '新建关系',
             // TODO: Translate
             new_area: 'New Area',
@@ -493,6 +494,9 @@ export const zh_CN: LanguageTranslation = {
         language_select: {
             change_language: '语言',
         },
+
+        on: '开启',
+        off: '关闭',
     },
 };
 

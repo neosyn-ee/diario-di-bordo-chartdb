@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const ar: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'جديد',
+            browse: 'تصفح',
+            tables: 'الجداول',
+            refs: 'المراجع',
+            areas: 'المناطق',
+            dependencies: 'التبعيات',
+            custom_types: 'الأنواع المخصصة',
+        },
         menu: {
-            file: {
-                file: 'ملف',
-                new: 'جديد',
-                open: 'فتح',
+            actions: {
+                actions: 'الإجراءات',
+                new: 'مخطط جديد',
+                browse: 'تصفح...',
                 save: 'حفظ',
                 import: 'استيراد قاعدة بيانات',
                 export_sql: 'SQL تصدير',
                 export_as: 'تصدير كـ',
                 delete_diagram: 'حذف الرسم البياني',
-                exit: 'خروج',
             },
             edit: {
                 edit: 'تحرير',
@@ -29,6 +37,7 @@ export const ar: LanguageTranslation = {
                 hide_field_attributes: 'إخفاء خصائص الحقل',
                 show_field_attributes: 'إظهار خصائص الحقل',
                 zoom_on_scroll: 'تكبير/تصغير عند التمرير',
+                show_views: 'عروض قاعدة البيانات',
                 theme: 'المظهر',
                 show_dependencies: 'إظهار الاعتمادات',
                 hide_dependencies: 'إخفاء الاعتمادات',
@@ -72,15 +81,6 @@ export const ar: LanguageTranslation = {
             cancel: 'إلغاء',
         },
 
-        multiple_schemas_alert: {
-            title: 'مخططات متعددة',
-            description:
-                '{{formattedSchemas}} :مخططات في هذا الرسم البياني. يتم حاليا عرض {{schemasCount}} هناك',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'لا شيء',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'فشل النسخ',
@@ -115,14 +115,11 @@ export const ar: LanguageTranslation = {
         copied: '!تم النسخ',
 
         side_panel: {
-            schema: ':المخطط',
-            filter_by_schema: 'تصفية حسب المخطط',
-            search_schema: '...بحث في المخطط',
-            no_schemas_found: '.لم يتم العثور على مخططات',
             view_all_options: '...عرض جميع الخيارات',
             tables_section: {
                 tables: 'الجداول',
                 add_table: 'إضافة جدول',
+                add_view: 'إضافة عرض',
                 filter: 'تصفية',
                 collapse: 'طي الكل',
                 // TODO: Translate
@@ -148,6 +145,7 @@ export const ar: LanguageTranslation = {
                     field_actions: {
                         title: 'خصائص الحقل',
                         unique: 'فريد',
+                        auto_increment: 'زيادة تلقائية',
                         comments: 'تعليقات',
                         no_comments: 'لا يوجد تعليقات',
                         delete_field: 'حذف الحقل',
@@ -162,6 +160,7 @@ export const ar: LanguageTranslation = {
                         title: 'خصائص الفهرس',
                         name: 'الإسم',
                         unique: 'فريد',
+                        index_type: 'نوع الفهرس',
                         delete_index: 'حذف الفهرس',
                     },
                     table_actions: {
@@ -178,12 +177,15 @@ export const ar: LanguageTranslation = {
                     description: 'أنشئ جدولاً للبدء',
                 },
             },
-            relationships_section: {
-                relationships: 'العلاقات',
+            refs_section: {
+                refs: 'المراجع',
                 filter: 'تصفية',
-                add_relationship: 'إضافة علاقة',
                 collapse: 'طي الكل',
+                add_relationship: 'إضافة علاقة',
+                relationships: 'العلاقات',
+                dependencies: 'الاعتمادات',
                 relationship: {
+                    relationship: 'العلاقة',
                     primary: 'الجدول الأساسي',
                     foreign: 'الجدول المرتبط',
                     cardinality: 'الكاردينالية',
@@ -193,16 +195,8 @@ export const ar: LanguageTranslation = {
                         delete_relationship: 'حذف',
                     },
                 },
-                empty_state: {
-                    title: 'لا توجد علاقات',
-                    description: 'إنشئ علاقة لربط الجداول',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'الاعتمادات',
-                filter: 'تصفية',
-                collapse: 'طي الكل',
                 dependency: {
+                    dependency: 'الاعتماد',
                     table: 'الجدول',
                     dependent_table: 'عرض الاعتمادات',
                     delete_dependency: 'حذف',
@@ -212,8 +206,8 @@ export const ar: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'لا توجد اعتمادات',
-                    description: 'إنشاء اعتماد للبدء',
+                    title: 'لا توجد علاقات',
+                    description: 'إنشاء علاقة للبدء',
                 },
             },
 
@@ -329,6 +323,12 @@ export const ar: LanguageTranslation = {
             },
             cancel: 'إلغاء',
             open: 'فتح',
+
+            diagram_actions: {
+                open: 'فتح',
+                duplicate: 'تكرار',
+                delete: 'حذف الرسم التخطيطي',
+            },
         },
 
         export_sql_dialog: {
@@ -474,6 +474,7 @@ export const ar: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'جدول جديد',
+            new_view: 'عرض جديد',
             new_relationship: 'علاقة جديدة',
             // TODO: Translate
             new_area: 'New Area',
@@ -495,6 +496,8 @@ export const ar: LanguageTranslation = {
         language_select: {
             change_language: 'اللغة',
         },
+        on: 'تشغيل',
+        off: 'إيقاف',
     },
 };
 

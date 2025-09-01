@@ -2,17 +2,25 @@ import type { LanguageMetadata } from '../types';
 
 export const en = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'New',
+            browse: 'Browse',
+            tables: 'Tables',
+            refs: 'Refs',
+            areas: 'Areas',
+            dependencies: 'Dependencies',
+            custom_types: 'Custom Types',
+        },
         menu: {
-            file: {
-                file: 'File',
-                new: 'New',
-                open: 'Open',
+            actions: {
+                actions: 'Actions',
+                new: 'New Diagram',
+                browse: 'Browse...',
                 save: 'Save',
                 import: 'Import',
                 export_sql: 'Export SQL',
                 export_as: 'Export as',
                 delete_diagram: 'Delete Diagram',
-                exit: 'Exit',
             },
             edit: {
                 edit: 'Edit',
@@ -29,6 +37,7 @@ export const en = {
                 hide_field_attributes: 'Hide Field Attributes',
                 show_field_attributes: 'Show Field Attributes',
                 zoom_on_scroll: 'Zoom on Scroll',
+                show_views: 'Database Views',
                 theme: 'Theme',
                 show_dependencies: 'Show Dependencies',
                 hide_dependencies: 'Hide Dependencies',
@@ -71,14 +80,6 @@ export const en = {
             cancel: 'Cancel',
         },
 
-        multiple_schemas_alert: {
-            title: 'Multiple Schemas',
-            description:
-                '{{schemasCount}} schemas in this diagram. Currently displaying: {{formattedSchemas}}.',
-            show_me: 'Show me',
-            none: 'none',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'Copy failed',
@@ -113,14 +114,11 @@ export const en = {
         copied: 'Copied!',
 
         side_panel: {
-            schema: 'Schema:',
-            filter_by_schema: 'Filter by schema',
-            search_schema: 'Search schema...',
-            no_schemas_found: 'No schemas found.',
             view_all_options: 'View all Options...',
             tables_section: {
                 tables: 'Tables',
                 add_table: 'Add Table',
+                add_view: 'Add View',
                 filter: 'Filter',
                 collapse: 'Collapse All',
                 clear: 'Clear Filter',
@@ -144,6 +142,7 @@ export const en = {
                     field_actions: {
                         title: 'Field Attributes',
                         unique: 'Unique',
+                        auto_increment: 'Auto Increment',
                         character_length: 'Max Length',
                         precision: 'Precision',
                         scale: 'Scale',
@@ -157,6 +156,7 @@ export const en = {
                         title: 'Index Attributes',
                         name: 'Name',
                         unique: 'Unique',
+                        index_type: 'Index Type',
                         delete_index: 'Delete Index',
                     },
                     table_actions: {
@@ -173,12 +173,15 @@ export const en = {
                     description: 'Create a table to get started',
                 },
             },
-            relationships_section: {
-                relationships: 'Relationships',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'Filter',
-                add_relationship: 'Add Relationship',
                 collapse: 'Collapse All',
+                add_relationship: 'Add Relationship',
+                relationships: 'Relationships',
+                dependencies: 'Dependencies',
                 relationship: {
+                    relationship: 'Relationship',
                     primary: 'Primary Table',
                     foreign: 'Referenced Table',
                     cardinality: 'Cardinality',
@@ -188,16 +191,8 @@ export const en = {
                         delete_relationship: 'Delete',
                     },
                 },
-                empty_state: {
-                    title: 'No relationships',
-                    description: 'Create a relationship to connect tables',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'Dependencies',
-                filter: 'Filter',
-                collapse: 'Collapse All',
                 dependency: {
+                    dependency: 'Dependency',
                     table: 'Table',
                     dependent_table: 'Dependent View',
                     delete_dependency: 'Delete',
@@ -207,8 +202,8 @@ export const en = {
                     },
                 },
                 empty_state: {
-                    title: 'No dependencies',
-                    description: 'Create a view to get started',
+                    title: 'No relationships',
+                    description: 'Create a relationship to get started',
                 },
             },
 
@@ -321,6 +316,12 @@ export const en = {
             },
             cancel: 'Cancel',
             open: 'Open',
+
+            diagram_actions: {
+                open: 'Open',
+                duplicate: 'Duplicate',
+                delete: 'Delete Diagram',
+            },
         },
 
         export_sql_dialog: {
@@ -468,6 +469,7 @@ export const en = {
 
         canvas_context_menu: {
             new_table: 'New Table',
+            new_view: 'New View',
             new_relationship: 'New Relationship',
             new_area: 'New Area',
         },
@@ -488,6 +490,9 @@ export const en = {
         language_select: {
             change_language: 'Language',
         },
+
+        on: 'On',
+        off: 'Off',
     },
 };
 

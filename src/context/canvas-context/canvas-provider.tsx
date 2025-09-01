@@ -1,27 +1,55 @@
-import React, { type ReactNode, useCallback, useState } from 'react';
+import React, {
+    type ReactNode,
+    useCallback,
+    useState,
+    useEffect,
+    useRef,
+} from 'react';
 import { canvasContext } from './canvas-context';
 import { useChartDB } from '@/hooks/use-chartdb';
-import {
-    adjustTablePositions,
-    shouldShowTablesBySchemaFilter,
-} from '@/lib/domain/db-table';
+import { adjustTablePositions } from '@/lib/domain/db-table';
 import { useReactFlow } from '@xyflow/react';
 import { findOverlappingTables } from '@/pages/editor-page/canvas/canvas-utils';
 import type { Graph } from '@/lib/graph';
 import { createGraph } from '@/lib/graph';
+import { useDiagramFilter } from '../diagram-filter-context/use-diagram-filter';
+import { filterTable } from '@/lib/domain/diagram-filter/filter';
+import { defaultSchemas } from '@/lib/data/default-schemas';
 
 interface CanvasProviderProps {
     children: ReactNode;
 }
 
 export const CanvasProvider = ({ children }: CanvasProviderProps) => {
-    const { tables, relationships, updateTablesState, filteredSchemas } =
-        useChartDB();
+    const {
+        tables,
+        relationships,
+        updateTablesState,
+        databaseType,
+        areas,
+        diagramId,
+    } = useChartDB();
+    const { filter, loading: filterLoading } = useDiagramFilter();
     const { fitView } = useReactFlow();
     const [overlapGraph, setOverlapGraph] =
         useState<Graph<string>>(createGraph());
 
     const [showFilter, setShowFilter] = useState(false);
+    const diagramIdActiveFilterRef = useRef<string>();
+
+    useEffect(() => {
+        if (filterLoading) {
+            return;
+        }
+
+        if (diagramIdActiveFilterRef.current === diagramId) {
+            return;
+        }
+
+        diagramIdActiveFilterRef.current = diagramId;
+
+        setShowFilter(true);
+    }, [filterLoading, diagramId]);
 
     const reorderTables = useCallback(
         (
@@ -32,9 +60,19 @@ export const CanvasProvider = ({ children }: CanvasProviderProps) => {
             const newTables = adjustTablePositions({
                 relationships,
                 tables: tables.filter((table) =>
-                    shouldShowTablesBySchemaFilter(table, filteredSchemas)
+                    filterTable({
+                        table: {
+                            id: table.id,
+                            schema: table.schema,
+                        },
+                        filter,
+                        options: {
+                            defaultSchema: defaultSchemas[databaseType],
+                        },
+                    })
                 ),
-                mode: 'all', // Use 'all' mode for manual reordering
+                areas,
+                mode: 'all',
             });
 
             const updatedOverlapGraph = findOverlappingTables({
@@ -69,7 +107,15 @@ export const CanvasProvider = ({ children }: CanvasProviderProps) => {
                 });
             }, 500);
         },
-        [filteredSchemas, relationships, tables, updateTablesState, fitView]
+        [
+            filter,
+            relationships,
+            tables,
+            updateTablesState,
+            fitView,
+            databaseType,
+            areas,
+        ]
     );
 
     return (

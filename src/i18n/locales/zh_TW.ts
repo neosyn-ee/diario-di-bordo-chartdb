@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const zh_TW: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: '新建',
+            browse: '瀏覽',
+            tables: '表格',
+            refs: 'Refs',
+            areas: '區域',
+            dependencies: '相依性',
+            custom_types: '自定義類型',
+        },
         menu: {
-            file: {
-                file: '檔案',
-                new: '新增',
-                open: '開啟',
+            actions: {
+                actions: '操作',
+                new: '新增圖表',
+                browse: '瀏覽...',
                 save: '儲存',
                 import: '匯入資料庫',
                 export_sql: '匯出 SQL',
                 export_as: '匯出為特定格式',
                 delete_diagram: '刪除圖表',
-                exit: '退出',
             },
             edit: {
                 edit: '編輯',
@@ -29,6 +37,7 @@ export const zh_TW: LanguageTranslation = {
                 hide_field_attributes: '隱藏欄位屬性',
                 show_field_attributes: '顯示欄位屬性',
                 zoom_on_scroll: '滾動縮放',
+                show_views: '資料庫檢視',
                 theme: '主題',
                 show_dependencies: '顯示相依性',
                 hide_dependencies: '隱藏相依性',
@@ -69,15 +78,6 @@ export const zh_TW: LanguageTranslation = {
             cancel: '取消',
         },
 
-        multiple_schemas_alert: {
-            title: '多重 Schema',
-            description:
-                '此圖表中包含 {{schemasCount}} 個 Schema，目前顯示：{{formattedSchemas}}。',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: '無',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: '複製失敗',
@@ -112,14 +112,11 @@ export const zh_TW: LanguageTranslation = {
         copied: '已複製！',
 
         side_panel: {
-            schema: 'Schema:',
-            filter_by_schema: '依 Schema 篩選',
-            search_schema: '搜尋 Schema...',
-            no_schemas_found: '未找到 Schema。',
             view_all_options: '顯示所有選項...',
             tables_section: {
                 tables: '表格',
                 add_table: '新增表格',
+                add_view: '新增檢視',
                 filter: '篩選',
                 collapse: '全部摺疊',
                 // TODO: Translate
@@ -145,6 +142,7 @@ export const zh_TW: LanguageTranslation = {
                     field_actions: {
                         title: '欄位屬性',
                         unique: '唯一',
+                        auto_increment: '自動遞增',
                         comments: '註解',
                         no_comments: '無註解',
                         delete_field: '刪除欄位',
@@ -160,6 +158,7 @@ export const zh_TW: LanguageTranslation = {
                         title: '索引屬性',
                         name: '名稱',
                         unique: '唯一',
+                        index_type: '索引類型',
                         delete_index: '刪除索引',
                     },
                     table_actions: {
@@ -176,12 +175,15 @@ export const zh_TW: LanguageTranslation = {
                     description: '請新增表格以開始',
                 },
             },
-            relationships_section: {
-                relationships: '關聯',
+            refs_section: {
+                refs: 'Refs',
                 filter: '篩選',
-                add_relationship: '新增關聯',
                 collapse: '全部摺疊',
+                add_relationship: '新增關聯',
+                relationships: '關聯',
+                dependencies: '相依性',
                 relationship: {
+                    relationship: '關聯',
                     primary: '主表格',
                     foreign: '參照表格',
                     cardinality: '基數',
@@ -191,16 +193,8 @@ export const zh_TW: LanguageTranslation = {
                         delete_relationship: '刪除',
                     },
                 },
-                empty_state: {
-                    title: '尚無關聯',
-                    description: '請新增關聯以連接表格',
-                },
-            },
-            dependencies_section: {
-                dependencies: '相依性',
-                filter: '篩選',
-                collapse: '全部摺疊',
                 dependency: {
+                    dependency: '相依性',
                     table: '表格',
                     dependent_table: '相依檢視',
                     delete_dependency: '刪除',
@@ -210,8 +204,8 @@ export const zh_TW: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: '尚無相依性',
-                    description: '請建立檢視以開始',
+                    title: '尚無關聯',
+                    description: '請建立關聯以開始',
                 },
             },
 
@@ -326,6 +320,12 @@ export const zh_TW: LanguageTranslation = {
             },
             cancel: '取消',
             open: '開啟',
+
+            diagram_actions: {
+                open: '開啟',
+                duplicate: '複製',
+                delete: '刪除圖表',
+            },
         },
 
         export_sql_dialog: {
@@ -472,6 +472,7 @@ export const zh_TW: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: '新建表格',
+            new_view: '新檢視',
             new_relationship: '新建關聯',
             // TODO: Translate
             new_area: 'New Area',
@@ -493,6 +494,9 @@ export const zh_TW: LanguageTranslation = {
         language_select: {
             change_language: '變更語言',
         },
+
+        on: '開啟',
+        off: '關閉',
     },
 };
 

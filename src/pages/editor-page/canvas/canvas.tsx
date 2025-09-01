@@ -54,10 +54,7 @@ import { Badge } from '@/components/badge/badge';
 import { useTheme } from '@/hooks/use-theme';
 import { useTranslation } from 'react-i18next';
 import type { DBTable } from '@/lib/domain/db-table';
-import {
-    MIN_TABLE_SIZE,
-    shouldShowTablesBySchemaFilter,
-} from '@/lib/domain/db-table';
+import { MIN_TABLE_SIZE } from '@/lib/domain/db-table';
 import { useLocalConfig } from '@/hooks/use-local-config';
 import {
     Tooltip,
@@ -83,7 +80,7 @@ import {
     TARGET_DEP_PREFIX,
     TOP_SOURCE_HANDLE_ID_PREFIX,
 } from './table-node/table-node-dependency-indicator';
-import { DatabaseType } from '@/lib/domain/database-type';
+import type { DatabaseType } from '@/lib/domain/database-type';
 import { useAlert } from '@/context/alert-context/alert-context';
 import { useCanvas } from '@/hooks/use-canvas';
 import type { AreaNodeType } from './area-node/area-node';
@@ -94,6 +91,11 @@ import { CanvasFilter } from './canvas-filter/canvas-filter';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { ShowAllButton } from './show-all-button';
 import { useIsLostInCanvas } from './hooks/use-is-lost-in-canvas';
+import type { DiagramFilter } from '@/lib/domain/diagram-filter/diagram-filter';
+import { useDiagramFilter } from '@/context/diagram-filter-context/use-diagram-filter';
+import { filterTable } from '@/lib/domain/diagram-filter/filter';
+import { defaultSchemas } from '@/lib/data/default-schemas';
+import { useDiff } from '@/context/diff-context/use-diff';
 
 const HIGHLIGHTED_EDGE_Z_INDEX = 1;
 const DEFAULT_EDGE_Z_INDEX = 0;
@@ -119,15 +121,36 @@ const initialEdges: EdgeType[] = [];
 const tableToTableNode = (
     table: DBTable,
     {
-        filteredSchemas,
-        hiddenTableIds,
+        filter,
+        databaseType,
+        filterLoading,
+        showDBViews,
+        forceShow,
     }: {
-        filteredSchemas?: string[];
-        hiddenTableIds?: string[];
+        filter?: DiagramFilter;
+        databaseType: DatabaseType;
+        filterLoading: boolean;
+        showDBViews?: boolean;
+        forceShow?: boolean;
     }
 ): TableNodeType => {
     // Always use absolute position for now
     const position = { x: table.x, y: table.y };
+
+    let hidden = false;
+
+    if (forceShow) {
+        hidden = false;
+    } else {
+        hidden =
+            !filterTable({
+                table: { id: table.id, schema: table.schema },
+                filter,
+                options: { defaultSchema: defaultSchemas[databaseType] },
+            }) ||
+            filterLoading ||
+            (!showDBViews && table.isView);
+    }
 
     return {
         id: table.id,
@@ -138,21 +161,51 @@ const tableToTableNode = (
             isOverlapping: false,
         },
         width: table.width ?? MIN_TABLE_SIZE,
-        hidden:
-            !shouldShowTablesBySchemaFilter(table, filteredSchemas) ||
-            (hiddenTableIds?.includes(table.id) ?? false),
+        hidden,
     };
 };
 
-const areaToAreaNode = (area: Area): AreaNodeType => ({
-    id: area.id,
-    type: 'area',
-    position: { x: area.x, y: area.y },
-    data: { area },
-    width: area.width,
-    height: area.height,
-    zIndex: -10,
-});
+const areaToAreaNode = (
+    area: Area,
+    {
+        tables,
+        filter,
+        databaseType,
+        filterLoading,
+    }: {
+        tables: DBTable[];
+        filter?: DiagramFilter;
+        databaseType: DatabaseType;
+        filterLoading: boolean;
+    }
+): AreaNodeType => {
+    // Get all tables in this area
+    const tablesInArea = tables.filter((t) => t.parentAreaId === area.id);
+
+    // Check if at least one table in the area is visible
+    const hasVisibleTable =
+        tablesInArea.length === 0 ||
+        tablesInArea.some((table) =>
+            filterTable({
+                table: { id: table.id, schema: table.schema },
+                filter,
+                options: {
+                    defaultSchema: defaultSchemas[databaseType],
+                },
+            })
+        );
+
+    return {
+        id: area.id,
+        type: 'area',
+        position: { x: area.x, y: area.y },
+        data: { area },
+        width: area.width,
+        height: area.height,
+        zIndex: -10,
+        hidden: !hasVisibleTable || filterLoading,
+    };
+};
 
 export interface CanvasProps {
     initialTables: DBTable[];
@@ -178,7 +231,6 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
         removeDependencies,
         getField,
         databaseType,
-        filteredSchemas,
         events,
         dependencies,
         readonly,
@@ -186,12 +238,10 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
         updateArea,
         highlightedCustomType,
         highlightCustomTypeId,
-        hiddenTableIds,
     } = useChartDB();
     const { showSidePanel } = useLayout();
     const { effectiveTheme } = useTheme();
-    const { scrollAction, showDependenciesOnCanvas, showMiniMapOnCanvas } =
-        useLocalConfig();
+    const { scrollAction, showDBViews, showMiniMapOnCanvas } = useLocalConfig();
     const { showAlert } = useAlert();
     const { isMd: isDesktop } = useBreakpoint('md');
     const [highlightOverlappingTables, setHighlightOverlappingTables] =
@@ -204,12 +254,27 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
         showFilter,
         setShowFilter,
     } = useCanvas();
+    const { filter, loading: filterLoading } = useDiagramFilter();
+    const { checkIfNewTable } = useDiff();
+
+    const shouldForceShowTable = useCallback(
+        (tableId: string) => {
+            return checkIfNewTable({ tableId });
+        },
+        [checkIfNewTable]
+    );
 
     const [isInitialLoadingNodes, setIsInitialLoadingNodes] = useState(true);
 
     const [nodes, setNodes, onNodesChange] = useNodesState<NodeType>(
         initialTables.map((table) =>
-            tableToTableNode(table, { filteredSchemas, hiddenTableIds })
+            tableToTableNode(table, {
+                filter,
+                databaseType,
+                filterLoading,
+                showDBViews,
+                forceShow: shouldForceShowTable(table.id),
+            })
         )
     );
     const [edges, setEdges, onEdgesChange] =
@@ -223,12 +288,26 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
 
     useEffect(() => {
         const initialNodes = initialTables.map((table) =>
-            tableToTableNode(table, { filteredSchemas, hiddenTableIds })
+            tableToTableNode(table, {
+                filter,
+                databaseType,
+                filterLoading,
+                showDBViews,
+                forceShow: shouldForceShowTable(table.id),
+            })
         );
         if (equal(initialNodes, nodes)) {
             setIsInitialLoadingNodes(false);
         }
-    }, [initialTables, nodes, filteredSchemas, hiddenTableIds]);
+    }, [
+        initialTables,
+        nodes,
+        filter,
+        databaseType,
+        filterLoading,
+        showDBViews,
+        shouldForceShowTable,
+    ]);
 
     useEffect(() => {
         if (!isInitialLoadingNodes) {
@@ -282,19 +361,11 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                     targetHandle: `${TARGET_DEP_PREFIX}${targetDepIndexes[dep.tableId]++}_${dep.tableId}`,
                     type: 'dependency-edge',
                     data: { dependency: dep },
-                    hidden:
-                        !showDependenciesOnCanvas &&
-                        databaseType !== DatabaseType.CLICKHOUSE,
+                    hidden: !showDBViews,
                 })
             ),
         ]);
-    }, [
-        relationships,
-        dependencies,
-        setEdges,
-        showDependenciesOnCanvas,
-        databaseType,
-    ]);
+    }, [relationships, dependencies, setEdges, showDBViews]);
 
     useEffect(() => {
         const selectedNodesIds = nodes
@@ -392,8 +463,11 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                     const isOverlapping =
                         (overlapGraph.graph.get(table.id) ?? []).length > 0;
                     const node = tableToTableNode(table, {
-                        filteredSchemas,
-                        hiddenTableIds,
+                        filter,
+                        databaseType,
+                        filterLoading,
+                        showDBViews,
+                        forceShow: shouldForceShowTable(table.id),
                     });
 
                     // Check if table uses the highlighted custom type
@@ -415,7 +489,14 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                         },
                     };
                 }),
-                ...areas.map(areaToAreaNode),
+                ...areas.map((area) =>
+                    areaToAreaNode(area, {
+                        tables,
+                        filter,
+                        databaseType,
+                        filterLoading,
+                    })
+                ),
             ];
 
             // Check if nodes actually changed
@@ -429,21 +510,33 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
         tables,
         areas,
         setNodes,
-        filteredSchemas,
-        hiddenTableIds,
+        filter,
+        databaseType,
         overlapGraph.lastUpdated,
         overlapGraph.graph,
         highlightOverlappingTables,
         highlightedCustomType,
+        filterLoading,
+        showDBViews,
+        shouldForceShowTable,
     ]);
 
-    const prevFilteredSchemas = useRef<string[] | undefined>(undefined);
+    const prevFilter = useRef<DiagramFilter | undefined>(undefined);
     useEffect(() => {
-        if (!equal(filteredSchemas, prevFilteredSchemas.current)) {
+        if (!equal(filter, prevFilter.current)) {
             debounce(() => {
                 const overlappingTablesInDiagram = findOverlappingTables({
                     tables: tables.filter((table) =>
-                        shouldShowTablesBySchemaFilter(table, filteredSchemas)
+                        filterTable({
+                            table: {
+                                id: table.id,
+                                schema: table.schema,
+                            },
+                            filter,
+                            options: {
+                                defaultSchema: defaultSchemas[databaseType],
+                            },
+                        })
                     ),
                 });
                 setOverlapGraph(overlappingTablesInDiagram);
@@ -453,28 +546,33 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                     maxZoom: 0.8,
                 });
             }, 500)();
-            prevFilteredSchemas.current = filteredSchemas;
+            prevFilter.current = filter;
         }
-    }, [filteredSchemas, fitView, tables, setOverlapGraph]);
-
-    // Handle parent area updates when tables move
-    const tablePositions = useMemo(
-        () => tables.map((t) => ({ id: t.id, x: t.x, y: t.y })),
-        [tables]
-    );
+    }, [filter, fitView, tables, setOverlapGraph, databaseType]);
 
     useEffect(() => {
         const checkParentAreas = debounce(() => {
-            const updatedTables = updateTablesParentAreas(tables, areas);
+            const visibleTables = nodes
+                .filter((node) => node.type === 'table' && !node.hidden)
+                .map((node) => (node as TableNodeType).data.table);
+            const visibleAreas = nodes
+                .filter((node) => node.type === 'area' && !node.hidden)
+                .map((node) => (node as AreaNodeType).data.area);
+
+            const updatedTables = updateTablesParentAreas(
+                visibleTables,
+                visibleAreas
+            );
             const needsUpdate: Array<{
                 id: string;
                 parentAreaId: string | null;
             }> = [];
 
             updatedTables.forEach((newTable, index) => {
-                const oldTable = tables[index];
+                const oldTable = visibleTables[index];
                 if (
                     oldTable &&
+                    (!!newTable.parentAreaId || !!oldTable.parentAreaId) &&
                     newTable.parentAreaId !== oldTable.parentAreaId
                 ) {
                     needsUpdate.push({
@@ -505,7 +603,7 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
         }, 300);
 
         checkParentAreas();
-    }, [tablePositions, areas, updateTablesState, tables]);
+    }, [nodes, updateTablesState]);
 
     const onConnectHandler = useCallback(
         async (params: AddEdgeParams) => {
@@ -788,26 +886,87 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                 changesToApply = [...changesToApply, ...additionalChanges];
             }
 
-            // Handle table changes - only update storage when NOT dragging
+            // First, detect area changes
+            const {
+                positionChanges: areaPositionChanges,
+                removeChanges: areaRemoveChanges,
+                sizeChanges: areaSizeChanges,
+            } = findRelevantNodesChanges(changesToApply, 'area');
+
+            // Then, detect table changes
             const { positionChanges, removeChanges, sizeChanges } =
                 findRelevantNodesChanges(changesToApply, 'table');
 
+            // Calculate child table movements from area position changes
+            const childTableMovements: Map<
+                string,
+                { deltaX: number; deltaY: number }
+            > = new Map();
+            if (
+                areaPositionChanges.length > 0 &&
+                areaSizeChanges.length === 0
+            ) {
+                areaPositionChanges.forEach((change) => {
+                    if (change.type === 'position' && change.position) {
+                        const currentArea = areas.find(
+                            (a) => a.id === change.id
+                        );
+                        if (currentArea) {
+                            const deltaX = change.position.x - currentArea.x;
+                            const deltaY = change.position.y - currentArea.y;
+
+                            const childTables = getTablesInArea(
+                                change.id,
+                                tables
+                            );
+                            childTables.forEach((table) => {
+                                childTableMovements.set(table.id, {
+                                    deltaX,
+                                    deltaY,
+                                });
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Apply all table updates in a single call
             if (
                 positionChanges.length > 0 ||
                 removeChanges.length > 0 ||
-                sizeChanges.length > 0
+                sizeChanges.length > 0 ||
+                childTableMovements.size > 0 ||
+                areaRemoveChanges.length > 0
             ) {
                 updateTablesState((currentTables) => {
-                    // First update positions
                     const updatedTables = currentTables
                         .map((currentTable) => {
+                            // Handle area removal - clear parentAreaId
+                            const removedArea = areaRemoveChanges.find(
+                                (change) =>
+                                    change.id === currentTable.parentAreaId
+                            );
+                            if (removedArea) {
+                                return {
+                                    ...currentTable,
+                                    parentAreaId: null,
+                                };
+                            }
+
+                            // Handle direct table changes
                             const positionChange = positionChanges.find(
                                 (change) => change.id === currentTable.id
                             );
                             const sizeChange = sizeChanges.find(
                                 (change) => change.id === currentTable.id
                             );
-                            if (positionChange || sizeChange) {
+
+                            // Handle child table movement from area drag
+                            const areaMovement = childTableMovements.get(
+                                currentTable.id
+                            );
+
+                            if (positionChange || sizeChange || areaMovement) {
                                 const x = positionChange?.position?.x;
                                 const y = positionChange?.position?.y;
 
@@ -821,6 +980,16 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                                         ? {
                                               x,
                                               y,
+                                          }
+                                        : {}),
+                                    ...(areaMovement && !positionChange
+                                        ? {
+                                              x:
+                                                  currentTable.x +
+                                                  areaMovement.deltaX,
+                                              y:
+                                                  currentTable.y +
+                                                  areaMovement.deltaY,
                                           }
                                         : {}),
                                     ...(sizeChange
@@ -851,20 +1020,13 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                 sizeChanges,
             });
 
-            // Handle area changes
-            const {
-                positionChanges: areaPositionChanges,
-                removeChanges: areaRemoveChanges,
-                sizeChanges: areaSizeChanges,
-            } = findRelevantNodesChanges(changesToApply, 'area');
-
             if (
                 areaPositionChanges.length > 0 ||
                 areaRemoveChanges.length > 0 ||
                 areaSizeChanges.length > 0
             ) {
                 const areasUpdates: Record<string, Partial<Area>> = {};
-                // Handle area position changes and move child tables (only when drag ends)
+                // Handle area position changes (child tables already moved above)
                 areaPositionChanges.forEach((change) => {
                     if (change.type === 'position' && change.position) {
                         areasUpdates[change.id] = {
@@ -872,39 +1034,6 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                             x: change.position.x,
                             y: change.position.y,
                         };
-
-                        if (areaSizeChanges.length !== 0) {
-                            // If there are size changes, we don't need to move child tables
-                            return;
-                        }
-                        const currentArea = areas.find(
-                            (a) => a.id === change.id
-                        );
-                        if (currentArea) {
-                            const deltaX = change.position.x - currentArea.x;
-                            const deltaY = change.position.y - currentArea.y;
-
-                            const childTables = getTablesInArea(
-                                change.id,
-                                tables
-                            );
-
-                            // Update child table positions in storage
-                            if (childTables.length > 0) {
-                                updateTablesState((currentTables) =>
-                                    currentTables.map((table) => {
-                                        if (table.parentAreaId === change.id) {
-                                            return {
-                                                id: table.id,
-                                                x: table.x + deltaX,
-                                                y: table.y + deltaY,
-                                            };
-                                        }
-                                        return table;
-                                    })
-                                );
-                            }
-                        }
                     }
                 });
 
@@ -919,20 +1048,9 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                     }
                 });
 
+                // Handle area removal (child tables parentAreaId already cleared above)
                 areaRemoveChanges.forEach((change) => {
-                    updateTablesState((currentTables) =>
-                        currentTables.map((table) => {
-                            if (table.parentAreaId === change.id) {
-                                return {
-                                    ...table,
-                                    parentAreaId: null,
-                                };
-                            }
-                            return table;
-                        })
-                    );
                     removeArea(change.id);
-
                     delete areasUpdates[change.id];
                 });
 
@@ -1012,6 +1130,21 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                     overlapGraph
                 );
                 setOverlapGraph(newOverlappingGraph);
+
+                setTimeout(() => {
+                    setNodes((prevNodes) =>
+                        prevNodes.map((n) => {
+                            if (n.id === event.data.id) {
+                                return {
+                                    ...n,
+                                    measured,
+                                };
+                            }
+
+                            return n;
+                        })
+                    );
+                }, 0);
             } else if (
                 event.action === 'add_field' ||
                 event.action === 'remove_field'
@@ -1045,13 +1178,30 @@ export const Canvas: React.FC<CanvasProps> = ({ initialTables }) => {
                 const diagramTables = event.data.diagram.tables ?? [];
                 const overlappingTablesInDiagram = findOverlappingTables({
                     tables: diagramTables.filter((table) =>
-                        shouldShowTablesBySchemaFilter(table, filteredSchemas)
+                        filterTable({
+                            table: {
+                                id: table.id,
+                                schema: table.schema,
+                            },
+                            filter,
+                            options: {
+                                defaultSchema: defaultSchemas[databaseType],
+                            },
+                        })
                     ),
                 });
                 setOverlapGraph(overlappingTablesInDiagram);
             }
         },
-        [overlapGraph, setOverlapGraph, getNode, nodes, filteredSchemas]
+        [
+            overlapGraph,
+            setOverlapGraph,
+            getNode,
+            nodes,
+            filter,
+            setNodes,
+            databaseType,
+        ]
     );
 
     events.useSubscription(eventConsumer);

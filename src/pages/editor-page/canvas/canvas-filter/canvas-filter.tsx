@@ -5,136 +5,101 @@ import React, {
     useEffect,
     useRef,
 } from 'react';
-import { X, Search, Eye, EyeOff, Database, Table, Funnel } from 'lucide-react';
+import { X, Search, Database, Table, Funnel, Box } from 'lucide-react';
 import { useChartDB } from '@/hooks/use-chartdb';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/button/button';
 import { Input } from '@/components/input/input';
-import { shouldShowTableSchemaBySchemaFilter } from '@/lib/domain/db-table';
-import { schemaNameToSchemaId } from '@/lib/domain/db-schema';
-import { defaultSchemas } from '@/lib/data/default-schemas';
 import { useReactFlow } from '@xyflow/react';
 import { TreeView } from '@/components/tree-view/tree-view';
 import type { TreeNode } from '@/components/tree-view/tree';
 import { ScrollArea } from '@/components/scroll-area/scroll-area';
+import { useDiagramFilter } from '@/context/diagram-filter-context/use-diagram-filter';
+import { ToggleGroup, ToggleGroupItem } from '@/components/toggle/toggle-group';
+import type {
+    GroupingMode,
+    NodeContext,
+    NodeType,
+    RelevantTableData,
+    TableContext,
+} from './types';
+import { generateTreeDataByAreas, generateTreeDataBySchemas } from './utils';
+import { FilterItemActions } from './filter-item-actions';
+import { databasesWithSchemas } from '@/lib/domain';
+import { getOperatingSystem } from '@/lib/utils';
+import { useLocalConfig } from '@/hooks/use-local-config';
+import { useDiff } from '@/context/diff-context/use-diff';
 
 export interface CanvasFilterProps {
     onClose: () => void;
 }
 
-type NodeType = 'schema' | 'table';
-
-type SchemaContext = { name: string };
-type TableContext = {
-    tableSchema?: string | null;
-    hidden: boolean;
-};
-
-type NodeContext = {
-    schema: SchemaContext;
-    table: TableContext;
-};
-
-type RelevantTableData = {
-    id: string;
-    name: string;
-    schema?: string | null;
-};
-
 export const CanvasFilter: React.FC<CanvasFilterProps> = ({ onClose }) => {
     const { t } = useTranslation();
+    const { tables, databaseType, areas } = useChartDB();
+    const { checkIfNewTable } = useDiff();
     const {
-        tables,
-        databaseType,
-        hiddenTableIds,
-        addHiddenTableId,
-        removeHiddenTableId,
-        filteredSchemas,
-        filterSchemas,
-    } = useChartDB();
+        filter,
+        toggleSchemaFilter,
+        toggleTableFilter,
+        clearTableIdsFilter,
+        setTableIdsFilterEmpty,
+        addTablesToFilter,
+        removeTablesFromFilter,
+    } = useDiagramFilter();
     const { fitView, setNodes } = useReactFlow();
     const [searchQuery, setSearchQuery] = useState('');
     const [expanded, setExpanded] = useState<Record<string, boolean>>({});
     const [isFilterVisible, setIsFilterVisible] = useState(false);
+    const [groupingMode, setGroupingMode] = useState<GroupingMode>('schema');
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const { showDBViews } = useLocalConfig();
 
     // Extract only the properties needed for tree data
     const relevantTableData = useMemo<RelevantTableData[]>(
         () =>
-            tables.map((table) => ({
-                id: table.id,
-                name: table.name,
-                schema: table.schema,
-            })),
-        [tables]
+            tables
+                .filter((table) => (showDBViews ? true : !table.isView))
+                .filter((table) => !checkIfNewTable({ tableId: table.id }))
+                .map((table) => ({
+                    id: table.id,
+                    name: table.name,
+                    schema: table.schema,
+                    parentAreaId: table.parentAreaId,
+                })),
+        [tables, showDBViews, checkIfNewTable]
+    );
+
+    const databaseWithSchemas = useMemo(
+        () => databasesWithSchemas.includes(databaseType),
+        [databaseType]
     );
 
     // Convert tables to tree nodes
     const treeData = useMemo(() => {
-        // Group tables by schema
-        const tablesBySchema = new Map<string, RelevantTableData[]>();
-
-        relevantTableData.forEach((table) => {
-            const schema =
-                table.schema ?? defaultSchemas[databaseType] ?? 'default';
-            if (!tablesBySchema.has(schema)) {
-                tablesBySchema.set(schema, []);
-            }
-            tablesBySchema.get(schema)!.push(table);
-        });
-
-        // Sort tables within each schema
-        tablesBySchema.forEach((tables) => {
-            tables.sort((a, b) => a.name.localeCompare(b.name));
-        });
-
-        // Convert to tree nodes
-        const nodes: TreeNode<NodeType, NodeContext>[] = [];
-
-        tablesBySchema.forEach((schemaTables, schemaName) => {
-            const schemaId = schemaNameToSchemaId(schemaName);
-            const schemaHidden = filteredSchemas
-                ? !filteredSchemas.includes(schemaId)
-                : false;
-            const schemaNode: TreeNode<NodeType, NodeContext> = {
-                id: `schema-${schemaName}`,
-                name: `${schemaName} (${schemaTables.length})`,
-                type: 'schema',
-                isFolder: true,
-                icon: Database,
-                context: { name: schemaName },
-                className: schemaHidden ? 'opacity-50' : '',
-                children: schemaTables.map(
-                    (table): TreeNode<NodeType, NodeContext> => {
-                        const tableHidden =
-                            hiddenTableIds?.includes(table.id) ?? false;
-                        const visibleBySchema =
-                            shouldShowTableSchemaBySchemaFilter({
-                                tableSchema: table.schema,
-                                filteredSchemas,
-                            });
-                        const hidden = tableHidden || !visibleBySchema;
-
-                        return {
-                            id: table.id,
-                            name: table.name,
-                            type: 'table',
-                            isFolder: false,
-                            icon: Table,
-                            context: {
-                                tableSchema: table.schema,
-                                hidden: tableHidden,
-                            },
-                            className: hidden ? 'opacity-50' : '',
-                        };
-                    }
-                ),
-            };
-            nodes.push(schemaNode);
-        });
-
-        return nodes;
-    }, [relevantTableData, databaseType, hiddenTableIds, filteredSchemas]);
+        if (groupingMode === 'area') {
+            return generateTreeDataByAreas({
+                areas,
+                databaseType,
+                filter,
+                relevantTableData,
+            });
+        } else {
+            return generateTreeDataBySchemas({
+                relevantTableData,
+                databaseWithSchemas,
+                databaseType,
+                filter,
+            });
+        }
+    }, [
+        relevantTableData,
+        databaseType,
+        filter,
+        databaseWithSchemas,
+        groupingMode,
+        areas,
+    ]);
 
     // Initialize expanded state with all schemas expanded
     useMemo(() => {
@@ -170,15 +135,29 @@ export const CanvasFilter: React.FC<CanvasFilterProps> = ({ onClose }) => {
         return result;
     }, [treeData, searchQuery]);
 
-    const toggleTableVisibility = useCallback(
-        async (tableId: string, hidden: boolean) => {
-            if (hidden) {
-                await addHiddenTableId(tableId);
-            } else {
-                await removeHiddenTableId(tableId);
-            }
-        },
-        [addHiddenTableId, removeHiddenTableId]
+    // Render actions with proper memoization for performance
+    const renderActions = useCallback(
+        (node: TreeNode<NodeType, NodeContext>) => (
+            <FilterItemActions
+                node={node}
+                databaseWithSchemas={databaseWithSchemas}
+                toggleSchemaFilter={toggleSchemaFilter}
+                toggleTableFilter={toggleTableFilter}
+                clearTableIdsFilter={clearTableIdsFilter}
+                setTableIdsFilterEmpty={setTableIdsFilterEmpty}
+                addTablesToFilter={addTablesToFilter}
+                removeTablesFromFilter={removeTablesFromFilter}
+            />
+        ),
+        [
+            databaseWithSchemas,
+            toggleSchemaFilter,
+            toggleTableFilter,
+            clearTableIdsFilter,
+            setTableIdsFilterEmpty,
+            addTablesToFilter,
+            removeTablesFromFilter,
+        ]
     );
 
     const focusOnTable = useCallback(
@@ -216,141 +195,20 @@ export const CanvasFilter: React.FC<CanvasFilterProps> = ({ onClose }) => {
         [fitView, setNodes]
     );
 
-    // Render component that's always visible (eye indicator)
-    const renderActions = useCallback(
-        (node: TreeNode<NodeType, NodeContext>) => {
-            if (node.type === 'schema') {
-                const schemaContext = node.context as SchemaContext;
-                const schemaId = schemaNameToSchemaId(schemaContext.name);
-                const schemaHidden = filteredSchemas
-                    ? !filteredSchemas.includes(schemaId)
-                    : false;
-
-                return (
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="size-7 h-fit p-0"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            // unhide all tables in this schema
-                            node.children?.forEach((child) => {
-                                if (
-                                    child.type === 'table' &&
-                                    hiddenTableIds?.includes(child.id)
-                                ) {
-                                    removeHiddenTableId(child.id);
-                                }
-                            });
-                            if (schemaHidden) {
-                                filterSchemas([
-                                    ...(filteredSchemas ?? []),
-                                    schemaId,
-                                ]);
-                            } else {
-                                filterSchemas(
-                                    filteredSchemas?.filter(
-                                        (s) => s !== schemaId
-                                    ) ?? []
-                                );
-                            }
-                        }}
-                    >
-                        {schemaHidden ? (
-                            <EyeOff className="size-3.5 text-muted-foreground" />
-                        ) : (
-                            <Eye className="size-3.5" />
-                        )}
-                    </Button>
-                );
-            }
-
-            if (node.type === 'table') {
-                const tableId = node.id;
-                const tableContext = node.context as TableContext;
-                const hidden = tableContext.hidden;
-                const tableSchema = tableContext.tableSchema;
-
-                const visibleBySchema = shouldShowTableSchemaBySchemaFilter({
-                    tableSchema,
-                    filteredSchemas,
-                });
-
-                return (
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="size-7 h-fit p-0"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            if (!visibleBySchema && tableSchema) {
-                                // Unhide schema and hide all other tables
-                                const schemaId =
-                                    schemaNameToSchemaId(tableSchema);
-                                filterSchemas([
-                                    ...(filteredSchemas ?? []),
-                                    schemaId,
-                                ]);
-                                const schemaNode = treeData.find(
-                                    (s) =>
-                                        (s.context as SchemaContext).name ===
-                                        tableSchema
-                                );
-                                if (schemaNode) {
-                                    schemaNode.children?.forEach((child) => {
-                                        if (
-                                            child.id !== tableId &&
-                                            !hiddenTableIds?.includes(child.id)
-                                        ) {
-                                            addHiddenTableId(child.id);
-                                        }
-                                    });
-                                }
-                            } else {
-                                toggleTableVisibility(tableId, !hidden);
-                            }
-                        }}
-                    >
-                        {hidden || !visibleBySchema ? (
-                            <EyeOff className="size-3.5 text-muted-foreground" />
-                        ) : (
-                            <Eye className="size-3.5" />
-                        )}
-                    </Button>
-                );
-            }
-
-            return null;
-        },
-        [
-            toggleTableVisibility,
-            filteredSchemas,
-            filterSchemas,
-            treeData,
-            hiddenTableIds,
-            addHiddenTableId,
-            removeHiddenTableId,
-        ]
-    );
-
     // Handle node click
     const handleNodeClick = useCallback(
         (node: TreeNode<NodeType, NodeContext>) => {
             if (node.type === 'table') {
-                const tableContext = node.context as TableContext;
-                const tableSchema = tableContext.tableSchema;
-                const visibleBySchema = shouldShowTableSchemaBySchemaFilter({
-                    tableSchema,
-                    filteredSchemas,
-                });
+                const context = node.context as TableContext;
+                const isTableVisible = context.visible;
 
-                // Only focus if neither table is hidden nor filtered by schema
-                if (!tableContext.hidden && visibleBySchema) {
+                // Only focus if table is visible
+                if (isTableVisible) {
                     focusOnTable(node.id);
                 }
             }
         },
-        [focusOnTable, filteredSchemas]
+        [focusOnTable]
     );
 
     // Animate in on mount and focus search input
@@ -361,6 +219,11 @@ export const CanvasFilter: React.FC<CanvasFilterProps> = ({ onClose }) => {
             searchInputRef.current?.focus();
         }, 300);
     }, []);
+
+    const openFilterShortcut = useMemo(
+        () => (getOperatingSystem() === 'mac' ? '⌘' : 'Ctrl+') + 'F',
+        []
+    );
 
     return (
         <div
@@ -375,8 +238,11 @@ export const CanvasFilter: React.FC<CanvasFilterProps> = ({ onClose }) => {
                 <div className="flex items-center gap-2">
                     <Funnel className="size-3.5 text-muted-foreground md:size-4" />
                     <h2 className="text-sm font-medium">
-                        {t('canvas_filter.title', 'Filter Tables')}
+                        {t('canvas_filter.title', 'Filter Tables')}{' '}
                     </h2>
+                    <span className="text-xs text-muted-foreground">
+                        ({openFilterShortcut})
+                    </span>
                 </div>
                 <Button
                     variant="ghost"
@@ -405,13 +271,34 @@ export const CanvasFilter: React.FC<CanvasFilterProps> = ({ onClose }) => {
                 </div>
             </div>
 
+            {/* Grouping Toggle */}
+            <div className="border-b p-2">
+                <ToggleGroup
+                    type="single"
+                    value={groupingMode}
+                    onValueChange={(value) => {
+                        if (value) setGroupingMode(value as GroupingMode);
+                    }}
+                    className="w-full"
+                >
+                    <ToggleGroupItem value="schema" className="flex-1 text-xs">
+                        <Database className="mr-1.5 size-3.5" />
+                        {t('canvas_filter.group_by_schema', 'Group by Schema')}
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="area" className="flex-1 text-xs">
+                        <Box className="mr-1.5 size-3.5" />
+                        {t('canvas_filter.group_by_area', 'Group by Area')}
+                    </ToggleGroupItem>
+                </ToggleGroup>
+            </div>
+
             {/* Table Tree */}
             <ScrollArea className="flex-1 rounded-b-lg" type="auto">
                 <TreeView
                     data={filteredTreeData}
                     onNodeClick={handleNodeClick}
                     renderActionsComponent={renderActions}
-                    defaultFolderIcon={Database}
+                    defaultFolderIcon={groupingMode === 'area' ? Box : Database}
                     defaultIcon={Table}
                     expanded={expanded}
                     setExpanded={setExpanded}

@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const te: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'కొత్తది',
+            browse: 'బ్రాఉజ్',
+            tables: 'టేబల్లు',
+            refs: 'సంబంధాలు',
+            areas: 'ప్రదేశాలు',
+            dependencies: 'ఆధారతలు',
+            custom_types: 'కస్టమ్ టైప్స్',
+        },
         menu: {
-            file: {
-                file: 'ఫైల్',
-                new: 'కొత్తది',
-                open: 'తెరవు',
+            actions: {
+                actions: 'చర్యలు',
+                new: 'కొత్త డైగ్రాం',
+                browse: 'బ్రాఉజ్ చేయండి...',
                 save: 'సేవ్',
                 import: 'డేటాబేస్‌ను దిగుమతి చేసుకోండి',
                 export_sql: 'SQL ఎగుమతి',
                 export_as: 'వగా ఎగుమతి చేయండి',
                 delete_diagram: 'చిత్రాన్ని తొలగించండి',
-                exit: 'నిష్క్రమించు',
             },
             edit: {
                 edit: 'సవరించు',
@@ -29,6 +37,7 @@ export const te: LanguageTranslation = {
                 show_field_attributes: 'ఫీల్డ్ గుణాలను చూపించు',
                 hide_field_attributes: 'ఫీల్డ్ గుణాలను దాచండి',
                 zoom_on_scroll: 'స్క్రోల్‌పై జూమ్',
+                show_views: 'డేటాబేస్ వ్యూలు',
                 theme: 'థీమ్',
                 show_dependencies: 'ఆధారాలు చూపించండి',
                 hide_dependencies: 'ఆధారాలను దాచండి',
@@ -73,15 +82,6 @@ export const te: LanguageTranslation = {
             cancel: 'రద్దు',
         },
 
-        multiple_schemas_alert: {
-            title: 'బహుళ స్కీమాలు',
-            description:
-                '{{schemasCount}} స్కీమాలు ఈ చిత్రంలో ఉన్నాయి. ప్రస్తుత స్కీమాలు: {{formattedSchemas}}.',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'ఎదరికాదు',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'కాపీ విఫలమైంది',
@@ -116,14 +116,11 @@ export const te: LanguageTranslation = {
         copied: 'కాపీ చేయబడింది!',
 
         side_panel: {
-            schema: 'స్కీమా:',
-            filter_by_schema: 'స్కీమా ద్వారా ఫిల్టర్ చేయండి',
-            search_schema: 'స్కీమా కోసం శోధించండి...',
-            no_schemas_found: 'ఏ స్కీమాలు కూడా కనుగొనబడలేదు.',
             view_all_options: 'అన్ని ఎంపికలను చూడండి...',
             tables_section: {
                 tables: 'పట్టికలు',
                 add_table: 'పట్టికను జోడించు',
+                add_view: 'వ్యూ జోడించండి',
                 filter: 'ఫిల్టర్',
                 collapse: 'అన్ని కూల్ చేయి',
                 // TODO: Translate
@@ -149,6 +146,7 @@ export const te: LanguageTranslation = {
                     field_actions: {
                         title: 'ఫీల్డ్ గుణాలు',
                         unique: 'అద్వితీయ',
+                        auto_increment: 'ఆటో ఇంక్రిమెంట్',
                         comments: 'వ్యాఖ్యలు',
                         no_comments: 'వ్యాఖ్యలు లేవు',
                         delete_field: 'ఫీల్డ్ తొలగించు',
@@ -164,6 +162,7 @@ export const te: LanguageTranslation = {
                         title: 'ఇండెక్స్ గుణాలు',
                         name: 'పేరు',
                         unique: 'అద్వితీయ',
+                        index_type: 'ఇండెక్స్ రకం',
                         delete_index: 'ఇండెక్స్ తొలగించు',
                     },
                     table_actions: {
@@ -181,12 +180,15 @@ export const te: LanguageTranslation = {
                     description: 'ప్రారంభించడానికి ఒక పట్టిక సృష్టించండి',
                 },
             },
-            relationships_section: {
-                relationships: 'సంబంధాలు',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'ఫిల్టర్',
-                add_relationship: 'సంబంధం జోడించు',
                 collapse: 'అన్ని కూల్ చేయి',
+                add_relationship: 'సంబంధం జోడించు',
+                relationships: 'సంబంధాలు',
+                dependencies: 'ఆధారాలు',
                 relationship: {
+                    relationship: 'సంబంధం',
                     primary: 'ప్రాథమిక పట్టిక',
                     foreign: 'సూచించబడిన పట్టిక',
                     cardinality: 'కార్డినాలిటీ',
@@ -196,16 +198,8 @@ export const te: LanguageTranslation = {
                         delete_relationship: 'సంబంధం తొలగించు',
                     },
                 },
-                empty_state: {
-                    title: 'సంబంధాలు లేవు',
-                    description: 'పట్టికలను అనుసంధించడానికి సంబంధం సృష్టించండి',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'ఆధారాలు',
-                filter: 'ఫిల్టర్',
-                collapse: 'అన్ని కూల్ చేయి',
                 dependency: {
+                    dependency: 'ఆధారం',
                     table: 'పట్టిక',
                     dependent_table: 'ఆధారిత వీక్షణ',
                     delete_dependency: 'ఆధారాన్ని తొలగించు',
@@ -215,8 +209,8 @@ export const te: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'ఆధారాలు లేవు',
-                    description: 'ప్రారంభించడానికి ఒక వీక్షణ సృష్టించండి',
+                    title: 'సంబంధాలు లేవు',
+                    description: 'ప్రారంభించడానికి ఒక సంబంధం సృష్టించండి',
                 },
             },
 
@@ -333,6 +327,12 @@ export const te: LanguageTranslation = {
             },
             cancel: 'రద్దు',
             open: 'తెరవు',
+
+            diagram_actions: {
+                open: 'తెరవు',
+                duplicate: 'నకలు',
+                delete: 'డైగ్రామ్ తొలగించు',
+            },
         },
 
         export_sql_dialog: {
@@ -485,6 +485,7 @@ export const te: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'కొత్త పట్టిక',
+            new_view: 'కొత్త వ్యూ',
             new_relationship: 'కొత్త సంబంధం',
             // TODO: Translate
             new_area: 'New Area',
@@ -508,6 +509,9 @@ export const te: LanguageTranslation = {
         language_select: {
             change_language: 'భాష మార్చు',
         },
+
+        on: 'ఆన్',
+        off: 'ఆఫ్',
     },
 };
 

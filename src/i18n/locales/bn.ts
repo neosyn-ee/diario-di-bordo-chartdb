@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const bn: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'নতুন',
+            browse: 'ব্রাউজ',
+            tables: 'টেবিল',
+            refs: 'রেফস',
+            areas: 'এলাকা',
+            dependencies: 'নির্ভরতা',
+            custom_types: 'কাস্টম টাইপ',
+        },
         menu: {
-            file: {
-                file: 'ফাইল',
-                new: 'নতুন',
-                open: 'খুলুন',
+            actions: {
+                actions: 'কার্য',
+                new: 'নতুন ডায়াগ্রাম',
+                browse: 'ব্রাউজ করুন...',
                 save: 'সংরক্ষণ করুন',
                 import: 'ডাটাবেস আমদানি করুন',
                 export_sql: 'SQL রপ্তানি করুন',
                 export_as: 'রূপে রপ্তানি করুন',
                 delete_diagram: 'ডায়াগ্রাম মুছুন',
-                exit: 'প্রস্থান করুন',
             },
             edit: {
                 edit: 'সম্পাদনা',
@@ -29,6 +37,7 @@ export const bn: LanguageTranslation = {
                 hide_field_attributes: 'ফিল্ড অ্যাট্রিবিউট লুকান',
                 show_field_attributes: 'ফিল্ড অ্যাট্রিবিউট দেখান',
                 zoom_on_scroll: 'স্ক্রলে জুম করুন',
+                show_views: 'ডাটাবেস ভিউ',
                 theme: 'থিম',
                 show_dependencies: 'নির্ভরতাগুলি দেখান',
                 hide_dependencies: 'নির্ভরতাগুলি লুকান',
@@ -73,15 +82,6 @@ export const bn: LanguageTranslation = {
             cancel: 'বাতিল করুন',
         },
 
-        multiple_schemas_alert: {
-            title: 'বহু স্কিমা',
-            description:
-                '{{schemasCount}} স্কিমা এই ডায়াগ্রামে রয়েছে। বর্তমানে প্রদর্শিত: {{formattedSchemas}}।',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'কিছুই না',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'কপি ব্যর্থ হয়েছে',
@@ -116,14 +116,11 @@ export const bn: LanguageTranslation = {
         copied: 'অনুলিপি সম্পন্ন!',
 
         side_panel: {
-            schema: 'স্কিমা:',
-            filter_by_schema: 'স্কিমা দ্বারা ফিল্টার করুন',
-            search_schema: 'স্কিমা খুঁজুন...',
-            no_schemas_found: 'কোনো স্কিমা পাওয়া যায়নি।',
             view_all_options: 'সমস্ত বিকল্প দেখুন...',
             tables_section: {
                 tables: 'টেবিল',
                 add_table: 'টেবিল যোগ করুন',
+                add_view: 'ভিউ যোগ করুন',
                 filter: 'ফিল্টার',
                 collapse: 'সব ভাঁজ করুন',
                 // TODO: Translate
@@ -149,6 +146,7 @@ export const bn: LanguageTranslation = {
                     field_actions: {
                         title: 'ফিল্ড কর্ম',
                         unique: 'অদ্বিতীয়',
+                        auto_increment: 'স্বয়ংক্রিয় বৃদ্ধি',
                         comments: 'মন্তব্য',
                         no_comments: 'কোনো মন্তব্য নেই',
                         delete_field: 'ফিল্ড মুছুন',
@@ -164,6 +162,7 @@ export const bn: LanguageTranslation = {
                         title: 'ইনডেক্স কর্ম',
                         name: 'নাম',
                         unique: 'অদ্বিতীয়',
+                        index_type: 'ইনডেক্স ধরন',
                         delete_index: 'ইনডেক্স মুছুন',
                     },
                     table_actions: {
@@ -180,14 +179,17 @@ export const bn: LanguageTranslation = {
                     description: 'শুরু করতে একটি টেবিল তৈরি করুন',
                 },
             },
-            relationships_section: {
-                relationships: 'সম্পর্ক',
+            refs_section: {
+                refs: 'রেফস',
                 filter: 'ফিল্টার',
-                add_relationship: 'সম্পর্ক যোগ করুন',
                 collapse: 'সব ভাঁজ করুন',
+                add_relationship: 'সম্পর্ক যোগ করুন',
+                relationships: 'সম্পর্ক',
+                dependencies: 'নির্ভরতাগুলি',
                 relationship: {
+                    relationship: 'সম্পর্ক',
                     primary: 'প্রাথমিক টেবিল',
-                    foreign: 'বিদেশি টেবিল',
+                    foreign: 'রেফারেন্স করা টেবিল',
                     cardinality: 'কার্ডিনালিটি',
                     delete_relationship: 'মুছুন',
                     relationship_actions: {
@@ -195,27 +197,19 @@ export const bn: LanguageTranslation = {
                         delete_relationship: 'মুছুন',
                     },
                 },
-                empty_state: {
-                    title: 'কোনো সম্পর্ক নেই',
-                    description: 'টেবিল সংযোগ করতে একটি সম্পর্ক তৈরি করুন',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'নির্ভরতাগুলি',
-                filter: 'ফিল্টার',
-                collapse: 'ভাঁজ করুন',
                 dependency: {
+                    dependency: 'নির্ভরতা',
                     table: 'টেবিল',
-                    dependent_table: 'নির্ভরশীল টেবিল',
-                    delete_dependency: 'নির্ভরতা মুছুন',
+                    dependent_table: 'নির্ভরশীল ভিউ',
+                    delete_dependency: 'মুছুন',
                     dependency_actions: {
                         title: 'কর্ম',
-                        delete_dependency: 'নির্ভরতা মুছুন',
+                        delete_dependency: 'মুছুন',
                     },
                 },
                 empty_state: {
-                    title: 'কোনো নির্ভরতাগুলি নেই',
-                    description: 'এই অংশে কোনো নির্ভরতা উপলব্ধ নেই।',
+                    title: 'কোনো সম্পর্ক নেই',
+                    description: 'শুরু করতে একটি সম্পর্ক তৈরি করুন',
                 },
             },
 
@@ -331,6 +325,12 @@ export const bn: LanguageTranslation = {
             },
             cancel: 'বাতিল করুন',
             open: 'খুলুন',
+
+            diagram_actions: {
+                open: 'খুলুন',
+                duplicate: 'ডুপ্লিকেট',
+                delete: 'ডায়াগ্রাম মুছুন',
+            },
         },
 
         export_sql_dialog: {
@@ -479,6 +479,7 @@ export const bn: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'নতুন টেবিল',
+            new_view: 'নতুন ভিউ',
             new_relationship: 'নতুন সম্পর্ক',
             // TODO: Translate
             new_area: 'New Area',
@@ -500,6 +501,9 @@ export const bn: LanguageTranslation = {
         language_select: {
             change_language: 'ভাষা পরিবর্তন করুন',
         },
+
+        on: 'চালু',
+        off: 'বন্ধ',
     },
 };
 

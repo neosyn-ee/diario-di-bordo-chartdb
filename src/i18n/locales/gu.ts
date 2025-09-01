@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const gu: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'નવું',
+            browse: 'બ્રાઉજ',
+            tables: 'ટેબલો',
+            refs: 'રેફ્સ',
+            areas: 'ક્ષેત્રો',
+            dependencies: 'નિર્ભરતાઓ',
+            custom_types: 'કસ્ટમ ટાઇપ',
+        },
         menu: {
-            file: {
-                file: 'ફાઇલ',
-                new: 'નવું',
-                open: 'ખોલો',
+            actions: {
+                actions: 'ક્રિયાઓ',
+                new: 'નવું ડાયાગ્રામ',
+                browse: 'બ્રાઉજ કરો...',
                 save: 'સાચવો',
                 import: 'ડેટાબેસ આયાત કરો',
                 export_sql: 'SQL નિકાસ કરો',
                 export_as: 'રૂપે નિકાસ કરો',
                 delete_diagram: 'ડાયાગ્રામ કાઢી નાખો',
-                exit: 'બહાર જાઓ',
             },
             edit: {
                 edit: 'ફેરફાર',
@@ -29,6 +37,7 @@ export const gu: LanguageTranslation = {
                 hide_field_attributes: 'ફીલ્ડ અટ્રિબ્યુટ્સ છુપાવો',
                 show_field_attributes: 'ફીલ્ડ અટ્રિબ્યુટ્સ બતાવો',
                 zoom_on_scroll: 'સ્ક્રોલ પર ઝૂમ કરો',
+                show_views: 'ડેટાબેઝ વ્યૂઝ',
                 theme: 'થિમ',
                 show_dependencies: 'નિર્ભરતાઓ બતાવો',
                 hide_dependencies: 'નિર્ભરતાઓ છુપાવો',
@@ -73,15 +82,6 @@ export const gu: LanguageTranslation = {
             cancel: 'રદ કરો',
         },
 
-        multiple_schemas_alert: {
-            title: 'કઈંક વધારે સ્કીમા',
-            description:
-                '{{schemasCount}} સ્કીમા આ ડાયાગ્રામમાં છે. હાલમાં દર્શાવેલ છે: {{formattedSchemas}}.',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'કઈ નહીં',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'નકલ નિષ્ફળ',
@@ -116,14 +116,11 @@ export const gu: LanguageTranslation = {
         copied: 'નકલ થયું!',
 
         side_panel: {
-            schema: 'સ્કીમા:',
-            filter_by_schema: 'સ્કીમા દ્વારા ફિલ્ટર કરો',
-            search_schema: 'સ્કીમા શોધો...',
-            no_schemas_found: 'કોઈ સ્કીમા મળ્યા નથી.',
             view_all_options: 'બધા વિકલ્પો જુઓ...',
             tables_section: {
                 tables: 'ટેબલ્સ',
                 add_table: 'ટેબલ ઉમેરો',
+                add_view: 'વ્યૂ ઉમેરો',
                 filter: 'ફિલ્ટર',
                 collapse: 'બધાને સકુચિત કરો',
                 // TODO: Translate
@@ -150,6 +147,7 @@ export const gu: LanguageTranslation = {
                     field_actions: {
                         title: 'ફીલ્ડ લક્ષણો',
                         unique: 'અદ્વિતીય',
+                        auto_increment: 'ઑટો ઇન્ક્રિમેન્ટ',
                         comments: 'ટિપ્પણીઓ',
                         no_comments: 'કોઈ ટિપ્પણીઓ નથી',
                         delete_field: 'ફીલ્ડ કાઢી નાખો',
@@ -165,6 +163,7 @@ export const gu: LanguageTranslation = {
                         title: 'ઇન્ડેક્સ લક્ષણો',
                         name: 'નામ',
                         unique: 'અદ્વિતીય',
+                        index_type: 'ઇન્ડેક્સ પ્રકાર',
                         delete_index: 'ઇન્ડેક્સ કાઢી નાખો',
                     },
                     table_actions: {
@@ -181,14 +180,17 @@ export const gu: LanguageTranslation = {
                     description: 'શરૂ કરવા માટે એક ટેબલ બનાવો',
                 },
             },
-            relationships_section: {
-                relationships: 'સંબંધો',
+            refs_section: {
+                refs: 'રેફ્સ',
                 filter: 'ફિલ્ટર',
-                add_relationship: 'સંબંધ ઉમેરો',
                 collapse: 'બધાને સકુચિત કરો',
+                add_relationship: 'સંબંધ ઉમેરો',
+                relationships: 'સંબંધો',
+                dependencies: 'નિર્ભરતાઓ',
                 relationship: {
+                    relationship: 'સંબંધ',
                     primary: 'પ્રાથમિક ટેબલ',
-                    foreign: 'સંદર્ભ ટેબલ',
+                    foreign: 'સંદર્ભિત ટેબલ',
                     cardinality: 'કાર્ડિનાલિટી',
                     delete_relationship: 'કાઢી નાખો',
                     relationship_actions: {
@@ -196,27 +198,19 @@ export const gu: LanguageTranslation = {
                         delete_relationship: 'કાઢી નાખો',
                     },
                 },
-                empty_state: {
-                    title: 'કોઈ સંબંધો નથી',
-                    description: 'ટેબલ્સ કનેક્ટ કરવા માટે એક સંબંધ બનાવો',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'નિર્ભરતાઓ',
-                filter: 'ફિલ્ટર',
-                collapse: 'સિકોડો',
                 dependency: {
+                    dependency: 'નિર્ભરતા',
                     table: 'ટેબલ',
-                    dependent_table: 'આધાર રાખેલું ટેબલ',
-                    delete_dependency: 'નિર્ભરતા કાઢી નાખો',
+                    dependent_table: 'નિર્ભરશીલ વ્યૂ',
+                    delete_dependency: 'કાઢી નાખો',
                     dependency_actions: {
                         title: 'ક્રિયાઓ',
-                        delete_dependency: 'નિર્ભરતા કાઢી નાખો',
+                        delete_dependency: 'કાઢી નાખો',
                     },
                 },
                 empty_state: {
-                    title: 'કોઈ નિર્ભરતાઓ નથી',
-                    description: 'આ વિભાગમાં કોઈ નિર્ભરતા ઉપલબ્ધ નથી.',
+                    title: 'કોઈ સંબંધો નથી',
+                    description: 'શરૂ કરવા માટે એક સંબંધ બનાવો',
                 },
             },
 
@@ -331,6 +325,12 @@ export const gu: LanguageTranslation = {
             },
             cancel: 'રદ કરો',
             open: 'ખોલો',
+
+            diagram_actions: {
+                open: 'ખોલો',
+                duplicate: 'ડુપ્લિકેટ',
+                delete: 'ડાયાગ્રામ કાઢી નાખો',
+            },
         },
 
         export_sql_dialog: {
@@ -480,6 +480,7 @@ export const gu: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'નવું ટેબલ',
+            new_view: 'નવું વ્યૂ',
             new_relationship: 'નવો સંબંધ',
             // TODO: Translate
             new_area: 'New Area',
@@ -501,6 +502,9 @@ export const gu: LanguageTranslation = {
         language_select: {
             change_language: 'ભાષા બદલો',
         },
+
+        on: 'ચાલુ',
+        off: 'બંધ',
     },
 };
 

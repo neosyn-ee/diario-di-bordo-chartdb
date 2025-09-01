@@ -1,6 +1,9 @@
 import type { Diagram } from '../../domain/diagram';
 import { OPENAI_API_KEY, OPENAI_API_ENDPOINT, LLM_MODEL_NAME } from '@/lib/env';
-import { DatabaseType } from '@/lib/domain/database-type';
+import {
+    DatabaseType,
+    databaseTypesWithCommentSupport,
+} from '@/lib/domain/database-type';
 import type { DBTable } from '@/lib/domain/db-table';
 import type { DataType } from '../data-types/data-types';
 import { generateCacheKey, getFromCache, setInCache } from './export-sql-cache';
@@ -8,28 +11,68 @@ import { exportMSSQL } from './export-per-type/mssql';
 import { exportPostgreSQL } from './export-per-type/postgresql';
 import { exportSQLite } from './export-per-type/sqlite';
 import { exportMySQL } from './export-per-type/mysql';
+import { escapeSQLComment } from './export-per-type/common';
 
 // Function to simplify verbose data type names
 const simplifyDataType = (typeName: string): string => {
-    const typeMap: Record<string, string> = {
-        'character varying': 'varchar',
-        'char varying': 'varchar',
-        integer: 'int',
-        int4: 'int',
-        int8: 'bigint',
-        serial4: 'serial',
-        serial8: 'bigserial',
-        float8: 'double precision',
-        float4: 'real',
-        bool: 'boolean',
-        character: 'char',
-        'timestamp without time zone': 'timestamp',
-        'timestamp with time zone': 'timestamptz',
-        'time without time zone': 'time',
-        'time with time zone': 'timetz',
-    };
+    const typeMap: Record<string, string> = {};
 
     return typeMap[typeName.toLowerCase()] || typeName;
+};
+
+// Helper function to properly quote table/schema names with special characters
+const getQuotedTableName = (
+    table: DBTable,
+    isDBMLFlow: boolean = false
+): string => {
+    // Check if a name is already quoted
+    const isAlreadyQuoted = (name: string) => {
+        return (
+            (name.startsWith('"') && name.endsWith('"')) ||
+            (name.startsWith('`') && name.endsWith('`')) ||
+            (name.startsWith('[') && name.endsWith(']'))
+        );
+    };
+
+    // Only add quotes if needed and not already quoted
+    const quoteIfNeeded = (name: string) => {
+        if (isAlreadyQuoted(name)) {
+            return name;
+        }
+        const needsQuoting = /[^a-zA-Z0-9_]/.test(name) || isDBMLFlow;
+        return needsQuoting ? `"${name}"` : name;
+    };
+
+    if (table.schema) {
+        const quotedSchema = quoteIfNeeded(table.schema);
+        const quotedTable = quoteIfNeeded(table.name);
+        return `${quotedSchema}.${quotedTable}`;
+    } else {
+        return quoteIfNeeded(table.name);
+    }
+};
+
+const getQuotedFieldName = (
+    fieldName: string,
+    isDBMLFlow: boolean = false
+): string => {
+    // Check if a name is already quoted
+    const isAlreadyQuoted = (name: string) => {
+        return (
+            (name.startsWith('"') && name.endsWith('"')) ||
+            (name.startsWith('`') && name.endsWith('`')) ||
+            (name.startsWith('[') && name.endsWith(']'))
+        );
+    };
+
+    if (isAlreadyQuoted(fieldName)) {
+        return fieldName;
+    }
+
+    // For DBML flow, always quote field names
+    // Otherwise, only quote if it contains special characters
+    const needsQuoting = /[^a-zA-Z0-9_]/.test(fieldName) || isDBMLFlow;
+    return needsQuoting ? `"${fieldName}"` : fieldName;
 };
 
 export const exportBaseSQL = ({
@@ -75,18 +118,21 @@ export const exportBaseSQL = ({
     let sqlScript = '';
 
     // First create the CREATE SCHEMA statements for all the found schemas based on tables
-    const schemas = new Set<string>();
-    tables.forEach((table) => {
-        if (table.schema) {
-            schemas.add(table.schema);
-        }
-    });
+    // Skip schema creation for DBML flow as DBML doesn't support CREATE SCHEMA syntax
+    if (!isDBMLFlow) {
+        const schemas = new Set<string>();
+        tables.forEach((table) => {
+            if (table.schema) {
+                schemas.add(table.schema);
+            }
+        });
 
-    // Add CREATE SCHEMA statements if any schemas exist
-    schemas.forEach((schema) => {
-        sqlScript += `CREATE SCHEMA IF NOT EXISTS ${schema};\n`;
-    });
-    if (schemas.size > 0) sqlScript += '\n'; // Add newline only if schemas were added
+        // Add CREATE SCHEMA statements if any schemas exist
+        schemas.forEach((schema) => {
+            sqlScript += `CREATE SCHEMA IF NOT EXISTS "${schema}";\n`;
+        });
+        if (schemas.size > 0) sqlScript += '\n'; // Add newline only if schemas were added
+    }
 
     // Add CREATE TYPE statements for ENUMs and COMPOSITE types from diagram.customTypes
     if (diagram.customTypes && diagram.customTypes.length > 0) {
@@ -178,9 +224,7 @@ export const exportBaseSQL = ({
 
     // Loop through each non-view table to generate the SQL statements
     nonViewTables.forEach((table) => {
-        const tableName = table.schema
-            ? `${table.schema}.${table.name}`
-            : table.name;
+        const tableName = getQuotedTableName(table, isDBMLFlow);
         sqlScript += `CREATE TABLE ${tableName} (\n`;
 
         // Check for composite primary keys
@@ -249,7 +293,8 @@ export const exportBaseSQL = ({
                 typeName = 'char';
             }
 
-            sqlScript += `  ${field.name} ${typeName}`;
+            const quotedFieldName = getQuotedFieldName(field.name, isDBMLFlow);
+            sqlScript += `  ${quotedFieldName} ${typeName}`;
 
             // Add size for character types
             if (
@@ -286,8 +331,13 @@ export const exportBaseSQL = ({
                 sqlScript += ` UNIQUE`;
             }
 
+            // Handle AUTO INCREMENT - add as a comment for AI to process
+            if (field.increment) {
+                sqlScript += ` /* AUTO_INCREMENT */`;
+            }
+
             // Handle DEFAULT value
-            if (field.default) {
+            if (field.default && !field.increment) {
                 // Temp remove default user-define value when it have it
                 let fieldDefault = field.default;
 
@@ -320,45 +370,87 @@ export const exportBaseSQL = ({
                 }
             }
 
-            // Handle PRIMARY KEY constraint - only add inline if not composite
-            if (field.primaryKey && !hasCompositePrimaryKey) {
+            // Handle PRIMARY KEY constraint - only add inline if no PK index with custom name
+            const pkIndex = table.indexes.find((idx) => idx.isPrimaryKey);
+            if (field.primaryKey && !hasCompositePrimaryKey && !pkIndex?.name) {
                 sqlScript += ' PRIMARY KEY';
             }
 
-            // Add a comma after each field except the last one (or before composite primary key)
-            if (index < table.fields.length - 1 || hasCompositePrimaryKey) {
+            // Add a comma after each field except the last one (or before PK constraint)
+            const needsPKConstraint =
+                hasCompositePrimaryKey ||
+                (primaryKeyFields.length === 1 && pkIndex?.name);
+            if (index < table.fields.length - 1 || needsPKConstraint) {
                 sqlScript += ',\n';
             }
         });
 
-        // Add composite primary key constraint if needed
-        if (hasCompositePrimaryKey) {
-            const pkFieldNames = primaryKeyFields.map((f) => f.name).join(', ');
-            sqlScript += `\n  PRIMARY KEY (${pkFieldNames})`;
+        // Add primary key constraint if needed (for composite PKs or single PK with custom name)
+        const pkIndex = table.indexes.find((idx) => idx.isPrimaryKey);
+        if (
+            hasCompositePrimaryKey ||
+            (primaryKeyFields.length === 1 && pkIndex?.name)
+        ) {
+            const pkFieldNames = primaryKeyFields
+                .map((f) => getQuotedFieldName(f.name, isDBMLFlow))
+                .join(', ');
+            if (pkIndex?.name) {
+                sqlScript += `\n  CONSTRAINT ${pkIndex.name} PRIMARY KEY (${pkFieldNames})`;
+            } else {
+                sqlScript += `\n  PRIMARY KEY (${pkFieldNames})`;
+            }
         }
 
         sqlScript += '\n);\n';
 
-        // Add table comment
-        if (table.comments) {
-            sqlScript += `COMMENT ON TABLE ${tableName} IS '${table.comments.replace(/'/g, "''")}';\n`;
+        // Add table comment (only for databases that support COMMENT ON syntax)
+        const supportsCommentOn =
+            databaseTypesWithCommentSupport.includes(targetDatabaseType);
+
+        if (table.comments && supportsCommentOn) {
+            sqlScript += `COMMENT ON TABLE ${tableName} IS '${escapeSQLComment(table.comments)}';\n`;
         }
 
         table.fields.forEach((field) => {
-            // Add column comment
-            if (field.comments) {
-                sqlScript += `COMMENT ON COLUMN ${tableName}.${field.name} IS '${field.comments.replace(/'/g, "''")}';\n`;
+            // Add column comment (only for databases that support COMMENT ON syntax)
+            if (field.comments && supportsCommentOn) {
+                const quotedFieldName = getQuotedFieldName(
+                    field.name,
+                    isDBMLFlow
+                );
+                sqlScript += `COMMENT ON COLUMN ${tableName}.${quotedFieldName} IS '${escapeSQLComment(field.comments)}';\n`;
             }
         });
 
         // Generate SQL for indexes
         table.indexes.forEach((index) => {
-            const fieldNames = index.fieldIds
-                .map(
-                    (fieldId) =>
-                        table.fields.find((field) => field.id === fieldId)?.name
+            // Skip the primary key index (it's already handled as a constraint)
+            if (index.isPrimaryKey) {
+                return;
+            }
+
+            // Get the fields for this index
+            const indexFields = index.fieldIds
+                .map((fieldId) => table.fields.find((f) => f.id === fieldId))
+                .filter(
+                    (field): field is NonNullable<typeof field> =>
+                        field !== undefined
+                );
+
+            // Skip if this index exactly matches the primary key fields
+            // This prevents creating redundant indexes for composite primary keys
+            if (
+                primaryKeyFields.length > 0 &&
+                primaryKeyFields.length === indexFields.length &&
+                primaryKeyFields.every((pk) =>
+                    indexFields.some((field) => field.id === pk.id)
                 )
-                .filter(Boolean)
+            ) {
+                return; // Skip this index as it's redundant with the primary key
+            }
+
+            const fieldNames = indexFields
+                .map((field) => getQuotedFieldName(field.name, isDBMLFlow))
                 .join(', ');
 
             if (fieldNames) {
@@ -436,13 +528,18 @@ export const exportBaseSQL = ({
                 return;
             }
 
-            const fkTableName = fkTable.schema
-                ? `${fkTable.schema}.${fkTable.name}`
-                : fkTable.name;
-            const refTableName = refTable.schema
-                ? `${refTable.schema}.${refTable.name}`
-                : refTable.name;
-            sqlScript += `ALTER TABLE ${fkTableName} ADD CONSTRAINT ${relationship.name} FOREIGN KEY (${fkField.name}) REFERENCES ${refTableName} (${refField.name});\n`;
+            const fkTableName = getQuotedTableName(fkTable, isDBMLFlow);
+            const refTableName = getQuotedTableName(refTable, isDBMLFlow);
+            const quotedFkFieldName = getQuotedFieldName(
+                fkField.name,
+                isDBMLFlow
+            );
+            const quotedRefFieldName = getQuotedFieldName(
+                refField.name,
+                isDBMLFlow
+            );
+
+            sqlScript += `ALTER TABLE ${fkTableName} ADD CONSTRAINT ${relationship.name} FOREIGN KEY (${quotedFkFieldName}) REFERENCES ${refTableName} (${quotedRefFieldName});\n`;
         }
     });
 

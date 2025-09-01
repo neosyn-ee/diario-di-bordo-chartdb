@@ -325,7 +325,15 @@ export function exportPostgreSQL({
                     })
                     .join(',\n')}${
                     primaryKeyFields.length > 0
-                        ? `,\n    PRIMARY KEY (${primaryKeyFields
+                        ? `,\n    ${(() => {
+                              // Find PK index to get the constraint name
+                              const pkIndex = table.indexes.find(
+                                  (idx) => idx.isPrimaryKey
+                              );
+                              return pkIndex?.name
+                                  ? `CONSTRAINT "${pkIndex.name}" `
+                                  : '';
+                          })()}PRIMARY KEY (${primaryKeyFields
                               .map((f) => `"${f.name}"`)
                               .join(', ')})`
                         : ''
@@ -405,7 +413,7 @@ export function exportPostgreSQL({
                                     .filter(Boolean);
 
                                 return indexFieldNames.length > 0
-                                    ? `CREATE ${index.unique ? 'UNIQUE ' : ''}INDEX ${indexName} ON ${tableName} (${indexFieldNames.join(', ')});`
+                                    ? `CREATE ${index.unique ? 'UNIQUE ' : ''}INDEX ${indexName} ON ${tableName}${index.type && index.type !== 'btree' ? ` USING ${index.type.toUpperCase()}` : ''} (${indexFieldNames.join(', ')});`
                                     : '';
                             })
                             .filter(Boolean);

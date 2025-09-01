@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const mr: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'नवीन',
+            browse: 'ब्राउज',
+            tables: 'टेबल',
+            refs: 'Refs',
+            areas: 'क्षेत्रे',
+            dependencies: 'अवलंबने',
+            custom_types: 'कस्टम प्रकार',
+        },
         menu: {
-            file: {
-                file: 'फाइल',
-                new: 'नवीन',
-                open: 'उघडा',
+            actions: {
+                actions: 'क्रिया',
+                new: 'नवीन आरेख',
+                browse: 'ब्राउज करा...',
                 save: 'जतन करा',
                 import: 'डेटाबेस इम्पोर्ट करा',
                 export_sql: 'SQL एक्स्पोर्ट करा',
                 export_as: 'म्हणून एक्स्पोर्ट करा',
                 delete_diagram: 'आरेख हटवा',
-                exit: 'बाहेर पडा',
             },
             edit: {
                 edit: 'संपादन करा',
@@ -29,6 +37,7 @@ export const mr: LanguageTranslation = {
                 hide_field_attributes: 'फील्ड गुणधर्म लपवा',
                 show_field_attributes: 'फील्ड गुणधर्म दाखवा',
                 zoom_on_scroll: 'स्क्रोलवर झूम करा',
+                show_views: 'डेटाबेस व्ह्यूज',
                 theme: 'थीम',
                 show_dependencies: 'डिपेंडेन्सि दाखवा',
                 hide_dependencies: 'डिपेंडेन्सि लपवा',
@@ -73,15 +82,6 @@ export const mr: LanguageTranslation = {
             cancel: 'रद्द करा',
         },
 
-        multiple_schemas_alert: {
-            title: 'एकाधिक स्कीमा',
-            description:
-                '{{schemasCount}} स्कीमा या आरेखात आहेत. सध्या दाखवत आहोत: {{formattedSchemas}}.',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'काहीही नाही',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'कॉपी अयशस्वी',
@@ -118,14 +118,11 @@ export const mr: LanguageTranslation = {
         copied: 'Copied!',
 
         side_panel: {
-            schema: 'स्कीमा:',
-            filter_by_schema: 'स्कीमा द्वारे फिल्टर करा',
-            search_schema: 'स्कीमा शोधा...',
-            no_schemas_found: 'कोणतेही स्कीमा सापडले नाहीत.',
             view_all_options: 'सर्व पर्याय पहा...',
             tables_section: {
                 tables: 'टेबल्स',
                 add_table: 'टेबल जोडा',
+                add_view: 'व्ह्यू जोडा',
                 filter: 'फिल्टर',
                 collapse: 'सर्व संकुचित करा',
                 // TODO: Translate
@@ -151,6 +148,7 @@ export const mr: LanguageTranslation = {
                     field_actions: {
                         title: 'फील्ड गुणधर्म',
                         unique: 'युनिक',
+                        auto_increment: 'ऑटो इंक्रिमेंट',
                         comments: 'टिप्पण्या',
                         no_comments: 'कोणत्याही टिप्पणी नाहीत',
                         delete_field: 'फील्ड हटवा',
@@ -166,6 +164,7 @@ export const mr: LanguageTranslation = {
                         title: 'इंडेक्स गुणधर्म',
                         name: 'नाव',
                         unique: 'युनिक',
+                        index_type: 'इंडेक्स प्रकार',
                         delete_index: 'इंडेक्स हटवा',
                     },
                     table_actions: {
@@ -183,12 +182,15 @@ export const mr: LanguageTranslation = {
                     description: 'सुरू करण्यासाठी एक टेबल तयार करा',
                 },
             },
-            relationships_section: {
-                relationships: 'रिलेशनशिप',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'फिल्टर',
-                add_relationship: 'रिलेशनशिप जोडा',
                 collapse: 'सर्व संकुचित करा',
+                add_relationship: 'रिलेशनशिप जोडा',
+                relationships: 'रिलेशनशिप',
+                dependencies: 'डिपेंडेन्सि',
                 relationship: {
+                    relationship: 'रिलेशनशिप',
                     primary: 'प्राथमिक टेबल',
                     foreign: 'रेफरंस टेबल',
                     cardinality: 'कार्डिनॅलिटी',
@@ -198,17 +200,8 @@ export const mr: LanguageTranslation = {
                         delete_relationship: 'हटवा',
                     },
                 },
-                empty_state: {
-                    title: 'कोणतेही रिलेशनशिप नाहीत',
-                    description:
-                        'टेबल्स कनेक्ट करण्यासाठी एक रिलेशनशिप तयार करा',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'डिपेंडेन्सि',
-                filter: 'फिल्टर',
-                collapse: 'सर्व संकुचित करा',
                 dependency: {
+                    dependency: 'डिपेंडेन्सि',
                     table: 'टेबल',
                     dependent_table: 'डिपेंडेन्सि दृश्य',
                     delete_dependency: 'हटवा',
@@ -218,8 +211,8 @@ export const mr: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'कोणत्याही डिपेंडेन्सि नाहीत',
-                    description: 'सुरू करण्यासाठी एक दृश्य तयार करा',
+                    title: 'कोणतेही रिलेशनशिप नाहीत',
+                    description: 'सुरू करण्यासाठी एक रिलेशनशिप तयार करा',
                 },
             },
 
@@ -337,6 +330,12 @@ export const mr: LanguageTranslation = {
             },
             cancel: 'रद्द करा',
             open: 'उघडा',
+
+            diagram_actions: {
+                open: 'उघडा',
+                duplicate: 'डुप्लिकेट',
+                delete: 'आरेख हटवा',
+            },
         },
 
         export_sql_dialog: {
@@ -489,6 +488,7 @@ export const mr: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'नवीन टेबल',
+            new_view: 'नवीन व्ह्यू',
             new_relationship: 'नवीन रिलेशनशिप',
             // TODO: Translate
             new_area: 'New Area',
@@ -512,6 +512,9 @@ export const mr: LanguageTranslation = {
         language_select: {
             change_language: 'भाषा बदला',
         },
+
+        on: 'चालू',
+        off: 'बंद',
     },
 };
 

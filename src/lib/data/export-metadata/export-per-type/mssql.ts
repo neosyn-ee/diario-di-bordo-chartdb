@@ -156,11 +156,11 @@ export function exportMSSQL({
                         const notNull = field.nullable ? '' : ' NOT NULL';
 
                         // Check if identity column
-                        const identity = field.default
-                            ?.toLowerCase()
-                            .includes('identity')
-                            ? ' IDENTITY(1,1)'
-                            : '';
+                        const identity =
+                            field.increment ||
+                            field.default?.toLowerCase().includes('identity')
+                                ? ' IDENTITY(1,1)'
+                                : '';
 
                         const unique =
                             !field.primaryKey && field.unique ? ' UNIQUE' : '';
@@ -168,6 +168,7 @@ export function exportMSSQL({
                         // Handle default value using SQL Server specific parser
                         const defaultValue =
                             field.default &&
+                            !field.increment &&
                             !field.default.toLowerCase().includes('identity')
                                 ? ` DEFAULT ${parseMSSQLDefault(field)}`
                                 : '';
@@ -177,7 +178,15 @@ export function exportMSSQL({
                     })
                     .join(',\n')}${
                     table.fields.filter((f) => f.primaryKey).length > 0
-                        ? `,\n    PRIMARY KEY (${table.fields
+                        ? `,\n    ${(() => {
+                              // Find PK index to get the constraint name
+                              const pkIndex = table.indexes.find(
+                                  (idx) => idx.isPrimaryKey
+                              );
+                              return pkIndex?.name
+                                  ? `CONSTRAINT [${pkIndex.name}] `
+                                  : '';
+                          })()}PRIMARY KEY (${table.fields
                               .filter((f) => f.primaryKey)
                               .map((f) => `[${f.name}]`)
                               .join(', ')})`

@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const hr: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'Novi',
+            browse: 'Pregledaj',
+            tables: 'Tablice',
+            refs: 'Refs',
+            areas: 'Područja',
+            dependencies: 'Ovisnosti',
+            custom_types: 'Prilagođeni Tipovi',
+        },
         menu: {
-            file: {
-                file: 'Datoteka',
-                new: 'Nova',
-                open: 'Otvori',
+            actions: {
+                actions: 'Akcije',
+                new: 'Novi Dijagram',
+                browse: 'Pregledaj...',
                 save: 'Spremi',
                 import: 'Uvezi',
                 export_sql: 'Izvezi SQL',
                 export_as: 'Izvezi kao',
                 delete_diagram: 'Izbriši dijagram',
-                exit: 'Izađi',
             },
             edit: {
                 edit: 'Uredi',
@@ -29,6 +37,7 @@ export const hr: LanguageTranslation = {
                 hide_field_attributes: 'Sakrij atribute polja',
                 show_field_attributes: 'Prikaži atribute polja',
                 zoom_on_scroll: 'Zumiranje pri skrolanju',
+                show_views: 'Pogledi Baze Podataka',
                 theme: 'Tema',
                 show_dependencies: 'Prikaži ovisnosti',
                 hide_dependencies: 'Sakrij ovisnosti',
@@ -71,14 +80,6 @@ export const hr: LanguageTranslation = {
             cancel: 'Odustani',
         },
 
-        multiple_schemas_alert: {
-            title: 'Više shema',
-            description:
-                '{{schemasCount}} shema u ovom dijagramu. Trenutno prikazano: {{formattedSchemas}}.',
-            show_me: 'Prikaži mi',
-            none: 'nijedna',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'Kopiranje neuspješno',
@@ -113,14 +114,11 @@ export const hr: LanguageTranslation = {
         copied: 'Kopirano!',
 
         side_panel: {
-            schema: 'Shema:',
-            filter_by_schema: 'Filtriraj po shemi',
-            search_schema: 'Pretraži shemu...',
-            no_schemas_found: 'Nema pronađenih shema.',
             view_all_options: 'Prikaži sve opcije...',
             tables_section: {
                 tables: 'Tablice',
                 add_table: 'Dodaj tablicu',
+                add_view: 'Dodaj Pogled',
                 filter: 'Filtriraj',
                 collapse: 'Sažmi sve',
                 clear: 'Očisti filter',
@@ -145,6 +143,7 @@ export const hr: LanguageTranslation = {
                     field_actions: {
                         title: 'Atributi polja',
                         unique: 'Jedinstven',
+                        auto_increment: 'Automatsko povećavanje',
                         character_length: 'Maksimalna dužina',
                         precision: 'Preciznost',
                         scale: 'Skala',
@@ -158,6 +157,7 @@ export const hr: LanguageTranslation = {
                         title: 'Atributi indeksa',
                         name: 'Naziv',
                         unique: 'Jedinstven',
+                        index_type: 'Vrsta indeksa',
                         delete_index: 'Izbriši indeks',
                     },
                     table_actions: {
@@ -174,12 +174,15 @@ export const hr: LanguageTranslation = {
                     description: 'Stvorite tablicu za početak',
                 },
             },
-            relationships_section: {
-                relationships: 'Veze',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'Filtriraj',
-                add_relationship: 'Dodaj vezu',
                 collapse: 'Sažmi sve',
+                add_relationship: 'Dodaj vezu',
+                relationships: 'Veze',
+                dependencies: 'Ovisnosti',
                 relationship: {
+                    relationship: 'Veza',
                     primary: 'Primarna tablica',
                     foreign: 'Referentna tablica',
                     cardinality: 'Kardinalnost',
@@ -189,16 +192,8 @@ export const hr: LanguageTranslation = {
                         delete_relationship: 'Izbriši',
                     },
                 },
-                empty_state: {
-                    title: 'Nema veza',
-                    description: 'Stvorite vezu za povezivanje tablica',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'Ovisnosti',
-                filter: 'Filtriraj',
-                collapse: 'Sažmi sve',
                 dependency: {
+                    dependency: 'Ovisnost',
                     table: 'Tablica',
                     dependent_table: 'Ovisni pogled',
                     delete_dependency: 'Izbriši',
@@ -208,8 +203,8 @@ export const hr: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'Nema ovisnosti',
-                    description: 'Stvorite pogled za početak',
+                    title: 'Nema veze',
+                    description: 'Stvorite vezu za početak',
                 },
             },
 
@@ -325,6 +320,12 @@ export const hr: LanguageTranslation = {
             },
             cancel: 'Odustani',
             open: 'Otvori',
+
+            diagram_actions: {
+                open: 'Otvori',
+                duplicate: 'Dupliciraj',
+                delete: 'Obriši dijagram',
+            },
         },
 
         export_sql_dialog: {
@@ -473,6 +474,7 @@ export const hr: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'Nova tablica',
+            new_view: 'Novi Pogled',
             new_relationship: 'Nova veza',
             new_area: 'Novo područje',
         },
@@ -493,6 +495,9 @@ export const hr: LanguageTranslation = {
         language_select: {
             change_language: 'Jezik',
         },
+
+        on: 'Uključeno',
+        off: 'Isključeno',
     },
 };
 

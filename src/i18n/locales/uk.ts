@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const uk: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'Нова',
+            browse: 'Огляд',
+            tables: 'Таблиці',
+            refs: 'Зв’язки',
+            areas: 'Області',
+            dependencies: 'Залежності',
+            custom_types: 'Користувацькі типи',
+        },
         menu: {
-            file: {
-                file: 'Файл',
-                new: 'Новий',
-                open: 'Відкрити',
+            actions: {
+                actions: 'Дії',
+                new: 'Нова діаграма',
+                browse: 'Огляд...',
                 save: 'Зберегти',
                 import: 'Імпорт бази даних',
                 export_sql: 'Експорт SQL',
                 export_as: 'Експортувати як',
                 delete_diagram: 'Видалити діаграму',
-                exit: 'Вийти',
             },
             edit: {
                 edit: 'Редагувати',
@@ -29,6 +37,7 @@ export const uk: LanguageTranslation = {
                 show_field_attributes: 'Показати атрибути полів',
                 hide_field_attributes: 'Приховати атрибути полів',
                 zoom_on_scroll: 'Масштабувати прокручуванням',
+                show_views: 'Представлення бази даних',
                 theme: 'Тема',
                 show_dependencies: 'Показати залежності',
                 hide_dependencies: 'Приховати залежності',
@@ -71,15 +80,6 @@ export const uk: LanguageTranslation = {
             cancel: 'Скасувати',
         },
 
-        multiple_schemas_alert: {
-            title: 'Кілька схем',
-            description:
-                '{{schemasCount}} схеми на цій діаграмі. Зараз відображається: {{formattedSchemas}}.',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'немає',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'Помилка копіювання',
@@ -114,14 +114,11 @@ export const uk: LanguageTranslation = {
         copied: 'Скопійовано!',
 
         side_panel: {
-            schema: 'Схема:',
-            filter_by_schema: 'Фільтрувати за схемою',
-            search_schema: 'Пошук схеми…',
-            no_schemas_found: 'Схеми не знайдено.',
             view_all_options: 'Переглянути всі параметри…',
             tables_section: {
                 tables: 'Таблиці',
                 add_table: 'Додати таблицю',
+                add_view: 'Додати представлення',
                 filter: 'Фільтр',
                 collapse: 'Згорнути все',
                 // TODO: Translate
@@ -147,6 +144,7 @@ export const uk: LanguageTranslation = {
                     field_actions: {
                         title: 'Атрибути полів',
                         unique: 'Унікальне',
+                        auto_increment: 'Автоінкремент',
                         comments: 'Коментарі',
                         no_comments: 'Немає коментарів',
                         delete_field: 'Видалити поле',
@@ -162,6 +160,7 @@ export const uk: LanguageTranslation = {
                         title: 'Атрибути індексу',
                         name: 'Назва індекса',
                         unique: 'Унікальний',
+                        index_type: 'Тип індексу',
                         delete_index: 'Видалити індекс',
                     },
                     table_actions: {
@@ -178,12 +177,15 @@ export const uk: LanguageTranslation = {
                     description: 'Щоб почати, створіть таблицю',
                 },
             },
-            relationships_section: {
-                relationships: 'Звʼязки',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'Фільтр',
-                add_relationship: 'Додати звʼязок',
                 collapse: 'Згорнути все',
+                add_relationship: 'Додати звʼязок',
+                relationships: 'Звʼязки',
+                dependencies: 'Залежності',
                 relationship: {
+                    relationship: 'Звʼязок',
                     primary: 'Первинна таблиця',
                     foreign: 'Посилання на таблицю',
                     cardinality: 'Звʼязок',
@@ -193,16 +195,8 @@ export const uk: LanguageTranslation = {
                         delete_relationship: 'Видалити',
                     },
                 },
-                empty_state: {
-                    title: 'Звʼязків немає',
-                    description: 'Створіть звʼязок для зʼєднання таблиць',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'Залежності',
-                filter: 'Фільтр',
-                collapse: 'Згорнути все',
                 dependency: {
+                    dependency: 'Залежність',
                     table: 'Таблиця',
                     dependent_table: 'Залежне подання',
                     delete_dependency: 'Видалити',
@@ -212,8 +206,8 @@ export const uk: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'Жодних залежностей',
-                    description: 'Створіть подання, щоб почати',
+                    title: 'Жодних зв’язків',
+                    description: 'Створіть зв’язок, щоб почати',
                 },
             },
 
@@ -330,6 +324,12 @@ export const uk: LanguageTranslation = {
             },
             cancel: 'Скасувати',
             open: 'Відкрити',
+
+            diagram_actions: {
+                open: 'Відкрити',
+                duplicate: 'Дублювати',
+                delete: 'Видалити діаграму',
+            },
         },
 
         export_sql_dialog: {
@@ -476,6 +476,7 @@ export const uk: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'Нова таблиця',
+            new_view: 'Нове представлення',
             new_relationship: 'Новий звʼязок',
             // TODO: Translate
             new_area: 'New Area',
@@ -497,6 +498,9 @@ export const uk: LanguageTranslation = {
         language_select: {
             change_language: 'Мова',
         },
+
+        on: 'Увімк',
+        off: 'Вимк',
     },
 };
 

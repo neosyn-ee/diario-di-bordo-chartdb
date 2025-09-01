@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const vi: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'Mới',
+            browse: 'Duyệt',
+            tables: 'Bảng',
+            refs: 'Refs',
+            areas: 'Khu vực',
+            dependencies: 'Phụ thuộc',
+            custom_types: 'Kiểu tùy chỉnh',
+        },
         menu: {
-            file: {
-                file: 'Tệp',
-                new: 'Tạo mới',
-                open: 'Mở',
+            actions: {
+                actions: 'Hành động',
+                new: 'Sơ đồ mới',
+                browse: 'Duyệt...',
                 save: 'Lưu',
                 import: 'Nhập cơ sở dữ liệu',
                 export_sql: 'Xuất SQL',
                 export_as: 'Xuất thành',
                 delete_diagram: 'Xóa sơ đồ',
-                exit: 'Thoát',
             },
             edit: {
                 edit: 'Sửa',
@@ -29,6 +37,7 @@ export const vi: LanguageTranslation = {
                 show_field_attributes: 'Hiển thị thuộc tính trường',
                 hide_field_attributes: 'Ẩn thuộc tính trường',
                 zoom_on_scroll: 'Thu phóng khi cuộn',
+                show_views: 'Chế độ xem Cơ sở dữ liệu',
                 theme: 'Chủ đề',
                 show_dependencies: 'Hiển thị các phụ thuộc',
                 hide_dependencies: 'Ẩn các phụ thuộc',
@@ -72,15 +81,6 @@ export const vi: LanguageTranslation = {
             cancel: 'Hủy',
         },
 
-        multiple_schemas_alert: {
-            title: 'Có nhiều lược đồ',
-            description:
-                'Có {{schemasCount}} lược đồ trong sơ đồ này. Hiện đang hiển thị: {{formattedSchemas}}.',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'không có',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'Sao chép thất bại',
@@ -115,14 +115,11 @@ export const vi: LanguageTranslation = {
         copied: 'Đã sao chép!',
 
         side_panel: {
-            schema: 'Lược đồ:',
-            filter_by_schema: 'Lọc bởi lược đồ',
-            search_schema: 'Tìm kiếm lược đồ...',
-            no_schemas_found: 'Không tìm thấy lược đồ.',
             view_all_options: 'Xem tất cả tùy chọn...',
             tables_section: {
                 tables: 'Bảng',
                 add_table: 'Thêm bảng',
+                add_view: 'Thêm Chế độ xem',
                 filter: 'Lọc',
                 collapse: 'Thu gọn tất cả',
                 // TODO: Translate
@@ -148,6 +145,7 @@ export const vi: LanguageTranslation = {
                     field_actions: {
                         title: 'Thuộc tính trường',
                         unique: 'Giá trị duy nhất',
+                        auto_increment: 'Tự động tăng',
                         comments: 'Bình luận',
                         no_comments: 'Không có bình luận',
                         delete_field: 'Xóa trường',
@@ -163,6 +161,7 @@ export const vi: LanguageTranslation = {
                         title: 'Thuộc tính chỉ mục',
                         name: 'Tên',
                         unique: 'Giá trị duy nhất',
+                        index_type: 'Loại chỉ mục',
                         delete_index: 'Xóa chỉ mục',
                     },
                     table_actions: {
@@ -179,12 +178,15 @@ export const vi: LanguageTranslation = {
                     description: 'Tạo một bảng để bắt đầu',
                 },
             },
-            relationships_section: {
-                relationships: 'Quan hệ',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'Lọc',
-                add_relationship: 'Thêm quan hệ',
                 collapse: 'Thu gọn tất cả',
+                add_relationship: 'Thêm quan hệ',
+                relationships: 'Quan hệ',
+                dependencies: 'Phụ thuộc',
                 relationship: {
+                    relationship: 'Quan hệ',
                     primary: 'Bảng khóa chính',
                     foreign: 'Bảng khóa ngoại',
                     cardinality: 'Quan hệ',
@@ -194,16 +196,8 @@ export const vi: LanguageTranslation = {
                         delete_relationship: 'Xóa',
                     },
                 },
-                empty_state: {
-                    title: 'Không có quan hệ',
-                    description: 'Tạo quan hệ để kết nối các bảng',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'Phụ thuộc',
-                filter: 'Lọc',
-                collapse: 'Thu gọn tất cả',
                 dependency: {
+                    dependency: 'Phụ thuộc',
                     table: 'Bảng',
                     dependent_table: 'Bảng xem phụ thuộc',
                     delete_dependency: 'Xóa',
@@ -213,8 +207,8 @@ export const vi: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'Không có phụ thuộc',
-                    description: 'Tạo bảng xem phụ thuộc để bắt đầu',
+                    title: 'Không có quan hệ',
+                    description: 'Tạo một quan hệ để bắt đầu',
                 },
             },
 
@@ -330,6 +324,12 @@ export const vi: LanguageTranslation = {
             },
             cancel: 'Hủy',
             open: 'Mở',
+
+            diagram_actions: {
+                open: 'Mở',
+                duplicate: 'Nhân bản',
+                delete: 'Xóa sơ đồ',
+            },
         },
 
         export_sql_dialog: {
@@ -477,6 +477,7 @@ export const vi: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'Tạo bảng mới',
+            new_view: 'Chế độ xem Mới',
             new_relationship: 'Tạo quan hệ mới',
             // TODO: Translate
             new_area: 'New Area',
@@ -498,6 +499,9 @@ export const vi: LanguageTranslation = {
         language_select: {
             change_language: 'Ngôn ngữ',
         },
+
+        on: 'Bật',
+        off: 'Tắt',
     },
 };
 

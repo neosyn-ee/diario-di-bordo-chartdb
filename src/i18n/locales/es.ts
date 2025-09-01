@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const es: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'Nuevo',
+            browse: 'Examinar',
+            tables: 'Tablas',
+            refs: 'Refs',
+            areas: 'Áreas',
+            dependencies: 'Dependencias',
+            custom_types: 'Tipos Personalizados',
+        },
         menu: {
-            file: {
-                file: 'Archivo',
-                new: 'Nuevo',
-                open: 'Abrir',
+            actions: {
+                actions: 'Acciones',
+                new: 'Nuevo Diagrama',
+                browse: 'Examinar...',
                 save: 'Guardar',
                 import: 'Importar Base de Datos',
                 export_sql: 'Exportar SQL',
                 export_as: 'Exportar como',
                 delete_diagram: 'Eliminar Diagrama',
-                exit: 'Salir',
             },
             edit: {
                 edit: 'Editar',
@@ -29,6 +37,7 @@ export const es: LanguageTranslation = {
                 show_sidebar: 'Mostrar Barra Lateral',
                 hide_sidebar: 'Ocultar Barra Lateral',
                 zoom_on_scroll: 'Zoom al Desplazarse',
+                show_views: 'Vistas de Base de Datos',
                 theme: 'Tema',
                 show_dependencies: 'Mostrar dependencias',
                 hide_dependencies: 'Ocultar dependencias',
@@ -106,14 +115,11 @@ export const es: LanguageTranslation = {
         copied: 'Copied!',
 
         side_panel: {
-            schema: 'Esquema:',
-            filter_by_schema: 'Filtrar por esquema',
-            search_schema: 'Buscar esquema...',
-            no_schemas_found: 'No se encontraron esquemas.',
             view_all_options: 'Ver todas las opciones...',
             tables_section: {
                 tables: 'Tablas',
                 add_table: 'Agregar Tabla',
+                add_view: 'Agregar Vista',
                 filter: 'Filtrar',
                 collapse: 'Colapsar Todo',
                 // TODO: Translate
@@ -139,6 +145,7 @@ export const es: LanguageTranslation = {
                     field_actions: {
                         title: 'Atributos del Campo',
                         unique: 'Único',
+                        auto_increment: 'Autoincremento',
                         comments: 'Comentarios',
                         no_comments: 'Sin comentarios',
                         delete_field: 'Eliminar Campo',
@@ -154,6 +161,7 @@ export const es: LanguageTranslation = {
                         title: 'Atributos del Índice',
                         name: 'Nombre',
                         unique: 'Único',
+                        index_type: 'Tipo de Índice',
                         delete_index: 'Eliminar Índice',
                     },
                     table_actions: {
@@ -170,14 +178,17 @@ export const es: LanguageTranslation = {
                     description: 'Crea una tabla para comenzar',
                 },
             },
-            relationships_section: {
-                relationships: 'Relaciones',
-                add_relationship: 'Agregar Relación',
+            refs_section: {
+                refs: 'Refs',
                 filter: 'Filtrar',
                 collapse: 'Colapsar Todo',
+                add_relationship: 'Agregar Relación',
+                relationships: 'Relaciones',
+                dependencies: 'Dependencias',
                 relationship: {
-                    primary: 'Primaria',
-                    foreign: 'Foránea',
+                    relationship: 'Relación',
+                    primary: 'Tabla Primaria',
+                    foreign: 'Tabla Referenciada',
                     cardinality: 'Cardinalidad',
                     delete_relationship: 'Eliminar',
                     relationship_actions: {
@@ -185,18 +196,10 @@ export const es: LanguageTranslation = {
                         delete_relationship: 'Eliminar',
                     },
                 },
-                empty_state: {
-                    title: 'No hay relaciones',
-                    description: 'Crea una relación para conectar tablas',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'Dependencias',
-                filter: 'Filtro',
-                collapse: 'Colapsar todo',
                 dependency: {
+                    dependency: 'Dependencia',
                     table: 'Tabla',
-                    dependent_table: 'Vista dependiente',
+                    dependent_table: 'Vista Dependiente',
                     delete_dependency: 'Eliminar',
                     dependency_actions: {
                         title: 'Acciones',
@@ -204,8 +207,8 @@ export const es: LanguageTranslation = {
                     },
                 },
                 empty_state: {
-                    title: 'Sin dependencias',
-                    description: 'Crea una vista para comenzar',
+                    title: 'Sin relaciones',
+                    description: 'Crea una relación para comenzar',
                 },
             },
 
@@ -323,6 +326,12 @@ export const es: LanguageTranslation = {
             },
             cancel: 'Cancelar',
             open: 'Abrir',
+
+            diagram_actions: {
+                open: 'Abrir',
+                duplicate: 'Duplicar',
+                delete: 'Eliminar Diagrama',
+            },
         },
 
         export_sql_dialog: {
@@ -424,14 +433,6 @@ export const es: LanguageTranslation = {
             confirm: '¡Claro!',
         },
 
-        multiple_schemas_alert: {
-            title: 'Múltiples Esquemas',
-            description:
-                '{{schemasCount}} esquemas en este diagrama. Actualmente mostrando: {{formattedSchemas}}.',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'nada',
-        },
         // TODO: Translate
         export_diagram_dialog: {
             title: 'Export Diagram',
@@ -480,6 +481,7 @@ export const es: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'Nueva Tabla',
+            new_view: 'Nueva Vista',
             new_relationship: 'Nueva Relación',
             // TODO: Translate
             new_area: 'New Area',
@@ -502,6 +504,9 @@ export const es: LanguageTranslation = {
         language_select: {
             change_language: 'Idioma',
         },
+
+        on: 'Encendido',
+        off: 'Apagado',
     },
 };
 

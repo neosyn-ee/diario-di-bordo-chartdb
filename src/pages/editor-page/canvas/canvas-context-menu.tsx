@@ -10,16 +10,19 @@ import { useDialog } from '@/hooks/use-dialog';
 import { useReactFlow } from '@xyflow/react';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Table, Workflow, Group } from 'lucide-react';
+import { Table, Workflow, Group, View } from 'lucide-react';
+import { useDiagramFilter } from '@/context/diagram-filter-context/use-diagram-filter';
+import { useLocalConfig } from '@/hooks/use-local-config';
 
 export const CanvasContextMenu: React.FC<React.PropsWithChildren> = ({
     children,
 }) => {
-    const { createTable, filteredSchemas, schemas, readonly, createArea } =
-        useChartDB();
+    const { createTable, readonly, createArea } = useChartDB();
+    const { schemasDisplayed } = useDiagramFilter();
     const { openCreateRelationshipDialog, openTableSchemaDialog } = useDialog();
     const { screenToFlowPosition } = useReactFlow();
     const { t } = useTranslation();
+    const { showDBViews } = useLocalConfig();
 
     const { isMd: isDesktop } = useBreakpoint('md');
 
@@ -30,7 +33,7 @@ export const CanvasContextMenu: React.FC<React.PropsWithChildren> = ({
                 y: event.clientY,
             });
 
-            if ((filteredSchemas?.length ?? 0) > 1) {
+            if (schemasDisplayed.length > 1) {
                 openTableSchemaDialog({
                     onConfirm: ({ schema }) =>
                         createTable({
@@ -38,14 +41,12 @@ export const CanvasContextMenu: React.FC<React.PropsWithChildren> = ({
                             y: position.y,
                             schema: schema.name,
                         }),
-                    schemas: schemas.filter((schema) =>
-                        filteredSchemas?.includes(schema.id)
-                    ),
+                    schemas: schemasDisplayed,
                 });
             } else {
                 const schema =
-                    filteredSchemas?.length === 1
-                        ? schemas.find((s) => s.id === filteredSchemas[0])?.name
+                    schemasDisplayed?.length === 1
+                        ? schemasDisplayed[0]?.name
                         : undefined;
                 createTable({
                     x: position.x,
@@ -58,8 +59,46 @@ export const CanvasContextMenu: React.FC<React.PropsWithChildren> = ({
             createTable,
             screenToFlowPosition,
             openTableSchemaDialog,
-            schemas,
-            filteredSchemas,
+            schemasDisplayed,
+        ]
+    );
+
+    const createViewHandler = useCallback(
+        (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            const position = screenToFlowPosition({
+                x: event.clientX,
+                y: event.clientY,
+            });
+
+            if (schemasDisplayed.length > 1) {
+                openTableSchemaDialog({
+                    onConfirm: ({ schema }) =>
+                        createTable({
+                            x: position.x,
+                            y: position.y,
+                            schema: schema.name,
+                            isView: true,
+                        }),
+                    schemas: schemasDisplayed,
+                });
+            } else {
+                const schema =
+                    schemasDisplayed?.length === 1
+                        ? schemasDisplayed[0]?.name
+                        : undefined;
+                createTable({
+                    x: position.x,
+                    y: position.y,
+                    schema,
+                    isView: true,
+                });
+            }
+        },
+        [
+            createTable,
+            screenToFlowPosition,
+            openTableSchemaDialog,
+            schemasDisplayed,
         ]
     );
 
@@ -99,6 +138,15 @@ export const CanvasContextMenu: React.FC<React.PropsWithChildren> = ({
                     {t('canvas_context_menu.new_table')}
                     <Table className="size-3.5" />
                 </ContextMenuItem>
+                {showDBViews ? (
+                    <ContextMenuItem
+                        onClick={createViewHandler}
+                        className="flex justify-between gap-4"
+                    >
+                        {t('canvas_context_menu.new_view')}
+                        <View className="size-3.5" />
+                    </ContextMenuItem>
+                ) : null}
                 <ContextMenuItem
                     onClick={createRelationshipHandler}
                     className="flex justify-between gap-4"

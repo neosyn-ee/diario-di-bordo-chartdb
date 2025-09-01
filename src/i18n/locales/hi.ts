@@ -2,17 +2,25 @@ import type { LanguageMetadata, LanguageTranslation } from '../types';
 
 export const hi: LanguageTranslation = {
     translation: {
+        editor_sidebar: {
+            new_diagram: 'नया',
+            browse: 'ब्राउज़',
+            tables: 'टेबल',
+            refs: 'रेफ्स',
+            areas: 'क्षेत्र',
+            dependencies: 'निर्भरताएं',
+            custom_types: 'कस्टम टाइप',
+        },
         menu: {
-            file: {
-                file: 'फ़ाइल',
-                new: 'नया',
-                open: 'खोलें',
+            actions: {
+                actions: 'कार्य',
+                new: 'नया आरेख',
+                browse: 'ब्राउज़ करें...',
                 save: 'सहेजें',
                 import: 'डेटाबेस आयात करें',
                 export_sql: 'SQL निर्यात करें',
                 export_as: 'के रूप में निर्यात करें',
                 delete_diagram: 'आरेख हटाएँ',
-                exit: 'बाहर जाएँ',
             },
             edit: {
                 edit: 'संपादित करें',
@@ -29,6 +37,7 @@ export const hi: LanguageTranslation = {
                 hide_field_attributes: 'फ़ील्ड विशेषताएँ छिपाएँ',
                 show_field_attributes: 'फ़ील्ड विशेषताएँ दिखाएँ',
                 zoom_on_scroll: 'स्क्रॉल पर ज़ूम',
+                show_views: 'डेटाबेस व्यू',
                 theme: 'थीम',
                 show_dependencies: 'निर्भरता दिखाएँ',
                 hide_dependencies: 'निर्भरता छिपाएँ',
@@ -72,15 +81,6 @@ export const hi: LanguageTranslation = {
             cancel: 'रद्द करें',
         },
 
-        multiple_schemas_alert: {
-            title: 'एकाधिक स्कीमा',
-            description:
-                '{{schemasCount}} स्कीमा इस आरेख में हैं। वर्तमान में प्रदर्शित: {{formattedSchemas}}।',
-            // TODO: Translate
-            show_me: 'Show me',
-            none: 'कोई नहीं',
-        },
-
         copy_to_clipboard_toast: {
             unsupported: {
                 title: 'कॉपी असफल',
@@ -116,14 +116,11 @@ export const hi: LanguageTranslation = {
         copied: 'Copied!',
 
         side_panel: {
-            schema: 'स्कीमा:',
-            filter_by_schema: 'स्कीमा द्वारा फ़िल्टर करें',
-            search_schema: 'स्कीमा खोजें...',
-            no_schemas_found: 'कोई स्कीमा नहीं मिला।',
             view_all_options: 'सभी विकल्प देखें...',
             tables_section: {
                 tables: 'तालिकाएँ',
                 add_table: 'तालिका जोड़ें',
+                add_view: 'व्यू जोड़ें',
                 filter: 'फ़िल्टर',
                 collapse: 'सभी को संक्षिप्त करें',
                 // TODO: Translate
@@ -149,6 +146,7 @@ export const hi: LanguageTranslation = {
                     field_actions: {
                         title: 'फ़ील्ड विशेषताएँ',
                         unique: 'अद्वितीय',
+                        auto_increment: 'ऑटो इंक्रीमेंट',
                         comments: 'टिप्पणियाँ',
                         no_comments: 'कोई टिप्पणी नहीं',
                         delete_field: 'फ़ील्ड हटाएँ',
@@ -164,6 +162,7 @@ export const hi: LanguageTranslation = {
                         title: 'सूचकांक विशेषताएँ',
                         name: 'नाम',
                         unique: 'अद्वितीय',
+                        index_type: 'इंडेक्स प्रकार',
                         delete_index: 'सूचकांक हटाएँ',
                     },
                     table_actions: {
@@ -180,12 +179,15 @@ export const hi: LanguageTranslation = {
                     description: 'शुरू करने के लिए एक तालिका बनाएँ',
                 },
             },
-            relationships_section: {
-                relationships: 'संबंध',
+            refs_section: {
+                refs: 'रेफ्स',
                 filter: 'फ़िल्टर',
-                add_relationship: 'संबंध जोड़ें',
                 collapse: 'सभी को संक्षिप्त करें',
+                add_relationship: 'संबंध जोड़ें',
+                relationships: 'संबंध',
+                dependencies: 'निर्भरताएँ',
                 relationship: {
+                    relationship: 'संबंध',
                     primary: 'प्राथमिक तालिका',
                     foreign: 'संदर्भित तालिका',
                     cardinality: 'कार्डिनैलिटी',
@@ -195,28 +197,19 @@ export const hi: LanguageTranslation = {
                         delete_relationship: 'हटाएँ',
                     },
                 },
-                empty_state: {
-                    title: 'कोई संबंध नहीं',
-                    description:
-                        'तालिकाओं को कनेक्ट करने के लिए एक संबंध बनाएँ',
-                },
-            },
-            dependencies_section: {
-                dependencies: 'निर्भरताएँ',
-                filter: 'फ़िल्टर',
-                collapse: 'सिकोड़ें',
                 dependency: {
+                    dependency: 'निर्भरता',
                     table: 'तालिका',
-                    dependent_table: 'आश्रित तालिका',
-                    delete_dependency: 'निर्भरता हटाएँ',
+                    dependent_table: 'आश्रित दृश्य',
+                    delete_dependency: 'हटाएँ',
                     dependency_actions: {
-                        title: 'कार्रवाइयाँ',
-                        delete_dependency: 'निर्भरता हटाएँ',
+                        title: 'क्रियाएँ',
+                        delete_dependency: 'हटाएँ',
                     },
                 },
                 empty_state: {
-                    title: 'कोई निर्भरता नहीं',
-                    description: 'इस अनुभाग में कोई निर्भरता उपलब्ध नहीं है।',
+                    title: 'कोई संबंध नहीं',
+                    description: 'शुरू करने के लिए एक संबंध बनाएँ',
                 },
             },
 
@@ -334,6 +327,12 @@ export const hi: LanguageTranslation = {
             },
             cancel: 'रद्द करें',
             open: 'खोलें',
+
+            diagram_actions: {
+                open: 'खोलें',
+                duplicate: 'डुप्लिकेट',
+                delete: 'डायग्राम हटाएं',
+            },
         },
 
         export_sql_dialog: {
@@ -483,6 +482,7 @@ export const hi: LanguageTranslation = {
 
         canvas_context_menu: {
             new_table: 'नई तालिका',
+            new_view: 'नया व्यू',
             new_relationship: 'नया संबंध',
             // TODO: Translate
             new_area: 'New Area',
@@ -505,6 +505,9 @@ export const hi: LanguageTranslation = {
         language_select: {
             change_language: 'भाषा बदलें',
         },
+
+        on: 'चालू',
+        off: 'बंद',
     },
 };
 

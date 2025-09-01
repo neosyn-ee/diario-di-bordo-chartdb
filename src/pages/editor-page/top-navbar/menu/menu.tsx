@@ -37,7 +37,6 @@ export const Menu: React.FC<MenuProps> = () => {
         deleteDiagram,
         updateDiagramUpdatedAt,
         databaseType,
-        dependencies,
     } = useChartDB();
     const {
         openCreateDiagramDialog,
@@ -59,10 +58,10 @@ export const Menu: React.FC<MenuProps> = () => {
         showCardinality,
         setShowFieldAttributes,
         showFieldAttributes,
-        setShowDependenciesOnCanvas,
-        showDependenciesOnCanvas,
         setShowMiniMapOnCanvas,
         showMiniMapOnCanvas,
+        showDBViews,
+        setShowDBViews,
     } = useLocalConfig();
     const { t } = useTranslation();
     const { redo, undo, hasRedo, hasUndo } = useHistory();
@@ -143,10 +142,6 @@ export const Menu: React.FC<MenuProps> = () => {
         setShowFieldAttributes(!showFieldAttributes);
     }, [showFieldAttributes, setShowFieldAttributes]);
 
-    const showOrHideDependencies = useCallback(() => {
-        setShowDependenciesOnCanvas(!showDependenciesOnCanvas);
-    }, [showDependenciesOnCanvas, setShowDependenciesOnCanvas]);
-
     const showOrHideMiniMap = useCallback(() => {
         setShowMiniMapOnCanvas(!showMiniMapOnCanvas);
     }, [showMiniMapOnCanvas, setShowMiniMapOnCanvas]);
@@ -156,13 +151,13 @@ export const Menu: React.FC<MenuProps> = () => {
     return (
         <Menubar className="h-8 border-none py-2 shadow-none md:h-10 md:py-0">
             <MenubarMenu>
-                <MenubarTrigger>{t('menu.file.file')}</MenubarTrigger>
+                <MenubarTrigger>{t('menu.actions.actions')}</MenubarTrigger>
                 <MenubarContent>
                     <MenubarItem onClick={createNewDiagram}>
-                        {t('menu.file.new')}
+                        {t('menu.actions.new')}
                     </MenubarItem>
                     <MenubarItem onClick={openDiagram}>
-                        {t('menu.file.open')}
+                        {t('menu.actions.browse')}
                         <MenubarShortcut>
                             {
                                 keyboardShortcutsForOS[
@@ -172,7 +167,7 @@ export const Menu: React.FC<MenuProps> = () => {
                         </MenubarShortcut>
                     </MenubarItem>
                     <MenubarItem onClick={updateDiagramUpdatedAt}>
-                        {t('menu.file.save')}
+                        {t('menu.actions.save')}
                         <MenubarShortcut>
                             {
                                 keyboardShortcutsForOS[
@@ -184,7 +179,7 @@ export const Menu: React.FC<MenuProps> = () => {
                     <MenubarSeparator />
                     <MenubarSub>
                         <MenubarSubTrigger>
-                            {t('menu.file.import')}
+                            {t('menu.actions.import')}
                         </MenubarSubTrigger>
                         <MenubarSubContent>
                             <MenubarItem onClick={openImportDiagramDialog}>
@@ -253,7 +248,7 @@ export const Menu: React.FC<MenuProps> = () => {
                     <MenubarSeparator />
                     <MenubarSub>
                         <MenubarSubTrigger>
-                            {t('menu.file.export_sql')}
+                            {t('menu.actions.export_sql')}
                         </MenubarSubTrigger>
                         <MenubarSubContent>
                             {databaseType === DatabaseType.GENERIC ? (
@@ -336,7 +331,7 @@ export const Menu: React.FC<MenuProps> = () => {
                     </MenubarSub>
                     <MenubarSub>
                         <MenubarSubTrigger>
-                            {t('menu.file.export_as')}
+                            {t('menu.actions.export_as')}
                         </MenubarSubTrigger>
                         <MenubarSubContent>
                             <MenubarItem onClick={exportPNG}>PNG</MenubarItem>
@@ -362,10 +357,8 @@ export const Menu: React.FC<MenuProps> = () => {
                             })
                         }
                     >
-                        {t('menu.file.delete_diagram')}
+                        {t('menu.actions.delete_diagram')}
                     </MenubarItem>
-                    <MenubarSeparator />
-                    <MenubarItem>{t('menu.file.exit')}</MenubarItem>
                 </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>
@@ -435,15 +428,6 @@ export const Menu: React.FC<MenuProps> = () => {
                             ? t('menu.view.hide_field_attributes')
                             : t('menu.view.show_field_attributes')}
                     </MenubarItem>
-                    {databaseType !== DatabaseType.CLICKHOUSE &&
-                    dependencies &&
-                    dependencies.length > 0 ? (
-                        <MenubarItem onClick={showOrHideDependencies}>
-                            {showDependenciesOnCanvas
-                                ? t('menu.view.hide_dependencies')
-                                : t('menu.view.show_dependencies')}
-                        </MenubarItem>
-                    ) : null}
                     <MenubarItem onClick={showOrHideMiniMap}>
                         {showMiniMapOnCanvas
                             ? t('menu.view.hide_minimap')
@@ -466,6 +450,26 @@ export const Menu: React.FC<MenuProps> = () => {
                                 onClick={() => setScrollAction('pan')}
                             >
                                 {t('zoom.off')}
+                            </MenubarCheckboxItem>
+                        </MenubarSubContent>
+                    </MenubarSub>
+                    <MenubarSeparator />
+                    <MenubarSub>
+                        <MenubarSubTrigger>
+                            {t('menu.view.show_views')}
+                        </MenubarSubTrigger>
+                        <MenubarSubContent>
+                            <MenubarCheckboxItem
+                                checked={showDBViews}
+                                onClick={() => setShowDBViews(true)}
+                            >
+                                {t('on')}
+                            </MenubarCheckboxItem>
+                            <MenubarCheckboxItem
+                                checked={!showDBViews}
+                                onClick={() => setShowDBViews(false)}
+                            >
+                                {t('off')}
                             </MenubarCheckboxItem>
                         </MenubarSubContent>
                     </MenubarSub>
