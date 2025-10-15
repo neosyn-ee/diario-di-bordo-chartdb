@@ -14,13 +14,13 @@ export const en = {
         menu: {
             actions: {
                 actions: 'Actions',
-                new: 'New Diagram',
+                new: 'New...',
                 browse: 'Browse...',
                 save: 'Save',
                 import: 'Import',
                 export_sql: 'Export SQL',
                 export_as: 'Export as',
-                delete_diagram: 'Delete Diagram',
+                delete_diagram: 'Delete',
             },
             edit: {
                 edit: 'Edit',
@@ -73,10 +73,10 @@ export const en = {
         },
 
         reorder_diagram_alert: {
-            title: 'Reorder Diagram',
+            title: 'Auto Arrange Diagram',
             description:
                 'This action will rearrange all tables in the diagram. Do you want to continue?',
-            reorder: 'Reorder',
+            reorder: 'Auto Arrange',
             cancel: 'Cancel',
         },
 
@@ -242,6 +242,7 @@ export const en = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'No enum values defined',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -264,7 +265,7 @@ export const en = {
             show_all: 'Show All',
             undo: 'Undo',
             redo: 'Redo',
-            reorder_diagram: 'Reorder Diagram',
+            reorder_diagram: 'Auto Arrange Diagram',
             highlight_overlapping_tables: 'Highlight Overlapping Tables',
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -306,7 +307,7 @@ export const en = {
         },
 
         open_diagram_dialog: {
-            title: 'Open Diagram',
+            title: 'Open Database',
             description: 'Select a diagram to open from the list below.',
             table_columns: {
                 name: 'Name',
@@ -320,7 +321,7 @@ export const en = {
             diagram_actions: {
                 open: 'Open',
                 duplicate: 'Duplicate',
-                delete: 'Delete Diagram',
+                delete: 'Delete',
             },
         },
 

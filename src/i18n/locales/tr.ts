@@ -14,13 +14,13 @@ export const tr: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'Eylemler',
-                new: 'Yeni Diyagram',
+                new: 'Yeni...',
                 browse: 'Gözat...',
                 save: 'Kaydet',
                 import: 'Veritabanı İçe Aktar',
                 export_sql: 'SQL Olarak Dışa Aktar',
                 export_as: 'Olarak Dışa Aktar',
-                delete_diagram: 'Diyagramı Sil',
+                delete_diagram: 'Sil',
             },
             edit: {
                 edit: 'Düzenle',
@@ -75,10 +75,10 @@ export const tr: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'Diyagramı Yeniden Sırala',
+            title: 'Diyagramı Otomatik Düzenle',
             description:
                 'Bu işlem tüm tabloları yeniden düzenleyecektir. Devam etmek istiyor musunuz?',
-            reorder: 'Yeniden Sırala',
+            reorder: 'Otomatik Düzenle',
             cancel: 'İptal',
         },
 
@@ -249,6 +249,7 @@ export const tr: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'Tanımlanmış enum değeri yok',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -270,7 +271,7 @@ export const tr: LanguageTranslation = {
             show_all: 'Hepsini Gör',
             undo: 'Geri Al',
             redo: 'Yinele',
-            reorder_diagram: 'Diyagramı Yeniden Sırala',
+            reorder_diagram: 'Diyagramı Otomatik Düzenle',
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -312,7 +313,7 @@ export const tr: LanguageTranslation = {
             import: 'İçe Aktar',
         },
         open_diagram_dialog: {
-            title: 'Diyagramı Aç',
+            title: 'Veritabanı Aç',
             description: 'Aşağıdaki listeden açmak için bir diyagram seçin.',
             table_columns: {
                 name: 'Ad',
@@ -326,7 +327,7 @@ export const tr: LanguageTranslation = {
             diagram_actions: {
                 open: 'Aç',
                 duplicate: 'Kopyala',
-                delete: 'Diyagramı Sil',
+                delete: 'Sil',
             },
         },
 

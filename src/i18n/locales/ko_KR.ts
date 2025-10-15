@@ -14,13 +14,13 @@ export const ko_KR: LanguageTranslation = {
         menu: {
             actions: {
                 actions: '작업',
-                new: '새 다이어그램',
+                new: '새로 만들기...',
                 browse: '찾아보기...',
                 save: '저장',
                 import: '데이터베이스 가져오기',
                 export_sql: 'SQL로 저장',
                 export_as: '다른 형식으로 저장',
-                delete_diagram: '다이어그램 삭제',
+                delete_diagram: '삭제',
             },
             edit: {
                 edit: '편집',
@@ -74,10 +74,10 @@ export const ko_KR: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: '다이어그램 재정렬',
+            title: '다이어그램 자동 정렬',
             description:
                 '이 작업은 모든 다이어그램이 재정렬됩니다. 계속하시겠습니까?',
-            reorder: '재정렬',
+            reorder: '자동 정렬',
             cancel: '취소',
         },
 
@@ -248,6 +248,7 @@ export const ko_KR: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: '정의된 열거형 값이 없습니다',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -270,7 +271,7 @@ export const ko_KR: LanguageTranslation = {
             show_all: '전체 저장',
             undo: '실행 취소',
             redo: '다시 실행',
-            reorder_diagram: '다이어그램 재정렬',
+            reorder_diagram: '다이어그램 자동 정렬',
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -314,7 +315,7 @@ export const ko_KR: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: '다이어그램 열기',
+            title: '데이터베이스 열기',
             description: '아래의 목록에서 다이어그램을 선택하세요.',
             table_columns: {
                 name: '이름',
@@ -328,7 +329,7 @@ export const ko_KR: LanguageTranslation = {
             diagram_actions: {
                 open: '열기',
                 duplicate: '복제',
-                delete: '다이어그램 삭제',
+                delete: '삭제',
             },
         },
 

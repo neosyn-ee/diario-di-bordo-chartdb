@@ -14,13 +14,13 @@ export const bn: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'কার্য',
-                new: 'নতুন ডায়াগ্রাম',
+                new: 'নতুন...',
                 browse: 'ব্রাউজ করুন...',
                 save: 'সংরক্ষণ করুন',
                 import: 'ডাটাবেস আমদানি করুন',
                 export_sql: 'SQL রপ্তানি করুন',
                 export_as: 'রূপে রপ্তানি করুন',
-                delete_diagram: 'ডায়াগ্রাম মুছুন',
+                delete_diagram: 'মুছুন',
             },
             edit: {
                 edit: 'সম্পাদনা',
@@ -75,10 +75,10 @@ export const bn: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'ডায়াগ্রাম পুনর্বিন্যাস করুন',
+            title: 'স্বয়ংক্রিয় ডায়াগ্রাম সাজান',
             description:
                 'এই কাজটি ডায়াগ্রামের সমস্ত টেবিল পুনর্বিন্যাস করবে। আপনি কি চালিয়ে যেতে চান?',
-            reorder: 'পুনর্বিন্যাস করুন',
+            reorder: 'স্বয়ংক্রিয় সাজান',
             cancel: 'বাতিল করুন',
         },
 
@@ -249,6 +249,7 @@ export const bn: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'কোন enum মান সংজ্ঞায়িত নেই',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -271,7 +272,7 @@ export const bn: LanguageTranslation = {
             show_all: 'সব দেখান',
             undo: 'পূর্বাবস্থায় ফিরুন',
             redo: 'পুনরায় করুন',
-            reorder_diagram: 'ডায়াগ্রাম পুনর্বিন্যাস করুন',
+            reorder_diagram: 'স্বয়ংক্রিয় ডায়াগ্রাম সাজান',
             highlight_overlapping_tables: 'ওভারল্যাপিং টেবিল হাইলাইট করুন',
 
             // TODO: Translate
@@ -315,7 +316,7 @@ export const bn: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: 'চিত্র খুলুন',
+            title: 'ডেটাবেস খুলুন',
             description: 'নিচের তালিকা থেকে একটি চিত্র নির্বাচন করুন।',
             table_columns: {
                 name: 'নাম',
@@ -329,7 +330,7 @@ export const bn: LanguageTranslation = {
             diagram_actions: {
                 open: 'খুলুন',
                 duplicate: 'ডুপ্লিকেট',
-                delete: 'ডায়াগ্রাম মুছুন',
+                delete: 'মুছুন',
             },
         },
 

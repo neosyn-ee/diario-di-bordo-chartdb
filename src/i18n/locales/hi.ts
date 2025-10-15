@@ -14,13 +14,13 @@ export const hi: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'कार्य',
-                new: 'नया आरेख',
+                new: 'नया...',
                 browse: 'ब्राउज़ करें...',
                 save: 'सहेजें',
                 import: 'डेटाबेस आयात करें',
                 export_sql: 'SQL निर्यात करें',
                 export_as: 'के रूप में निर्यात करें',
-                delete_diagram: 'आरेख हटाएँ',
+                delete_diagram: 'हटाएँ',
             },
             edit: {
                 edit: 'संपादित करें',
@@ -74,10 +74,10 @@ export const hi: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'आरेख पुनः व्यवस्थित करें',
+            title: 'आरेख स्वचालित व्यवस्थित करें',
             description:
                 'यह क्रिया आरेख में सभी तालिकाओं को पुनः व्यवस्थित कर देगी। क्या आप जारी रखना चाहते हैं?',
-            reorder: 'पुनः व्यवस्थित करें',
+            reorder: 'स्वचालित व्यवस्थित करें',
             cancel: 'रद्द करें',
         },
 
@@ -249,6 +249,7 @@ export const hi: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'कोई enum मान परिभाषित नहीं',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -271,7 +272,7 @@ export const hi: LanguageTranslation = {
             show_all: 'सभी दिखाएँ',
             undo: 'पूर्ववत करें',
             redo: 'पुनः करें',
-            reorder_diagram: 'आरेख पुनः व्यवस्थित करें',
+            reorder_diagram: 'आरेख स्वचालित व्यवस्थित करें',
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -317,7 +318,7 @@ export const hi: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: 'आरेख खोलें',
+            title: 'डेटाबेस खोलें',
             description: 'नीचे दी गई सूची से एक आरेख चुनें।',
             table_columns: {
                 name: 'नाम',
@@ -331,7 +332,7 @@ export const hi: LanguageTranslation = {
             diagram_actions: {
                 open: 'खोलें',
                 duplicate: 'डुप्लिकेट',
-                delete: 'डायग्राम हटाएं',
+                delete: 'हटाएं',
             },
         },
 

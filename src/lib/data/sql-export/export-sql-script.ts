@@ -5,7 +5,7 @@ import {
     databaseTypesWithCommentSupport,
 } from '@/lib/domain/database-type';
 import type { DBTable } from '@/lib/domain/db-table';
-import type { DataType } from '../data-types/data-types';
+import { dataTypeMap, type DataType } from '../data-types/data-types';
 import { generateCacheKey, getFromCache, setInCache } from './export-sql-cache';
 import { exportMSSQL } from './export-per-type/mssql';
 import { exportPostgreSQL } from './export-per-type/postgresql';
@@ -314,11 +314,26 @@ export const exportBaseSQL = ({
                 sqlScript += `(1)`;
             }
 
-            // Add precision and scale for numeric types
-            if (field.precision && field.scale) {
-                sqlScript += `(${field.precision}, ${field.scale})`;
-            } else if (field.precision) {
-                sqlScript += `(${field.precision})`;
+            // Add precision and scale for numeric types only
+            const precisionAndScaleTypes = dataTypeMap[targetDatabaseType]
+                .filter(
+                    (t) =>
+                        t.fieldAttributes?.precision && t.fieldAttributes?.scale
+                )
+                .map((t) => t.name);
+
+            const isNumericType = precisionAndScaleTypes.some(
+                (t) =>
+                    field.type.name.toLowerCase().includes(t) ||
+                    typeName.toLowerCase().includes(t)
+            );
+
+            if (isNumericType) {
+                if (field.precision && field.scale) {
+                    sqlScript += `(${field.precision}, ${field.scale})`;
+                } else if (field.precision) {
+                    sqlScript += `(${field.precision})`;
+                }
             }
 
             // Handle NOT NULL constraint
@@ -364,6 +379,16 @@ export const exportBaseSQL = ({
 
                     if (fieldDefault === `('now')`) {
                         fieldDefault = `now()`;
+                    }
+
+                    // Fix CURRENT_DATE() for PostgreSQL in DBML flow - PostgreSQL uses CURRENT_DATE without parentheses
+                    if (
+                        isDBMLFlow &&
+                        targetDatabaseType === DatabaseType.POSTGRESQL
+                    ) {
+                        if (fieldDefault.toUpperCase() === 'CURRENT_DATE()') {
+                            fieldDefault = 'CURRENT_DATE';
+                        }
                     }
 
                     sqlScript += ` DEFAULT ${fieldDefault}`;
@@ -454,10 +479,16 @@ export const exportBaseSQL = ({
                 .join(', ');
 
             if (fieldNames) {
-                const indexName =
+                const rawIndexName =
                     table.schema && !isDBMLFlow
                         ? `${table.schema}_${index.name}`
                         : index.name;
+                // Quote index name if it contains special characters
+                // For DBML flow, also quote if contains special characters
+                const needsQuoting = /[^a-zA-Z0-9_]/.test(rawIndexName);
+                const indexName = needsQuoting
+                    ? `"${rawIndexName}"`
+                    : rawIndexName;
                 sqlScript += `CREATE ${index.unique ? 'UNIQUE ' : ''}INDEX ${indexName} ON ${tableName} (${fieldNames});\n`;
             }
         });

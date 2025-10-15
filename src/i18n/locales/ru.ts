@@ -14,13 +14,13 @@ export const ru: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'Действия',
-                new: 'Новая диаграмма',
+                new: 'Новая...',
                 browse: 'Обзор...',
                 save: 'Сохранить',
                 import: 'Импортировать базу данных',
                 export_sql: 'Экспорт SQL',
                 export_as: 'Экспортировать как',
-                delete_diagram: 'Удалить диаграмму',
+                delete_diagram: 'Удалить',
             },
             edit: {
                 edit: 'Изменение',
@@ -73,10 +73,10 @@ export const ru: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'Переупорядочить диаграмму',
+            title: 'Автоматическая расстановка диаграммы',
             description:
                 'Это действие переставит все таблицы на диаграмме. Хотите продолжить?',
-            reorder: 'Изменить порядок',
+            reorder: 'Автоматическая расстановка',
             cancel: 'Отменить',
         },
 
@@ -246,6 +246,7 @@ export const ru: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'Значения перечисления не определены',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -268,7 +269,7 @@ export const ru: LanguageTranslation = {
             show_all: 'Показать все',
             undo: 'Отменить',
             redo: 'Вернуть',
-            reorder_diagram: 'Переупорядочить диаграмму',
+            reorder_diagram: 'Автоматическая расстановка диаграммы',
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -312,7 +313,7 @@ export const ru: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: 'Открыть диаграмму',
+            title: 'Открыть базу данных',
             description:
                 'Выберите диаграмму, которую нужно открыть, из списка ниже.',
             table_columns: {
@@ -327,7 +328,7 @@ export const ru: LanguageTranslation = {
             diagram_actions: {
                 open: 'Открыть',
                 duplicate: 'Дублировать',
-                delete: 'Удалить диаграмму',
+                delete: 'Удалить',
             },
         },
 

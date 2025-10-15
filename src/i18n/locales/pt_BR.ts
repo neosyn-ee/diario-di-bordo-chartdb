@@ -14,13 +14,13 @@ export const pt_BR: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'Ações',
-                new: 'Novo Diagrama',
+                new: 'Novo...',
                 browse: 'Navegar...',
                 save: 'Salvar',
                 import: 'Importar Banco de Dados',
                 export_sql: 'Exportar SQL',
                 export_as: 'Exportar como',
-                delete_diagram: 'Excluir Diagrama',
+                delete_diagram: 'Excluir',
             },
             edit: {
                 edit: 'Editar',
@@ -75,10 +75,10 @@ export const pt_BR: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'Reordenar Diagrama',
+            title: 'Organizar Diagrama Automaticamente',
             description:
                 'Esta ação reorganizará todas as tabelas no diagrama. Deseja continuar?',
-            reorder: 'Reordenar',
+            reorder: 'Organizar Automaticamente',
             cancel: 'Cancelar',
         },
 
@@ -249,6 +249,7 @@ export const pt_BR: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'Nenhum valor de enum definido',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -271,7 +272,7 @@ export const pt_BR: LanguageTranslation = {
             show_all: 'Mostrar Tudo',
             undo: 'Desfazer',
             redo: 'Refazer',
-            reorder_diagram: 'Reordenar Diagrama',
+            reorder_diagram: 'Organizar Diagrama Automaticamente',
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -316,7 +317,7 @@ export const pt_BR: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: 'Abrir Diagrama',
+            title: 'Abrir Banco de Dados',
             description: 'Selecione um diagrama para abrir da lista abaixo.',
             table_columns: {
                 name: 'Nome',
@@ -330,7 +331,7 @@ export const pt_BR: LanguageTranslation = {
             diagram_actions: {
                 open: 'Abrir',
                 duplicate: 'Duplicar',
-                delete: 'Excluir Diagrama',
+                delete: 'Excluir',
             },
         },
 

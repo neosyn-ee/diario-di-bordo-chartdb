@@ -14,13 +14,13 @@ export const uk: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'Дії',
-                new: 'Нова діаграма',
+                new: 'Нова...',
                 browse: 'Огляд...',
                 save: 'Зберегти',
                 import: 'Імпорт бази даних',
                 export_sql: 'Експорт SQL',
                 export_as: 'Експортувати як',
-                delete_diagram: 'Видалити діаграму',
+                delete_diagram: 'Видалити',
             },
             edit: {
                 edit: 'Редагувати',
@@ -73,10 +73,10 @@ export const uk: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'Перевпорядкувати діаграму',
+            title: 'Автоматичне розміщення діаграми',
             description:
                 'Ця дія перевпорядкує всі таблиці на діаграмі. Хочете продовжити?',
-            reorder: 'Перевпорядкувати',
+            reorder: 'Автоматичне розміщення',
             cancel: 'Скасувати',
         },
 
@@ -247,6 +247,7 @@ export const uk: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'Значення переліку не визначені',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -269,7 +270,7 @@ export const uk: LanguageTranslation = {
             show_all: 'Показати все',
             undo: 'Скасувати',
             redo: 'Повторити',
-            reorder_diagram: 'Перевпорядкувати діаграму',
+            reorder_diagram: 'Автоматичне розміщення діаграми',
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -313,7 +314,7 @@ export const uk: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: 'Відкрити діаграму',
+            title: 'Відкрити базу даних',
             description:
                 'Виберіть діаграму, яку потрібно відкрити, зі списку нижче.',
             table_columns: {
@@ -328,7 +329,7 @@ export const uk: LanguageTranslation = {
             diagram_actions: {
                 open: 'Відкрити',
                 duplicate: 'Дублювати',
-                delete: 'Видалити діаграму',
+                delete: 'Видалити',
             },
         },
 

@@ -3,7 +3,7 @@ import { Dialog, DialogContent } from '@/components/dialog/dialog';
 import { DatabaseType } from '@/lib/domain/database-type';
 import { useStorage } from '@/hooks/use-storage';
 import type { Diagram } from '@/lib/domain/diagram';
-import { loadFromDatabaseMetadata } from '@/lib/domain/diagram';
+import { loadFromDatabaseMetadata } from '@/lib/data/import-metadata/import';
 import { useNavigate } from 'react-router-dom';
 import { useConfig } from '@/hooks/use-config';
 import type { DatabaseMetadata } from '@/lib/data/import-metadata/metadata-types/database-metadata';
@@ -22,6 +22,11 @@ import { sqlImportToDiagram } from '@/lib/data/sql-import';
 import type { SelectedTable } from '@/lib/data/import-metadata/filter-metadata';
 import { filterMetadataByTables } from '@/lib/data/import-metadata/filter-metadata';
 import { MAX_TABLES_WITHOUT_SHOWING_FILTER } from '../common/select-tables/constants';
+import {
+    defaultDBMLDiagramName,
+    importDBMLToDiagram,
+} from '@/lib/dbml/dbml-import/dbml-import';
+import type { ImportMethod } from '@/lib/import-method/import-method';
 
 export interface CreateDiagramDialogProps extends BaseDialogProps {}
 
@@ -30,11 +35,11 @@ export const CreateDiagramDialog: React.FC<CreateDiagramDialogProps> = ({
 }) => {
     const { diagramId } = useChartDB();
     const { t } = useTranslation();
-    const [importMethod, setImportMethod] = useState<'query' | 'ddl'>('query');
+    const [importMethod, setImportMethod] = useState<ImportMethod>('query');
     const [databaseType, setDatabaseType] = useState<DatabaseType>(
         DatabaseType.GENERIC
     );
-    const { closeCreateDiagramDialog, openImportDBMLDialog } = useDialog();
+    const { closeCreateDiagramDialog } = useDialog();
     const { updateConfig } = useConfig();
     const [scriptResult, setScriptResult] = useState('');
     const [databaseEdition, setDatabaseEdition] = useState<
@@ -89,6 +94,14 @@ export const CreateDiagramDialog: React.FC<CreateDiagramDialogProps> = ({
                     sourceDatabaseType: databaseType,
                     targetDatabaseType: databaseType,
                 });
+            } else if (importMethod === 'dbml') {
+                diagram = await importDBMLToDiagram(scriptResult, {
+                    databaseType,
+                });
+                // Update the diagram name if it's the default
+                if (diagram.name === defaultDBMLDiagramName) {
+                    diagram.name = `Diagram ${diagramNumber}`;
+                }
             } else {
                 let metadata: DatabaseMetadata | undefined = databaseMetadata;
 
@@ -152,10 +165,6 @@ export const CreateDiagramDialog: React.FC<CreateDiagramDialogProps> = ({
         await updateConfig({ config: { defaultDiagramId: diagram.id } });
         closeCreateDiagramDialog();
         navigate(`/diagrams/${diagram.id}`);
-        setTimeout(
-            () => openImportDBMLDialog({ withCreateEmptyDiagram: true }),
-            700
-        );
     }, [
         databaseType,
         addDiagram,
@@ -164,14 +173,13 @@ export const CreateDiagramDialog: React.FC<CreateDiagramDialogProps> = ({
         navigate,
         updateConfig,
         diagramNumber,
-        openImportDBMLDialog,
     ]);
 
     const importNewDiagramOrFilterTables = useCallback(async () => {
         try {
             setIsParsingMetadata(true);
 
-            if (importMethod === 'ddl') {
+            if (importMethod === 'ddl' || importMethod === 'dbml') {
                 await importNewDiagram();
             } else {
                 // Parse metadata asynchronously to avoid blocking the UI

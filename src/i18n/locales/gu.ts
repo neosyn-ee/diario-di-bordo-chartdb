@@ -14,13 +14,13 @@ export const gu: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'ક્રિયાઓ',
-                new: 'નવું ડાયાગ્રામ',
+                new: 'નવું...',
                 browse: 'બ્રાઉજ કરો...',
                 save: 'સાચવો',
                 import: 'ડેટાબેસ આયાત કરો',
                 export_sql: 'SQL નિકાસ કરો',
                 export_as: 'રૂપે નિકાસ કરો',
-                delete_diagram: 'ડાયાગ્રામ કાઢી નાખો',
+                delete_diagram: 'કાઢી નાખો',
             },
             edit: {
                 edit: 'ફેરફાર',
@@ -75,10 +75,10 @@ export const gu: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'ડાયાગ્રામ ફરી વ્યવસ્થિત કરો',
+            title: 'ડાયાગ્રામ ઑટોમેટિક ગોઠવો',
             description:
                 'આ ક્રિયા ડાયાગ્રામમાં બધી ટેબલ્સને ફરીથી વ્યવસ્થિત કરશે. શું તમે ચાલુ રાખવા માંગો છો?',
-            reorder: 'ફરી વ્યવસ્થિત કરો',
+            reorder: 'ઑટોમેટિક ગોઠવો',
             cancel: 'રદ કરો',
         },
 
@@ -250,6 +250,7 @@ export const gu: LanguageTranslation = {
                     enum_values: 'Enum Values',
                     composite_fields: 'Fields',
                     no_fields: 'No fields defined',
+                    no_values: 'કોઈ enum મૂલ્યો વ્યાખ્યાયિત નથી',
                     field_name_placeholder: 'Field name',
                     field_type_placeholder: 'Select type',
                     add_field: 'Add Field',
@@ -272,7 +273,7 @@ export const gu: LanguageTranslation = {
             show_all: 'બધું બતાવો',
             undo: 'અનડુ',
             redo: 'રીડુ',
-            reorder_diagram: 'ડાયાગ્રામ ફરીથી વ્યવસ્થિત કરો',
+            reorder_diagram: 'ડાયાગ્રામ ઑટોમેટિક ગોઠવો',
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -315,7 +316,7 @@ export const gu: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: 'ડાયાગ્રામ ખોલો',
+            title: 'ડેટાબેસ ખોલો',
             description: 'નીચેની યાદીમાંથી એક ડાયાગ્રામ પસંદ કરો.',
             table_columns: {
                 name: 'નામ',
@@ -329,7 +330,7 @@ export const gu: LanguageTranslation = {
             diagram_actions: {
                 open: 'ખોલો',
                 duplicate: 'ડુપ્લિકેટ',
-                delete: 'ડાયાગ્રામ કાઢી નાખો',
+                delete: 'કાઢી નાખો',
             },
         },
 

@@ -14,13 +14,13 @@ export const hr: LanguageTranslation = {
         menu: {
             actions: {
                 actions: 'Akcije',
-                new: 'Novi Dijagram',
+                new: 'Novi...',
                 browse: 'Pregledaj...',
                 save: 'Spremi',
                 import: 'Uvezi',
                 export_sql: 'Izvezi SQL',
                 export_as: 'Izvezi kao',
-                delete_diagram: 'Izbriši dijagram',
+                delete_diagram: 'Izbriši',
             },
             edit: {
                 edit: 'Uredi',
@@ -73,10 +73,10 @@ export const hr: LanguageTranslation = {
         },
 
         reorder_diagram_alert: {
-            title: 'Preuredi dijagram',
+            title: 'Automatski preuredi dijagram',
             description:
                 'Ova radnja će preurediti sve tablice u dijagramu. Želite li nastaviti?',
-            reorder: 'Preuredi',
+            reorder: 'Automatski preuredi',
             cancel: 'Odustani',
         },
 
@@ -245,6 +245,7 @@ export const hr: LanguageTranslation = {
                     enum_values: 'Enum vrijednosti',
                     composite_fields: 'Polja',
                     no_fields: 'Nema definiranih polja',
+                    no_values: 'Nema definiranih enum vrijednosti',
                     field_name_placeholder: 'Naziv polja',
                     field_type_placeholder: 'Odaberi tip',
                     add_field: 'Dodaj polje',
@@ -268,7 +269,7 @@ export const hr: LanguageTranslation = {
             show_all: 'Prikaži sve',
             undo: 'Poništi',
             redo: 'Ponovi',
-            reorder_diagram: 'Preuredi dijagram',
+            reorder_diagram: 'Automatski preuredi dijagram',
             highlight_overlapping_tables: 'Istakni preklapajuće tablice',
             clear_custom_type_highlight: 'Ukloni isticanje za "{{typeName}}"',
             custom_type_highlight_tooltip:
@@ -310,7 +311,7 @@ export const hr: LanguageTranslation = {
         },
 
         open_diagram_dialog: {
-            title: 'Otvori dijagram',
+            title: 'Otvori bazu podataka',
             description: 'Odaberite dijagram za otvaranje iz popisa ispod.',
             table_columns: {
                 name: 'Naziv',
@@ -324,7 +325,7 @@ export const hr: LanguageTranslation = {
             diagram_actions: {
                 open: 'Otvori',
                 duplicate: 'Dupliciraj',
-                delete: 'Obriši dijagram',
+                delete: 'Obriši',
             },
         },
 

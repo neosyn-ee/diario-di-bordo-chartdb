@@ -4,44 +4,66 @@ import { generateDBMLFromDiagram } from '../dbml-export';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('DBML Export - Diagram Case 1 Tests', () => {
+const testCase = (caseNumber: string) => {
+    // Read the JSON file
+    const jsonPath = path.join(__dirname, 'cases', `${caseNumber}.json`);
+    const jsonContent = fs.readFileSync(jsonPath, 'utf-8');
+
+    // Parse the JSON and convert to diagram
+    const diagram = diagramFromJSONInput(jsonContent);
+
+    // Generate DBML from the diagram
+    const result = generateDBMLFromDiagram(diagram);
+
+    // Check for both regular and inline DBML files
+    const regularDbmlPath = path.join(__dirname, 'cases', `${caseNumber}.dbml`);
+    const inlineDbmlPath = path.join(
+        __dirname,
+        'cases',
+        `${caseNumber}.inline.dbml`
+    );
+
+    const hasRegularDbml = fs.existsSync(regularDbmlPath);
+    const hasInlineDbml = fs.existsSync(inlineDbmlPath);
+
+    // Test regular DBML if file exists
+    if (hasRegularDbml) {
+        const expectedRegularDBML = fs.readFileSync(regularDbmlPath, 'utf-8');
+        expect(result.standardDbml).toBe(expectedRegularDBML);
+    }
+
+    // Test inline DBML if file exists
+    if (hasInlineDbml) {
+        const expectedInlineDBML = fs.readFileSync(inlineDbmlPath, 'utf-8');
+        expect(result.inlineDbml).toBe(expectedInlineDBML);
+    }
+
+    // Ensure at least one DBML file exists
+    if (!hasRegularDbml && !hasInlineDbml) {
+        throw new Error(
+            `No DBML file found for test case ${caseNumber}. Expected either ${caseNumber}.dbml or ${caseNumber}.inline.dbml`
+        );
+    }
+};
+
+describe('DBML Export cases', () => {
     it('should handle case 1 diagram', { timeout: 30000 }, async () => {
-        // Read the JSON file
-        const jsonPath = path.join(__dirname, 'cases', '1.json');
-        const jsonContent = fs.readFileSync(jsonPath, 'utf-8');
-
-        // Parse the JSON and convert to diagram
-        const diagram = diagramFromJSONInput(jsonContent);
-
-        // Generate DBML from the diagram
-        const result = generateDBMLFromDiagram(diagram);
-        const generatedDBML = result.standardDbml;
-
-        // Read the expected DBML file
-        const dbmlPath = path.join(__dirname, 'cases', '1.dbml');
-        const expectedDBML = fs.readFileSync(dbmlPath, 'utf-8');
-
-        // Compare the generated DBML with the expected DBML
-        expect(generatedDBML).toBe(expectedDBML);
+        testCase('1');
     });
 
     it('should handle case 2 diagram', { timeout: 30000 }, async () => {
-        // Read the JSON file
-        const jsonPath = path.join(__dirname, 'cases', '2.json');
-        const jsonContent = fs.readFileSync(jsonPath, 'utf-8');
+        testCase('2');
+    });
 
-        // Parse the JSON and convert to diagram
-        const diagram = diagramFromJSONInput(jsonContent);
+    it('should handle case 3 diagram', { timeout: 30000 }, async () => {
+        testCase('3');
+    });
 
-        // Generate DBML from the diagram
-        const result = generateDBMLFromDiagram(diagram);
-        const generatedDBML = result.standardDbml;
+    it('should handle case 4 diagram', { timeout: 30000 }, async () => {
+        testCase('4');
+    });
 
-        // Read the expected DBML file
-        const dbmlPath = path.join(__dirname, 'cases', '2.dbml');
-        const expectedDBML = fs.readFileSync(dbmlPath, 'utf-8');
-
-        // Compare the generated DBML with the expected DBML
-        expect(generatedDBML).toBe(expectedDBML);
+    it('should handle case 5 diagram', { timeout: 30000 }, async () => {
+        testCase('5');
     });
 });

@@ -1,9 +1,8 @@
 import { importer } from '@dbml/core';
-import { exportBaseSQL } from '@/lib/data/export-metadata/export-sql-script';
+import { exportBaseSQL } from '@/lib/data/sql-export/export-sql-script';
 import type { Diagram } from '@/lib/domain/diagram';
 import { DatabaseType } from '@/lib/domain/database-type';
 import type { DBTable } from '@/lib/domain/db-table';
-import { type DBField } from '@/lib/domain/db-field';
 import type { DBCustomType } from '@/lib/domain/db-custom-type';
 import { DBCustomTypeKind } from '@/lib/domain/db-custom-type';
 
@@ -502,38 +501,35 @@ const convertToInlineRefs = (dbml: string): string => {
     return cleanedDbml;
 };
 
-// Function to check for DBML reserved keywords
-const isDBMLKeyword = (name: string): boolean => {
-    const keywords = new Set([
-        'YES',
-        'NO',
-        'TRUE',
-        'FALSE',
-        'NULL', // DBML reserved keywords (boolean literals)
-    ]);
-    return keywords.has(name.toUpperCase());
-};
-
-// Function to check for SQL keywords (add more if needed)
-const isSQLKeyword = (name: string): boolean => {
-    const keywords = new Set(['CASE', 'ORDER', 'GROUP', 'FROM', 'TO', 'USER']); // Common SQL keywords
-    return keywords.has(name.toUpperCase());
-};
-
 // Function to remove duplicate relationships from the diagram
 const deduplicateRelationships = (diagram: Diagram): Diagram => {
     if (!diagram.relationships) return diagram;
 
     const seenRelationships = new Set<string>();
+    const seenBidirectional = new Set<string>();
     const uniqueRelationships = diagram.relationships.filter((rel) => {
         // Create a unique key based on the relationship endpoints
         const relationshipKey = `${rel.sourceTableId}-${rel.sourceFieldId}->${rel.targetTableId}-${rel.targetFieldId}`;
 
+        // Create a normalized key that's the same for both directions
+        const normalizedKey = [
+            `${rel.sourceTableId}-${rel.sourceFieldId}`,
+            `${rel.targetTableId}-${rel.targetFieldId}`,
+        ]
+            .sort()
+            .join('<->');
+
         if (seenRelationships.has(relationshipKey)) {
-            return false; // Skip duplicate
+            return false; // Skip exact duplicate
+        }
+
+        if (seenBidirectional.has(normalizedKey)) {
+            // This is a bidirectional relationship, skip the second one
+            return false;
         }
 
         seenRelationships.add(relationshipKey);
+        seenBidirectional.add(normalizedKey);
         return true; // Keep unique relationship
     });
 
@@ -541,48 +537,6 @@ const deduplicateRelationships = (diagram: Diagram): Diagram => {
         ...diagram,
         relationships: uniqueRelationships,
     };
-};
-
-// Function to append comment statements for renamed tables and fields
-const appendRenameComments = (
-    baseScript: string,
-    sqlRenamedTables: Map<string, string>,
-    fieldRenames: Array<{
-        table: string;
-        originalName: string;
-        newName: string;
-    }>,
-    finalDiagramForExport: Diagram
-): string => {
-    let script = baseScript;
-
-    // Append COMMENTS for tables renamed due to SQL keywords
-    sqlRenamedTables.forEach((originalName, newName) => {
-        const escapedOriginal = originalName.replace(/'/g, "\\'");
-        // Find the table to get its schema
-        const table = finalDiagramForExport.tables?.find(
-            (t) => t.name === newName
-        );
-        const tableIdentifier = table?.schema
-            ? `"${table.schema}"."${newName}"`
-            : `"${newName}"`;
-        script += `\nCOMMENT ON TABLE ${tableIdentifier} IS 'Original name was "${escapedOriginal}" (renamed due to SQL keyword conflict).';`;
-    });
-
-    // Append COMMENTS for fields renamed due to SQL keyword conflicts
-    fieldRenames.forEach(({ table, originalName, newName }) => {
-        const escapedOriginal = originalName.replace(/'/g, "\\'");
-        // Find the table to get its schema
-        const tableObj = finalDiagramForExport.tables?.find(
-            (t) => t.name === table
-        );
-        const tableIdentifier = tableObj?.schema
-            ? `"${tableObj.schema}"."${table}"`
-            : `"${table}"`;
-        script += `\nCOMMENT ON COLUMN ${tableIdentifier}."${newName}" IS 'Original name was "${escapedOriginal}" (renamed due to SQL keyword conflict).';`;
-    });
-
-    return script;
 };
 
 // Fix DBML formatting to ensure consistent display of char and varchar types
@@ -594,6 +548,13 @@ const normalizeCharTypeFormat = (dbml: string): string => {
         .replace(/"char \(([0-9]+)\)"/g, '"char($1)"')
         .replace(/"character \(([0-9]+)\)"/g, '"character($1)"')
         .replace(/character \(([0-9]+)\)/g, 'character($1)');
+};
+
+// Fix array types that are incorrectly quoted by DBML importer
+const fixArrayTypes = (dbml: string): string => {
+    // Remove quotes around array types like "text[]" -> text[]
+    // Matches patterns like: "fieldname" "type[]" and replaces with "fieldname" type[]
+    return dbml.replace(/(\s+"[^"]+"\s+)"([^"\s]+\[\])"/g, '$1$2');
 };
 
 // Fix table definitions with incorrect bracket syntax
@@ -771,9 +732,17 @@ const restoreTableSchemas = (dbml: string, tables: DBTable[]): string => {
     return result;
 };
 
+// Function to extract only Ref statements from DBML
+const extractRelationshipsDbml = (dbml: string): string => {
+    const lines = dbml.split('\n');
+    const refLines = lines.filter((line) => line.trim().startsWith('Ref '));
+    return refLines.join('\n').trim();
+};
+
 export interface DBMLExportResult {
     standardDbml: string;
     inlineDbml: string;
+    relationshipsDbml: string;
     error?: string;
 }
 
@@ -836,105 +805,33 @@ export function generateDBMLFromDiagram(diagram: Diagram): DBMLExportResult {
     // Sanitize field names ('from'/'to' in 'relation' table)
     const cleanDiagram = fixProblematicFieldNames(filteredDiagram);
 
-    // --- Final sanitization and renaming pass ---
-    // Only rename keywords for PostgreSQL/SQLite
-    // For other databases, we'll wrap problematic names in quotes instead
-    const shouldRenameKeywords =
-        diagram.databaseType === DatabaseType.POSTGRESQL ||
-        diagram.databaseType === DatabaseType.SQLITE;
-    const sqlRenamedTables = new Map<string, string>();
-    const fieldRenames: Array<{
-        table: string;
-        originalName: string;
-        newName: string;
-    }> = [];
-
+    // Simplified processing - just handle duplicate field names
     const processTable = (table: DBTable) => {
-        const originalName = table.name;
-        let safeTableName = originalName;
-
-        // If name contains spaces or special characters, wrap in quotes
-        if (/[^\w]/.test(originalName)) {
-            safeTableName = `"${originalName.replace(/"/g, '\\"')}"`;
-        }
-
-        // Rename table if it's a keyword (PostgreSQL/SQLite only)
-        if (
-            shouldRenameKeywords &&
-            (isDBMLKeyword(originalName) || isSQLKeyword(originalName))
-        ) {
-            const newName = `${originalName}_table`;
-            sqlRenamedTables.set(newName, originalName);
-            safeTableName = /[^\w]/.test(newName)
-                ? `"${newName.replace(/"/g, '\\"')}"`
-                : newName;
-        }
-        // For other databases, just quote DBML keywords
-        else if (!shouldRenameKeywords && isDBMLKeyword(originalName)) {
-            safeTableName = `"${originalName.replace(/"/g, '\\"')}"`;
-        }
-
         const fieldNameCounts = new Map<string, number>();
         const processedFields = table.fields.map((field) => {
-            let finalSafeName = field.name;
-
-            // If field name contains spaces or special characters, wrap in quotes
-            if (/[^\w]/.test(field.name)) {
-                finalSafeName = `"${field.name.replace(/"/g, '\\"')}"`;
-            }
-
             // Handle duplicate field names
             const count = fieldNameCounts.get(field.name) || 0;
             if (count > 0) {
                 const newName = `${field.name}_${count + 1}`;
-                finalSafeName = /[^\w]/.test(newName)
-                    ? `"${newName.replace(/"/g, '\\"')}"`
-                    : newName;
+                return {
+                    ...field,
+                    name: newName,
+                };
             }
             fieldNameCounts.set(field.name, count + 1);
-
-            // Create sanitized field
-            const sanitizedField: DBField = {
-                ...field,
-                name: finalSafeName,
-            };
-
-            // Rename field if it's a keyword (PostgreSQL/SQLite only)
-            if (
-                shouldRenameKeywords &&
-                (isDBMLKeyword(field.name) || isSQLKeyword(field.name))
-            ) {
-                const newFieldName = `${field.name}_field`;
-                fieldRenames.push({
-                    table: safeTableName,
-                    originalName: field.name,
-                    newName: newFieldName,
-                });
-                sanitizedField.name = /[^\w]/.test(newFieldName)
-                    ? `"${newFieldName.replace(/"/g, '\\"')}"`
-                    : newFieldName;
-            }
-            // For other databases, just quote DBML keywords
-            else if (!shouldRenameKeywords && isDBMLKeyword(field.name)) {
-                sanitizedField.name = `"${field.name.replace(/"/g, '\\"')}"`;
-            }
-
-            return sanitizedField;
+            return field;
         });
 
         return {
             ...table,
-            name: safeTableName,
             fields: processedFields,
             indexes: (table.indexes || [])
                 .filter((index) => !index.isPrimaryKey) // Filter out PK indexes as they're handled separately
                 .map((index) => ({
                     ...index,
-                    name: index.name
-                        ? /[^\w]/.test(index.name)
-                            ? `"${index.name.replace(/"/g, '\\"')}"`
-                            : index.name
-                        : `idx_${Math.random().toString(36).substring(2, 8)}`,
+                    name:
+                        index.name ||
+                        `idx_${Math.random().toString(36).substring(2, 8)}`,
                 })),
         };
     };
@@ -972,25 +869,14 @@ export function generateDBMLFromDiagram(diagram: Diagram): DBMLExportResult {
 
         baseScript = sanitizeSQLforDBML(baseScript);
 
-        // Append comments for renamed tables and fields (PostgreSQL/SQLite only)
-        if (
-            shouldRenameKeywords &&
-            (sqlRenamedTables.size > 0 || fieldRenames.length > 0)
-        ) {
-            baseScript = appendRenameComments(
-                baseScript,
-                sqlRenamedTables,
-                fieldRenames,
-                finalDiagramForExport
-            );
-        }
-
-        standard = normalizeCharTypeFormat(
-            fixMultilineTableNames(
-                fixTableBracketSyntax(
-                    importer.import(
-                        baseScript,
-                        databaseTypeToImportFormat(diagram.databaseType)
+        standard = fixArrayTypes(
+            normalizeCharTypeFormat(
+                fixMultilineTableNames(
+                    fixTableBracketSyntax(
+                        importer.import(
+                            baseScript,
+                            databaseTypeToImportFormat(diagram.databaseType)
+                        )
                     )
                 )
             )
@@ -1007,7 +893,9 @@ export function generateDBMLFromDiagram(diagram: Diagram): DBMLExportResult {
             standard = enumsDBML + '\n\n' + standard;
         }
 
-        inline = normalizeCharTypeFormat(convertToInlineRefs(standard));
+        inline = fixArrayTypes(
+            normalizeCharTypeFormat(convertToInlineRefs(standard))
+        );
 
         // Clean up excessive empty lines in both outputs
         standard = standard.replace(/\n\s*\n\s*\n/g, '\n\n');
@@ -1043,5 +931,13 @@ export function generateDBMLFromDiagram(diagram: Diagram): DBMLExportResult {
         }
     }
 
-    return { standardDbml: standard, inlineDbml: inline, error: errorMsg };
+    // Extract relationships DBML from standard output
+    const relationshipsDbml = extractRelationshipsDbml(standard);
+
+    return {
+        standardDbml: standard,
+        inlineDbml: inline,
+        relationshipsDbml,
+        error: errorMsg,
+    };
 }
