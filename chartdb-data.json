@@ -1,0 +1,4883 @@
+[
+  {
+    "id": "ce9b8e9vdhs9",
+    "name": "SQL Import (postgresql)",
+    "databaseType": "postgresql",
+    "createdAt": "2025-10-15T08:46:18.943Z",
+    "updatedAt": "2025-10-16T16:21:05.445Z",
+    "tables": [
+      {
+        "id": "07vis6w3nh3wwcndzs40ayuc5",
+        "name": "parameter_definition",
+        "schema": "public",
+        "order": 15,
+        "fields": [
+          {
+            "id": "rzdv8dfwagzmyzaaxgkjv1bpw",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "6w6qfok57rlsyh9sawumuosno",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "uqho6baxryva5kibjllprozjg",
+            "name": "code",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "7ziktk6u4j6bg8vl36qcplspt",
+            "name": "data_type",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "34611jlhqgoygtlv27uxp7x4d",
+            "name": "unit",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "vrpvncyzwmyuqudvdeic1fkw9",
+            "name": "tag_name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "xg8f3k6h3fks0zak75vw2hmxk",
+            "name": "server_name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "60cgk6ql8ksd46xfyt6df4wrf",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "up4balnalk5ttlf1te2mqsjoh",
+            "name": "address",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "zcbb1b2owjxe0hfhu1kfehyvf",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "obdx9oqs0xx5lv24kc00esdcp",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "pmlgvlvrcixb6i3fy42wm7o0o",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "pk33jz1ww8088ra7f50v3i6tk",
+            "name": "pk_parameter_definition_id",
+            "fieldIds": [
+              "rzdv8dfwagzmyzaaxgkjv1bpw"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706050
+          },
+          {
+            "id": "4bndeerchlfzrvgd9lfehxuh0",
+            "name": "parameter_definition_code_key",
+            "fieldIds": [
+              "uqho6baxryva5kibjllprozjg"
+            ],
+            "unique": true,
+            "createdAt": 1760517978942
+          }
+        ],
+        "x": 6486.649398280057,
+        "y": 1152.5338019139654,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9",
+        "parentAreaId": null
+      },
+      {
+        "id": "47ur317fv90vtchn57xoqml51",
+        "name": "maintenance_template",
+        "schema": "public",
+        "order": 23,
+        "fields": [
+          {
+            "id": "qvmr10rwoctzhf2aaqqnaz9l1",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "leavb08qdoavzo4viwej25jwz",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "qy7ykaqngkszp1s038m26839v",
+            "name": "component_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "59cg5aznzg8n36vv6z7qhl3ap",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "60dm3q7h0bqfdcyq56lym6ja3",
+            "name": "schedule_cron",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "3t94ticqvkaqnadj7lynjn28c",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "1llm0shs7p1jzdp0ze9eulgbh",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "fkoo6utv0nffvsbh9yju1izyv",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "iz4pusi31o9icdxs98ssrmt2p",
+            "name": "pk_maintenance_template_id",
+            "fieldIds": [
+              "qvmr10rwoctzhf2aaqqnaz9l1"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706050
+          }
+        ],
+        "x": 4282.359675988103,
+        "y": 1488.9571313105812,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "48oqbiqh6metcwuhv027eemz9",
+        "name": "machine_family",
+        "schema": "public",
+        "order": 10,
+        "fields": [
+          {
+            "id": "nrq0l88fe2vrsbzpzv6ch7326",
+            "name": "value",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "nwugj1a2bprvxhuvzp62brsa8",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "r93y54oh2zk6ntpaek1lo5kgh",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "ywa2svbfdiqoph4ecau3mngi1",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "61u1ef2plb8ruqu7k3q8fxptu",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "0v7x80e9h71rcbm1csf3mk3ac",
+            "name": "pk_machine_family_value",
+            "fieldIds": [
+              "nrq0l88fe2vrsbzpzv6ch7326"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706050
+          }
+        ],
+        "x": 5275.310952794168,
+        "y": 1211.2430396706316,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "4e52mljxnnsz4hbgtitvtq9nk",
+        "name": "tenant",
+        "schema": "public",
+        "order": 4,
+        "fields": [
+          {
+            "id": "knzjiebs7yzi56v26f7xl8j16",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "f86ccynkp0n1xwoop1en7tpc8",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "yrt3p14nb5vtusu1wvkr9qspk",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "dcvl288aa02pe4jf45cc3bnip",
+            "name": "logo_url",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "csn2gny3b08itmsevb4gt8coi",
+            "name": "themeId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "kfoszep811w9kc9ggr9edqoj0",
+            "name": "status",
+            "type": {
+              "id": "tenant_status",
+              "name": "tenant_status"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "n05g9xry7y6vxez82qh56kw0e",
+            "name": "parentTenantId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "kavr0dp4qrawxz87e17h1itf8",
+            "name": "subscription",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "j2165t3f7mdzxbps072qss27y",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "38oy0qws713usihxyoh870flv",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "qa4b2dtij3ig16q8u4le8vdwh",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [],
+        "x": 6780,
+        "y": 620,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "4qaxbvb8ql7s0yr6wvwuej1g6",
+        "name": "component",
+        "x": 7602.376268265317,
+        "y": 883.3273720587995,
+        "fields": [
+          {
+            "id": "5haj1a0vl7lk5zradj1jsqrtj",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760521349667
+          },
+          {
+            "id": "6buohwor8pyiy5a20o9zvos30",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760523279022
+          },
+          {
+            "id": "k6tjoylc2texyi68kgfmjvi5s",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760523288356
+          },
+          {
+            "id": "7byznds1xlkra35dxhf7qic39",
+            "name": "part_number",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760523299590
+          },
+          {
+            "id": "xyd4bvu0zs1ovlf0bnosm4prq",
+            "name": "maintenance_interval_cycles",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760523342553
+          },
+          {
+            "id": "nsd0mo4r57hskcrjagz9le4fw",
+            "name": "maintenance_interval_hours",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760523356666
+          },
+          {
+            "id": "cgei15vpm7cy11193fs35na28",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760523368747
+          },
+          {
+            "id": "wzpjsjcfm2no2adgzjddah0jl",
+            "name": "update_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760523389438
+          },
+          {
+            "id": "h4d3mzjr9rqnhp37qxfp4xvu0",
+            "name": "tenant_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760542580502
+          },
+          {
+            "id": "pctvw6errqbclatb81jp0hhkm",
+            "name": "company_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760542589605
+          }
+        ],
+        "indexes": [
+          {
+            "id": "0f8cn92a2a6l2fiaz3xluu9ni",
+            "name": "pk_component_id",
+            "fieldIds": [
+              "5haj1a0vl7lk5zradj1jsqrtj"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706050
+          }
+        ],
+        "color": "#8eb7ff",
+        "createdAt": 1760521349667,
+        "isView": false,
+        "order": 32,
+        "schema": "public",
+        "parentAreaId": "4eni3rpbfpzu4m2nu3mvrgwh8",
+        "width": 337,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "5qo9ro0w5bcqgnatob5ovvooq",
+        "name": "maintenance_attachment",
+        "schema": "public",
+        "order": 26,
+        "fields": [
+          {
+            "id": "ypt25w88ehcqdfybrj2nlsx7v",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "hninu7tmll2nutaqzt8mr4vwc",
+            "name": "task_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "990rtykjffo8dala2wg39tt1j",
+            "name": "document_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "fo904mh4u3lxyhshdq953t6s6",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "xosqz5s1mjeaga3nxsrhnllph",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "6ixrii1ry3dtzk2wylcigzxj8",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "wz3h3nlboj2ue1vj9cv30l53i",
+            "name": "pk_maintenance_attachment_id",
+            "fieldIds": [
+              "ypt25w88ehcqdfybrj2nlsx7v"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706050
+          }
+        ],
+        "x": 5659.718586384898,
+        "y": 2062.316041707377,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "64xpdk9agk3mpk2lpwdhe54pn",
+        "name": "alarm_event",
+        "schema": "public",
+        "order": 22,
+        "fields": [
+          {
+            "id": "qp5sl6cno3s3uqfv3bwmfwcb8",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "u974309ns4yaw33e4h1effat4",
+            "name": "alarm_rule_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "rlz08g3z3xai8vfzce3v64jq0",
+            "name": "machine_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "u2eu9u4h08la4qdghvx54zat6",
+            "name": "parameter_value",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "arw9s4wfj6e17r32x2brcc77t",
+            "name": "occurred_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "11m3jioeei3f8hki6tsezfalx",
+            "name": "resolved_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "5ts9hexmlgdqa023snfh6fqkv",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 2955.4048778859137,
+        "y": 1638.427959050596,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "6bjhlxg4co7ujswffw5p62944",
+        "name": "parameter_template",
+        "schema": "public",
+        "order": 16,
+        "fields": [
+          {
+            "id": "3ni90dkjcshzqmtd4b8eg5s29",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "i22n3x0d02prnn8vtez60ml3g",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "a3znhc7qex1n4z0jy4xdu52ut",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "etsyopsyw4v4gp3kmtpfzxe0x",
+            "name": "machineFamilyId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "xmjz8yl2gm7yp5i60vnc7rihz",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "nholnqq9rwsqk08u7m5gozacw",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "1jkrxm767bpa060mxel2uf8gj",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "jlkqie5a7qsth9m70b3fdps8q",
+            "name": "pk_parameter_template_id",
+            "fieldIds": [
+              "3ni90dkjcshzqmtd4b8eg5s29"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706050
+          }
+        ],
+        "x": 5617.359675988103,
+        "y": 1085.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "8g4omdo5xnwr6hjhc9sviy1h9",
+        "name": "document",
+        "schema": "public",
+        "order": 27,
+        "fields": [
+          {
+            "id": "1jn32a228st164kaio0igwz3p",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "0xyoqt3mf5i2rfmd2kg504rtr",
+            "name": "tenant_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "pl6tw3mfue8e6sr1me4b9e84s",
+            "name": "company_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "uc1gz98cr1fpi5qms4cr7xm7k",
+            "name": "type",
+            "type": {
+              "id": "document_type",
+              "name": "document_type"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "3o3sfui38s0lhing0e60w5yv0",
+            "name": "title",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "evbb484gjbvtzhcz220vyfo8n",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "u8diamgew4191q2gmh6x7f1q6",
+            "name": "bucket_key",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "sii0ew9mi4hpo5o53z3b2hsl7",
+            "name": "tags",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "y684jzv27l1t0ukz4ykodvyfn",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "hpnaz88aaqci6x1jwtt84cxw1",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "hg0we15eb9b1bt43c8h87ubee",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 6083.718586384898,
+        "y": 2062.316041707377,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "9ecpd1as5glqgljc47bqxh48t",
+        "name": "plant",
+        "schema": "public",
+        "order": 8,
+        "fields": [
+          {
+            "id": "l3ck8tnnk3obr8yva1vvz5ief",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "01oyj51iprtyit3ggm2tleqzn",
+            "name": "company_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "0vxnxd1vlq7o1ak6ui9piu2xo",
+            "name": "tenant_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "0qlxo1b3b5czwxhv72l86ieh9",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "z26vfjhgsh8dmit47ykb87nvu",
+            "name": "location",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "9z7yz65r89s1n8bfpu7irbyua",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "pw4vtl94eqm9nyin45n9furlb",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "aohsk8pughknbdg7i3bb7wbpl",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "wsg3u8rz9abt4dtkr2x2lh2ue",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "jmgskoi84mscaqefy2wfzrfy1",
+            "name": "pk_plant_id",
+            "fieldIds": [
+              "l3ck8tnnk3obr8yva1vvz5ief"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706050
+          }
+        ],
+        "x": 529.359675988103,
+        "y": 539.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "b8hwk84uxcd8nr7shtfqg7s47",
+        "name": "notification_template",
+        "schema": "public",
+        "order": 29,
+        "fields": [
+          {
+            "id": "e27614tr2lffukanz14mrwae0",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "ro4gs95yfvz3zykeo26bjf5th",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "bqwcovyeurew4c41gk50a3pz9",
+            "name": "channel",
+            "type": {
+              "id": "notification_channel",
+              "name": "notification_channel"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "in8e9uncf5af193zx9a9y9txu",
+            "name": "subject",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "xwcnd89o9jr4ew83p9mq7t5k0",
+            "name": "body",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "p6qz0qqciprkcn28lm60zqgk6",
+            "name": "is_active",
+            "type": {
+              "name": "boolean",
+              "id": "boolean",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "8ozeuhsamv4o1a37ohix1c2bs",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "gxavjwz459cp2kdtbeifdhwup",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "xlz5803g05rdmvdcwkk2go5r2",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 1801.359675988103,
+        "y": 1085.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "bjkkr2pl1c5i84y03p58suscn",
+        "name": "machine_component_aggregation",
+        "schema": "public",
+        "order": 14,
+        "fields": [
+          {
+            "id": "dlmnk3t498spkw3aiokq2b87a",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "dlixw0b6zra27lodzm6xw6xyw",
+            "name": "machine_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "cufn8i7r6r65hope1la1mml8k",
+            "name": "component_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "6ehrx7vnxnxmj01vzvnrolyn1",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "7f9q3tjqyyufbrdwh4pt41yue",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "loq9b7lunc3iidge4lxdnvd9e",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "7vklkydg6bmn2gb8spsc2x41b",
+            "name": "pk_machine_component_aggregation_id",
+            "fieldIds": [
+              "dlmnk3t498spkw3aiokq2b87a"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760545640198
+          }
+        ],
+        "x": 8495.204736408987,
+        "y": 910.207505900983,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9",
+        "width": 320,
+        "parentAreaId": "4eni3rpbfpzu4m2nu3mvrgwh8"
+      },
+      {
+        "id": "cj73fgneefu5x2f1n7rlt9nl0",
+        "name": "maintenance_task",
+        "schema": "public",
+        "order": 25,
+        "fields": [
+          {
+            "id": "n138hzuz1wk5jq7pq3ybizauu",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "h4hcvcyinq8kfbmelrpl6k9dv",
+            "name": "plan_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "jsof25zyuwo9wf3cs7nqhuvh1",
+            "name": "status",
+            "type": {
+              "id": "maintenance_status",
+              "name": "maintenance_status"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "05nsmnn2gbq6wtlaljqb2uquk",
+            "name": "due_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "4mjuvtcczmse57kj33pkpvrkb",
+            "name": "started_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "hsgnrowvnvqjf2sagnijp5xs0",
+            "name": "completed_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "5lukh3x9givll3xpbk9amjzkr",
+            "name": "notes",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "m8mm6z2yle1z4yl7yzegiga8h",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "ptu4wg23qr639nkebqbhidncb",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "q01b68drzw4w33hx5c7r784dw",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 5235.718586384898,
+        "y": 1594.3160417073768,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "clq3ivw7w5t3usf4awr8xyr31",
+        "name": "notification_event",
+        "schema": "public",
+        "order": 30,
+        "fields": [
+          {
+            "id": "91ocbewfyksbosuxe8ejii5jz",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "jnk5jd05isnmza1bfr8rn53v0",
+            "name": "template_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "59e9y6dvhodhy2ttlw3bn4kwi",
+            "name": "recipient_user_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "x4tu6eiovb8fyozc7klofere1",
+            "name": "context",
+            "type": {
+              "name": "json",
+              "id": "json",
+              "usageLevel": 2
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "eb17i61ovl0wj8cimm7padv1o",
+            "name": "sent_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "sgo2cmizljv6i7w338e2xyxq7",
+            "name": "status",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "ui449ih8y6etgm7olnzn2mag2",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "xai9k97st71222wy6abdfvh9v",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "qeyv0r8sdd8ry7ib3h677c8n5",
+            "name": "pk_notification_event_id",
+            "fieldIds": [
+              "91ocbewfyksbosuxe8ejii5jz"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 1377.359675988103,
+        "y": 1085.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "cnuwa4m8wz8dcs6qiw6qhx5uh",
+        "name": "subscription_plan",
+        "schema": "public",
+        "order": 2,
+        "fields": [
+          {
+            "id": "u2mfbmwchwf0wnamf5af1hm5e",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "2uu7m1hepu2gyueisce4rs84s",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "l513gvwipcnbb5p41ce0qud30",
+            "name": "type",
+            "type": {
+              "id": "subscription_type",
+              "name": "subscription_type"
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "s782oginq0ym03d7sss500fcz",
+            "name": "start_time",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "n9i561bka719srae50ymbf356",
+            "name": "end_time",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "qfq39o7o1doew0d9wcqy5h7cw",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "jpodufecxkm1yy2d2ufsrsud5",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [],
+        "x": 524,
+        "y": 100,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "dsysjgr1ktwnwx1mlt8l84v76",
+        "name": "role",
+        "schema": "public",
+        "order": 0,
+        "fields": [
+          {
+            "id": "392bkvkzphytwax6x6hye1pvb",
+            "name": "value",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "n338rx1daczvbn55szkx5fy9o",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "pumyp8wjc2p653og7qa26ucjw",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "8i7rn3610p2g2uglu46qt1c5q",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "hkwlj6dn5xqvov3muizyytc8r",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "lfzmm6517tht8xdk73828fn1o",
+            "name": "pk_role_value",
+            "fieldIds": [
+              "392bkvkzphytwax6x6hye1pvb"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 2225.359675988103,
+        "y": 539.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "g6dg5klfbhpjek0au6vczop0z",
+        "name": "video_metadata",
+        "schema": "public",
+        "order": 28,
+        "fields": [
+          {
+            "id": "82ob9xhwkhymf3ua9l77zyscl",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "9uctph1533dzkj6hnxzem46fm",
+            "name": "document_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "7yvoiviec03fbd8lam0n1nivt",
+            "name": "resolution",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "uj6ilbiazsggoui5xs8x58yg8",
+            "name": "duration_seconds",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "b3hvw5wwdmyidtsgjweuhjlir",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "btnksnm23hhtj51hxkrvrd6xr",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 6507.718586384898,
+        "y": 2062.316041707377,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "j1o1lg0l0p1r0l0v4gmrxa2bb",
+        "name": "component_template_aggregation",
+        "schema": "public",
+        "order": 13,
+        "fields": [
+          {
+            "id": "50wbdhto8ns4xa8b42h3c0wm4",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "2shu7e3stuftnpb2pkt8ccdq6",
+            "name": "machine_component_template_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "9ivs987m1psy8vllbpobqgut2",
+            "name": "component_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "l6mqm96vhwkdxolx7ak7z1u2g",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "20jjva6ww4oo5d6kz0b9d0yfq",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "z2pnux1csshietwxaqjedm3ir",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "c8frnnq6sw78nbakeukqcr3wc",
+            "name": "pk_component_template_aggregation_id",
+            "fieldIds": [
+              "50wbdhto8ns4xa8b42h3c0wm4"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 8437.669510097854,
+        "y": 399.97500955462147,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9",
+        "width": 450,
+        "parentAreaId": "4eni3rpbfpzu4m2nu3mvrgwh8"
+      },
+      {
+        "id": "lmo9icij615mewkozpt23t91q",
+        "name": "alarm_template_aggregation",
+        "schema": "public",
+        "order": 20,
+        "fields": [
+          {
+            "id": "rd361k0psrxd5v7jl8x5h39u7",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "mi1wvwacohwdz66xrhf62cp3b",
+            "name": "temaplate_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "1w6kin7eu35gqp2m97qy9l2o1",
+            "name": "parameter_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "mkvjaf4lxbt87yb605un0rryj",
+            "name": "threshold_min",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "bl0c7h7pdj0p5lwd7lwthsk8x",
+            "name": "threshold_max",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "thhzqnor89qnomo5xrag6zleo",
+            "name": "severity",
+            "type": {
+              "id": "alarm_severity",
+              "name": "alarm_severity"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "2qxf96lor8h70wvc8pi97s9ga",
+            "name": "notification_template_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "n6tebvh80eklh9as77jnujwhv",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "uoz3eaz8sixyuqcbvrovon6ju",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "icmf0gxesbpxqsgm0gkf5bq3v",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 5829.359675988103,
+        "y": 1516.669944231683,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "me88fyha2crb6fpt6zmhihch3",
+        "name": "company",
+        "schema": "public",
+        "order": 5,
+        "fields": [
+          {
+            "id": "5ct87u6crosbqij4zg3k4pj30",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "ekg92f2fbnag6w1ljn92kv9ky",
+            "name": "tenant_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "rhsajezm5ekzx433pry9ztgvc",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "pl8nz6f1hk9wulafswmbvnabg",
+            "name": "email",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "fxerf3zke0tysuzazwbbkdcap",
+            "name": "phone",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "7p2dumvk76257nmx1b6io5kqw",
+            "name": "address",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "mj16hwj4mvpk0rt6o3cr2zkgv",
+            "name": "city",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "utf8aocd098zj6wemh3d37y0t",
+            "name": "province",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "jq3q58e2sltm3mamw3vp9pdk2",
+            "name": "postal_code",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "2cfdjf07qx7ykfc7ehmkvo017",
+            "name": "vat_number",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "kvranlr2aixnmvmtx69mu7o0m",
+            "name": "sdi_code",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "8xju6jjmh0h9mb1t2whh7p771",
+            "name": "parentCompanyId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "54tylid350u6ayek8llazoiqp",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "4lq4tvxptenbrs8vyq6sy31i0",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "mbe7wmsbstd0vne74h55h5b3k",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "j1ih2xp42j8dxrrc5esv0j0qf",
+            "name": "pk_company_id",
+            "fieldIds": [
+              "5ct87u6crosbqij4zg3k4pj30"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 6780,
+        "y": 160,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "mxv6yrzz8m8eimgg5a237sug7",
+        "name": "permission",
+        "schema": "public",
+        "order": 1,
+        "fields": [
+          {
+            "id": "ttidgcdxzfhd8hcdb4avvvn8f",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "6xvmq27ik5lgso63u7h53ub6k",
+            "name": "role_value",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "d2tu4j836ggcvj868ey63w9oc",
+            "name": "resource",
+            "type": {
+              "id": "permission_resource",
+              "name": "permission_resource"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "g8z2h5970s2iigf2m90qkth99",
+            "name": "action",
+            "type": {
+              "id": "permission_action",
+              "name": "permission_action"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "i1qbsu1hrrdsp36opbts1shf5",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "shjfhh7f0a6tginzs1w4q4bxl",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "0je6i95b9a8obq4e6ss0cqmw0",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [],
+        "x": 2649.359675988103,
+        "y": 539.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "oskgno3i28055zei7cjprheot",
+        "name": "parameter_template_aggregation",
+        "schema": "public",
+        "order": 17,
+        "fields": [
+          {
+            "id": "hjbgcg65xlbtrm5l2cm49atj2",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "fo5uj72ns6rxc16g3h8tg8a8m",
+            "name": "templateId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "q0827i2637iwhd8fvdbs6xoio",
+            "name": "parameterId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "1u1fxr39wr6l644pgniafz3yh",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "1puvsv6hq1c1uokedndbyj607",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "he7vn1ujt6hmnbmtrruy9ws8n",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "g04bvnvajocgyajlscsup19ir",
+            "name": "pk_parameter_template_aggregation_id",
+            "fieldIds": [
+              "hjbgcg65xlbtrm5l2cm49atj2"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 6041.359675988103,
+        "y": 1085.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "ozomv5fyjg7jv1p6gv6th4ukr",
+        "name": "production_line",
+        "schema": "public",
+        "order": 9,
+        "fields": [
+          {
+            "id": "tersvktgizls04208m8dh42j4",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "imq4151zqqbmp58e9r5iyqi3q",
+            "name": "plant_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "pl500ezkfobm8f88yde59gmp6",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "2ygme7q4bvyib8t6myjgmxj8g",
+            "name": "code",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "gmb6d7ortlein13xrrs60clf2",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "of9w6d23gtsrsxyc7k7tyv6p1",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "w616vagums6xey3zwr5ud63in",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "3avwmtay99ix15kuweelya20m",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "vmrl6ujnk7s7vfra8wyt49zvk",
+            "name": "pk_production_line_id",
+            "fieldIds": [
+              "tersvktgizls04208m8dh42j4"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 3434.359675988103,
+        "y": 1558.2391636133361,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "rnmtuq8h5lv572thvnhdpbl7k",
+        "name": "alarm_rule",
+        "schema": "public",
+        "order": 21,
+        "fields": [
+          {
+            "id": "shljs1z96wpvw7utapalrzlqb",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "is02pyzmxi0izabf7ghbjmklq",
+            "name": "machine_parameter_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "k6cifcb47vs7pw3gs9eeg271s",
+            "name": "alarm_template_aggregation_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "m4haizizwi006mpfdje2jbasv",
+            "name": "threshold_min",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "39weti97imjivcmz193tlgt7i",
+            "name": "threshold_max",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "91t12whym20k9rj96acuweks4",
+            "name": "severity",
+            "type": {
+              "id": "alarm_severity",
+              "name": "alarm_severity"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "us4tvesbztn49gg1a3ojrwt7w",
+            "name": "notification_template_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "i6gy4cbi0ixah2aoevch55uzr",
+            "name": "is_active",
+            "type": {
+              "name": "boolean",
+              "id": "boolean",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "zv8fb342i5eh9547v9djd0acq",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "mpu82wz0r5v6j89yor9lgwfys",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "b36c4mcupd2hysecf7iu8jmwr",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 2225.359675988103,
+        "y": 1085.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "rp8l6l2xj9xz2u4hbqeluhiba",
+        "name": "tenant_theme",
+        "schema": "public",
+        "order": 3,
+        "fields": [
+          {
+            "id": "6njyzj79oi743cdyqabay44qm",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "c6w0zyw3y6wpasxngwhki6b7a",
+            "name": "logotypeUrl",
+            "type": {
+              "name": "json",
+              "id": "json",
+              "usageLevel": 2
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "ghnbfc7c22ai9vt4covtn7qdk",
+            "name": "primaryColor",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "c9fuxkvpwvaoxkzuo2nt730lq",
+            "name": "secondaryColor",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "46dvejuils25hlo8w1xtpakt1",
+            "name": "tertiaryColor",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "4c2dafccr5wfs7wpru57xdb7t",
+            "name": "imageCover",
+            "type": {
+              "name": "json",
+              "id": "json",
+              "usageLevel": 2
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "d7n1hd5cgdoraxbqw83r1ksfy",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "poek5gfif796uw26ksceldt6p",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [],
+        "x": 5.651124002522721,
+        "y": 632.3106400512756,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "sv3r3f8epiqwkoq9ep9817fqc",
+        "name": "machine",
+        "schema": "public",
+        "order": 12,
+        "fields": [
+          {
+            "id": "hmo2uc21xh4nef31lngaujubq",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "h79bu99ekxesmr3fle8qazrba",
+            "name": "production_line_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "xz3zbflzrq5g3nq6shec1kd88",
+            "name": "template_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "9pbdzx6f0diwufw258w9en963",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "tqcaoe6o7x52h3qzqlpgu8gk1",
+            "name": "serial_number",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "wyqxuq93mdgklslg206jk2doi",
+            "name": "status",
+            "type": {
+              "id": "machine_status",
+              "name": "machine_status"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "ui2ftyqjtwyi86qvmb6vcfvbi",
+            "name": "ip_address",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "3rj1j7s6ul4wq5o451ozqgm1b",
+            "name": "mqtt_topic",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "klwjpgcmkyvw8ywcsmbx0sxqh",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "rrvf3w5ihg51ilgr58gm2z00y",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "vijmziup24aqpdevm2yvantjf",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [],
+        "x": 8506.488612744277,
+        "y": 1484.1561975145964,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9",
+        "parentAreaId": "4c93q6regx2379shp1sff261l",
+        "expanded": true
+      },
+      {
+        "id": "txrd6rsj7u196zl4eiy2orps2",
+        "name": "user_role_map",
+        "schema": "public",
+        "order": 7,
+        "fields": [
+          {
+            "id": "i9myweeim4bqkdjg4lw4gpqqz",
+            "name": "user_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "kp0plpsu8bcy38h9ql8c5b894",
+            "name": "role_value",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "fxpdik5jn6klzw0ii6q2qp61p",
+            "name": "assigned_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "cjg1l7srw41xfrhxr9039528i",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "m0ggkvzl40o1rpek5rl8o8tkf",
+            "name": "pk_user_role_map_user_id_role_value",
+            "fieldIds": [
+              "i9myweeim4bqkdjg4lw4gpqqz",
+              "kp0plpsu8bcy38h9ql8c5b894"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 1801.359675988103,
+        "y": 539.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "v0k9rxqwv6d9wemhoj7pxzbs1",
+        "name": "machine_template",
+        "schema": "public",
+        "order": 11,
+        "fields": [
+          {
+            "id": "pfvmq3pna9c5c12n67wxvayem",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "tolx8oss612wrbce5mqeffxh0",
+            "name": "familyId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "knvug7zq3yjqqx95mx5zc6s06",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "1xsyyq53b817jrudoqbmotfjn",
+            "name": "model",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "dkme9x8rd9rwxt1a21qpsvn1d",
+            "name": "vendor",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "9vhspeelevahx1uv0iigrzqln",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "62v5jp13v4836sa317vgh6p38",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "ip0jqpq2z4zha2bfnjt025c2t",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "7m7t1sel8mt1b2ibftcjrwxj3",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "9e9v7myy7zkjvnoqdip7gulko",
+            "name": "pk_machine_template_id",
+            "fieldIds": [
+              "pfvmq3pna9c5c12n67wxvayem"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 7502.189691539887,
+        "y": 1584.5160775856746,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9",
+        "parentAreaId": "4c93q6regx2379shp1sff261l"
+      },
+      {
+        "id": "vpr4lynpkevju2g8pccytfmx6",
+        "name": "machine_parameter",
+        "schema": "public",
+        "order": 18,
+        "fields": [
+          {
+            "id": "1wsd53m5ajhzc8hmx6ynjmctl",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "e8eerpjafkzdhjdsm4kojv032",
+            "name": "machine_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "w2dheemt9ykkn5t1ffyf7hhta",
+            "name": "parameter_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "qewwjbutq8jrm799iwvq7tpuz",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "u3wi54b26exc5sn0dcskgp2a4",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "dj45ub0xrtnlpf3m1dsx684rq",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "6n68yivxkrdfwgnuor2mk7ols",
+            "name": "pk_machine_parameter_id",
+            "fieldIds": [
+              "1wsd53m5ajhzc8hmx6ynjmctl"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 2649.359675988103,
+        "y": 1085.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "vrvw503wu4conbupg6ajqzef7",
+        "name": "machine_component_template",
+        "schema": "public",
+        "order": 31,
+        "fields": [
+          {
+            "id": "ix0mvvmuia9otngdm773rkr75",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "a9lgn9qx13bvndsufsqb0zwwn",
+            "name": "machine_template_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760521193006
+          },
+          {
+            "id": "ukpmfsjaudp76e0n25qn1w2fh",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "n6r5zmdfnm3it24d9l7tfinvq",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "xnv55wjxhzt5ekad8oxi2xci5",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "npguocv7suzdxhnptoa2fwfbf",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "z7wla5vovzexy4v2fs3g1x6wx",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "2hj0gd9qslcjwest6bi9p5rzr",
+            "name": "tenant_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760545668859
+          },
+          {
+            "id": "q0al7gqgzqd0bukhp1vvn4wpr",
+            "name": "company_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760545677695
+          }
+        ],
+        "indexes": [
+          {
+            "id": "uafqxucfpb12hpznlk2wkawp1",
+            "name": "pk_machine_component_template_id",
+            "fieldIds": [
+              "ix0mvvmuia9otngdm773rkr75"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706051
+          }
+        ],
+        "x": 7720,
+        "y": 440,
+        "color": "#ff6363",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9",
+        "width": 337,
+        "parentAreaId": "4eni3rpbfpzu4m2nu3mvrgwh8",
+        "comments": "ciao"
+      },
+      {
+        "id": "xemf2ks9ucse20ooxd4y3tycp",
+        "name": "alarm_template",
+        "schema": "public",
+        "order": 19,
+        "fields": [
+          {
+            "id": "1iju1sje5l74hljoatswf071w",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "05nj0hktuc1mmivy2e4gpqp1m",
+            "name": "prametereTemplateId",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "yu2gmoq3s0jp68nzvb0e0vf28",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "wfx02szz2jhjwsv122r9qr3zu",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "k7xnkopyk9ks03zgsmtr3qr3p",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "pbwovrqkn46w1kf0tkw3vn3t5",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "ruzqnpkxwn0l58uaxgcycgaq5",
+            "name": "pk_alarm_template_id",
+            "fieldIds": [
+              "1iju1sje5l74hljoatswf071w"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706052
+          }
+        ],
+        "x": 6336.091169386929,
+        "y": 1599.401437630509,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "y92svc4rsljdvusxx7ic378lu",
+        "name": "user",
+        "schema": "public",
+        "order": 6,
+        "fields": [
+          {
+            "id": "g1f2o8b8ovjaq9zd5o124jq25",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "5glgq67gzicebsimcer171pd0",
+            "name": "tenant_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "fclqon3x15u6b4gsoda4v5ny1",
+            "name": "company_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "7jou1vg8n7vof28txex9ipnvp",
+            "name": "email",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "utmr7legi9s1m7nzypp6mhfux",
+            "name": "password_hash",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "mmeeecjioq2j31zmp36fhnfmq",
+            "name": "name",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "0j3vsmugsogwmzc81dt0odgm7",
+            "name": "surname",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760631811756
+          },
+          {
+            "id": "iskslfu39dcdm04kocpqmr8b8",
+            "name": "status",
+            "type": {
+              "id": "user_status",
+              "name": "user_status"
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "xstopfq6dhs0hqmwys1ts7ae0",
+            "name": "is_first_login",
+            "type": {
+              "name": "boolean",
+              "id": "boolean",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "tmtgop2sa50a6uuu0z3352q8l",
+            "name": "last_login_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "7vxsk2v7a1o7mgwu9w7a6m7by",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "f35acofms9s8wgfg5kqtpg4ck",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          },
+          {
+            "id": "9zhyu4fvcubhrepy5n9szlbn7",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978941
+          }
+        ],
+        "indexes": [
+          {
+            "id": "0sx6se3l0cd6zy8ke0ks46pe0",
+            "name": "user_email_key",
+            "fieldIds": [
+              "7jou1vg8n7vof28txex9ipnvp"
+            ],
+            "unique": true,
+            "createdAt": 1760517978941
+          }
+        ],
+        "x": 1377.359675988103,
+        "y": 539.3892931470327,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978941,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "yftpqsafn6wie2pwte6utams7",
+        "name": "maintenance_plan",
+        "schema": "public",
+        "order": 24,
+        "fields": [
+          {
+            "id": "n6vfj41gcm5hx3121qz8478vr",
+            "name": "id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": true,
+            "unique": true,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "o1xzi5osrocncytfynw91uwre",
+            "name": "template_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "kzxu9k9yltc26us6lx165nswh",
+            "name": "machine_id",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "4chtq0r7h3rfov1bqn4je0fbq",
+            "name": "description",
+            "type": {
+              "name": "text",
+              "id": "text",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "vjgx7ekf4mwrel7genwtgwulh",
+            "name": "next_due_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": true,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "z5yl9bo0hwq73u5nm96obj515",
+            "name": "created_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "63gjwm6hbl4rfqgvek7aekyqk",
+            "name": "updated_at",
+            "type": {
+              "name": "timestamp",
+              "id": "timestamp",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          },
+          {
+            "id": "gf7vp1suvsxd5zg4qevx5nepz",
+            "name": "created_by",
+            "type": {
+              "name": "integer",
+              "id": "integer",
+              "usageLevel": 1
+            },
+            "nullable": false,
+            "primaryKey": false,
+            "unique": false,
+            "createdAt": 1760517978942
+          }
+        ],
+        "indexes": [
+          {
+            "id": "3l7hyn1ck0mz3en8edgzzhbov",
+            "name": "pk_maintenance_plan_id",
+            "fieldIds": [
+              "n6vfj41gcm5hx3121qz8478vr"
+            ],
+            "unique": true,
+            "isPrimaryKey": true,
+            "createdAt": 1760631706052
+          }
+        ],
+        "x": 4811.718586384898,
+        "y": 1594.3160417073768,
+        "color": "#8eb7ff",
+        "isView": false,
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      }
+    ],
+    "relationships": [
+      {
+        "id": "mnruwe8g3gcao5cq6vrg66xzc",
+        "name": "alarm_rule_machine_parameter_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "rnmtuq8h5lv572thvnhdpbl7k",
+        "targetTableId": "vpr4lynpkevju2g8pccytfmx6",
+        "sourceFieldId": "is02pyzmxi0izabf7ghbjmklq",
+        "targetFieldId": "1wsd53m5ajhzc8hmx6ynjmctl",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "0tcdj8czgjep3yaiifvzllpu7",
+        "name": "alarm_template_aggregation_parameter_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "lmo9icij615mewkozpt23t91q",
+        "targetTableId": "oskgno3i28055zei7cjprheot",
+        "sourceFieldId": "1w6kin7eu35gqp2m97qy9l2o1",
+        "targetFieldId": "hjbgcg65xlbtrm5l2cm49atj2",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "4a849roa29wxhsgvh04czy9on",
+        "name": "alarm_template_aggregation_temaplate_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "lmo9icij615mewkozpt23t91q",
+        "targetTableId": "xemf2ks9ucse20ooxd4y3tycp",
+        "sourceFieldId": "mi1wvwacohwdz66xrhf62cp3b",
+        "targetFieldId": "1iju1sje5l74hljoatswf071w",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "cnfw6jboprb82qnu7oqbp53c4",
+        "name": "alarm_template_prametereTemplateId_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "xemf2ks9ucse20ooxd4y3tycp",
+        "targetTableId": "6bjhlxg4co7ujswffw5p62944",
+        "sourceFieldId": "05nj0hktuc1mmivy2e4gpqp1m",
+        "targetFieldId": "3ni90dkjcshzqmtd4b8eg5s29",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "crn2r2l7tmnldrjgzfpuq6ovh",
+        "name": "company_parentCompanyId_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "me88fyha2crb6fpt6zmhihch3",
+        "targetTableId": "me88fyha2crb6fpt6zmhihch3",
+        "sourceFieldId": "8xju6jjmh0h9mb1t2whh7p771",
+        "targetFieldId": "5ct87u6crosbqij4zg3k4pj30",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "h09ea0orowe6rv1v4pa5soqtx",
+        "name": "component_company_id_fk",
+        "sourceSchema": "public",
+        "sourceTableId": "4qaxbvb8ql7s0yr6wvwuej1g6",
+        "targetSchema": "public",
+        "targetTableId": "me88fyha2crb6fpt6zmhihch3",
+        "sourceFieldId": "pctvw6errqbclatb81jp0hhkm",
+        "targetFieldId": "5ct87u6crosbqij4zg3k4pj30",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760542825203,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "8l3p1xvns86p9yzkiwzp434lr",
+        "name": "component_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "vrvw503wu4conbupg6ajqzef7",
+        "targetTableId": "bjkkr2pl1c5i84y03p58suscn",
+        "sourceFieldId": "ix0mvvmuia9otngdm773rkr75",
+        "targetFieldId": "cufn8i7r6r65hope1la1mml8k",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "vnsbcp260xwmg05elnas296zm",
+        "name": "component_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "vrvw503wu4conbupg6ajqzef7",
+        "targetTableId": "j1o1lg0l0p1r0l0v4gmrxa2bb",
+        "sourceFieldId": "ix0mvvmuia9otngdm773rkr75",
+        "targetFieldId": "2shu7e3stuftnpb2pkt8ccdq6",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978942,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "ckrwyokmhqfuoqtoi7rs4uyeh",
+        "name": "component_machine_template_aggregation_component_id_fk",
+        "sourceSchema": "public",
+        "sourceTableId": "j1o1lg0l0p1r0l0v4gmrxa2bb",
+        "targetSchema": "public",
+        "targetTableId": "4qaxbvb8ql7s0yr6wvwuej1g6",
+        "sourceFieldId": "9ivs987m1psy8vllbpobqgut2",
+        "targetFieldId": "5haj1a0vl7lk5zradj1jsqrtj",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760524949927,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "tosjdqjs5np793bih5bolmfg6",
+        "name": "document_company_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "8g4omdo5xnwr6hjhc9sviy1h9",
+        "targetTableId": "me88fyha2crb6fpt6zmhihch3",
+        "sourceFieldId": "pl6tw3mfue8e6sr1me4b9e84s",
+        "targetFieldId": "5ct87u6crosbqij4zg3k4pj30",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "l9w24wuloim9x5zhf769lju2k",
+        "name": "machine_component_template_company_id_fk",
+        "sourceSchema": "public",
+        "sourceTableId": "vrvw503wu4conbupg6ajqzef7",
+        "targetSchema": "public",
+        "targetTableId": "me88fyha2crb6fpt6zmhihch3",
+        "sourceFieldId": "q0al7gqgzqd0bukhp1vvn4wpr",
+        "targetFieldId": "5ct87u6crosbqij4zg3k4pj30",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760545729582,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "m1oti1qwq9giy6iiy9058ot3k",
+        "name": "machine_component_template_machine_template_id_fk",
+        "sourceSchema": "public",
+        "sourceTableId": "vrvw503wu4conbupg6ajqzef7",
+        "targetSchema": "public",
+        "targetTableId": "v0k9rxqwv6d9wemhoj7pxzbs1",
+        "sourceFieldId": "a9lgn9qx13bvndsufsqb0zwwn",
+        "targetFieldId": "pfvmq3pna9c5c12n67wxvayem",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760523641049,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "x4pssmefm4z8f534hiiyzplmo",
+        "name": "machine_parameter_parameter_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "vpr4lynpkevju2g8pccytfmx6",
+        "targetTableId": "07vis6w3nh3wwcndzs40ayuc5",
+        "sourceFieldId": "w2dheemt9ykkn5t1ffyf7hhta",
+        "targetFieldId": "rzdv8dfwagzmyzaaxgkjv1bpw",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "920pqol5uin9rzbiouakavrzc",
+        "name": "machine_production_line_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "sv3r3f8epiqwkoq9ep9817fqc",
+        "targetTableId": "ozomv5fyjg7jv1p6gv6th4ukr",
+        "sourceFieldId": "h79bu99ekxesmr3fle8qazrba",
+        "targetFieldId": "tersvktgizls04208m8dh42j4",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "aahglaoppb6z80ok9jlycgran",
+        "name": "machine_template_familyId_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "v0k9rxqwv6d9wemhoj7pxzbs1",
+        "targetTableId": "48oqbiqh6metcwuhv027eemz9",
+        "sourceFieldId": "tolx8oss612wrbce5mqeffxh0",
+        "targetFieldId": "nrq0l88fe2vrsbzpzv6ch7326",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "lrrepcet5nrrbcqfwbdigs3ou",
+        "name": "machine_template_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "sv3r3f8epiqwkoq9ep9817fqc",
+        "targetTableId": "v0k9rxqwv6d9wemhoj7pxzbs1",
+        "sourceFieldId": "xz3zbflzrq5g3nq6shec1kd88",
+        "targetFieldId": "pfvmq3pna9c5c12n67wxvayem",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "jmitu7c4vxsx41eun0jv2o7c2",
+        "name": "maintenance_plan_template_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "yftpqsafn6wie2pwte6utams7",
+        "targetTableId": "47ur317fv90vtchn57xoqml51",
+        "sourceFieldId": "o1xzi5osrocncytfynw91uwre",
+        "targetFieldId": "qvmr10rwoctzhf2aaqqnaz9l1",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "pmvp70esgwswj7qcb6x1adse1",
+        "name": "maintenance_task_plan_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "cj73fgneefu5x2f1n7rlt9nl0",
+        "targetTableId": "yftpqsafn6wie2pwte6utams7",
+        "sourceFieldId": "h4hcvcyinq8kfbmelrpl6k9dv",
+        "targetFieldId": "n6vfj41gcm5hx3121qz8478vr",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "a1501jrtpgr8csv00ysy6b8bk",
+        "name": "maintenance_template_component_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "47ur317fv90vtchn57xoqml51",
+        "targetTableId": "j1o1lg0l0p1r0l0v4gmrxa2bb",
+        "sourceFieldId": "qy7ykaqngkszp1s038m26839v",
+        "targetFieldId": "50wbdhto8ns4xa8b42h3c0wm4",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "gws3cayohya81co98hpuxxrcw",
+        "name": "parameter_template_aggregation_parameterId_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "oskgno3i28055zei7cjprheot",
+        "targetTableId": "07vis6w3nh3wwcndzs40ayuc5",
+        "sourceFieldId": "q0827i2637iwhd8fvdbs6xoio",
+        "targetFieldId": "rzdv8dfwagzmyzaaxgkjv1bpw",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "rckm495xnyltpd63ot8xyfl2s",
+        "name": "parameter_template_aggregation_templateId_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "oskgno3i28055zei7cjprheot",
+        "targetTableId": "6bjhlxg4co7ujswffw5p62944",
+        "sourceFieldId": "fo5uj72ns6rxc16g3h8tg8a8m",
+        "targetFieldId": "3ni90dkjcshzqmtd4b8eg5s29",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "5ap50anl5gpf6k2q0izcwur1x",
+        "name": "parameter_template_machineFamilyId_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "6bjhlxg4co7ujswffw5p62944",
+        "targetTableId": "48oqbiqh6metcwuhv027eemz9",
+        "sourceFieldId": "etsyopsyw4v4gp3kmtpfzxe0x",
+        "targetFieldId": "nrq0l88fe2vrsbzpzv6ch7326",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "9ow5buf8r56xtfohme25uz0r2",
+        "name": "permission_role_value_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "mxv6yrzz8m8eimgg5a237sug7",
+        "targetTableId": "dsysjgr1ktwnwx1mlt8l84v76",
+        "sourceFieldId": "6xvmq27ik5lgso63u7h53ub6k",
+        "targetFieldId": "392bkvkzphytwax6x6hye1pvb",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "vog8htvuc317podsmhgdphpop",
+        "name": "plant_company_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "9ecpd1as5glqgljc47bqxh48t",
+        "targetTableId": "me88fyha2crb6fpt6zmhihch3",
+        "sourceFieldId": "01oyj51iprtyit3ggm2tleqzn",
+        "targetFieldId": "5ct87u6crosbqij4zg3k4pj30",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "6z9r068ism63mulw8h61avvco",
+        "name": "production_line_plant_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "ozomv5fyjg7jv1p6gv6th4ukr",
+        "targetTableId": "9ecpd1as5glqgljc47bqxh48t",
+        "sourceFieldId": "imq4151zqqbmp58e9r5iyqi3q",
+        "targetFieldId": "l3ck8tnnk3obr8yva1vvz5ief",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "17fkkfqortn1h7m47yekwiayc",
+        "name": "user_company_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "y92svc4rsljdvusxx7ic378lu",
+        "targetTableId": "me88fyha2crb6fpt6zmhihch3",
+        "sourceFieldId": "fclqon3x15u6b4gsoda4v5ny1",
+        "targetFieldId": "5ct87u6crosbqij4zg3k4pj30",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "6fvdd2szmpy2343c1digq340v",
+        "name": "user_role_map_role_value_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "txrd6rsj7u196zl4eiy2orps2",
+        "targetTableId": "dsysjgr1ktwnwx1mlt8l84v76",
+        "sourceFieldId": "kp0plpsu8bcy38h9ql8c5b894",
+        "targetFieldId": "392bkvkzphytwax6x6hye1pvb",
+        "sourceCardinality": "one",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "2anlmitiw9s4gkq30kh65ny4h",
+        "name": "user_role_map_user_id_fkey",
+        "sourceSchema": "public",
+        "targetSchema": "public",
+        "sourceTableId": "txrd6rsj7u196zl4eiy2orps2",
+        "targetTableId": "y92svc4rsljdvusxx7ic378lu",
+        "sourceFieldId": "i9myweeim4bqkdjg4lw4gpqqz",
+        "targetFieldId": "g1f2o8b8ovjaq9zd5o124jq25",
+        "sourceCardinality": "many",
+        "targetCardinality": "one",
+        "createdAt": 1760517978943,
+        "diagramId": "ce9b8e9vdhs9"
+      }
+    ],
+    "dependencies": [],
+    "areas": [
+      {
+        "id": "4c93q6regx2379shp1sff261l",
+        "name": "Machine",
+        "x": 7152.452822947128,
+        "y": 1402.6423961510327,
+        "width": 1670,
+        "height": 618,
+        "color": "#b067e9",
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "4eni3rpbfpzu4m2nu3mvrgwh8",
+        "name": "Component",
+        "x": 7560,
+        "y": 360,
+        "width": 1336,
+        "height": 914,
+        "color": "#ff6363",
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "cj1jmasb5ma5zplflbmdauxrs",
+        "name": "Parameter",
+        "x": 2145.859675988103,
+        "y": 824.3892931470327,
+        "width": 300,
+        "height": 200,
+        "color": "#b067e9",
+        "diagramId": "ce9b8e9vdhs9"
+      }
+    ],
+    "customTypes": [
+      {
+        "id": "56jdd5cszd0w2cc0858k4ipab",
+        "schema": "",
+        "name": "alarm_severity",
+        "kind": "enum",
+        "values": [
+          "info",
+          "warning",
+          "critical"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "gm5bjcseaqdh7szo8pjxnj9ee",
+        "schema": "",
+        "name": "document_type",
+        "kind": "enum",
+        "values": [
+          "pdf",
+          "doc",
+          "video",
+          "url"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "iyf152chsueap2ta56zloh7k7",
+        "schema": "",
+        "name": "machine_status",
+        "kind": "enum",
+        "values": [
+          "active",
+          "maintenance",
+          "offline",
+          "decommissioned"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "ori3mefv9tbasioplbwjdisi7",
+        "schema": "",
+        "name": "maintenance_status",
+        "kind": "enum",
+        "values": [
+          "scheduled",
+          "due",
+          "in_progress",
+          "completed",
+          "cancelled"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "frixtg4yyg4ozk3hba44gpq2r",
+        "schema": "",
+        "name": "notification_channel",
+        "kind": "enum",
+        "values": [
+          "email",
+          "sms",
+          "webhook"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "e0fri899ruevgj4sj719f7tnb",
+        "schema": "",
+        "name": "permission_action",
+        "kind": "enum",
+        "values": [
+          "list",
+          "create",
+          "edit",
+          "show",
+          "clone"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "8c2qx8jgcuvwmfpmqxnok9z4b",
+        "schema": "",
+        "name": "permission_resource",
+        "kind": "enum",
+        "values": [
+          "company",
+          "user",
+          "docuement",
+          "machine",
+          "plant",
+          "line",
+          "tenant",
+          "training",
+          "maintenance"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "e2bjao17x7i91dolsy041cyfm",
+        "schema": "",
+        "name": "subscription_type",
+        "kind": "enum",
+        "values": [
+          "basic_monthly",
+          "basic_annual",
+          "full_monthly",
+          "full_annual"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "903polk30cahv8g38resnxpa7",
+        "schema": "",
+        "name": "tenant_status",
+        "kind": "enum",
+        "values": [
+          "active",
+          "disactive",
+          "pending"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      },
+      {
+        "id": "g9m0dpzad3ws24p66tkq3mr1j",
+        "schema": "",
+        "name": "user_status",
+        "kind": "enum",
+        "values": [
+          "active",
+          "inactive",
+          "pending",
+          "temp_locked"
+        ],
+        "order": 0,
+        "diagramId": "ce9b8e9vdhs9"
+      }
+    ]
+  }
+]

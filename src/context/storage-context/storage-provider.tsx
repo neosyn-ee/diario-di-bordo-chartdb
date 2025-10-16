@@ -11,6 +11,7 @@ import type { DBDependency } from '@/lib/domain/db-dependency';
 import type { Area } from '@/lib/domain/area';
 import type { DBCustomType } from '@/lib/domain/db-custom-type';
 import type { DiagramFilter } from '@/lib/domain/diagram-filter/diagram-filter';
+import { useChartRepositorySync } from '@/hooks/use-chart-repository-sync';
 
 export const StorageProvider: React.FC<React.PropsWithChildren> = ({
     children,
@@ -231,16 +232,18 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
         return dexieDB;
     }, []);
 
+    const { wrapWithFileSave } = useChartRepositorySync();
+
     const getConfig: StorageContext['getConfig'] =
         useCallback(async (): Promise<ChartDBConfig | undefined> => {
             return await db.config.get(1);
         }, [db]);
 
     const updateConfig: StorageContext['updateConfig'] = useCallback(
-        async (config) => {
+        wrapWithFileSave(async (config) => {
             await db.config.update(1, config);
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const getDiagramFilter: StorageContext['getDiagramFilter'] = useCallback(
@@ -272,13 +275,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
         );
 
     const addTable: StorageContext['addTable'] = useCallback(
-        async ({ diagramId, table }) => {
+        wrapWithFileSave(async ({ diagramId, table }) => {
             await db.db_tables.add({
                 ...table,
                 diagramId,
             });
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const getTable: StorageContext['getTable'] = useCallback(
@@ -300,24 +303,24 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
         );
 
     const updateTable: StorageContext['updateTable'] = useCallback(
-        async ({ id, attributes }) => {
+        wrapWithFileSave(async ({ id, attributes }) => {
             await db.db_tables.update(id, attributes);
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const putTable: StorageContext['putTable'] = useCallback(
-        async ({ diagramId, table }) => {
+        wrapWithFileSave(async ({ diagramId, table }) => {
             await db.db_tables.put({ ...table, diagramId });
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const deleteTable: StorageContext['deleteTable'] = useCallback(
-        async ({ id, diagramId }) => {
+        wrapWithFileSave(async ({ id, diagramId }) => {
             await db.db_tables.where({ id, diagramId }).delete();
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const listTables: StorageContext['listTables'] = useCallback(
@@ -334,13 +337,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
     );
 
     const addRelationship: StorageContext['addRelationship'] = useCallback(
-        async ({ diagramId, relationship }) => {
+        wrapWithFileSave(async ({ diagramId, relationship }) => {
             await db.db_relationships.add({
                 ...relationship,
                 diagramId,
             });
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const deleteDiagramRelationships: StorageContext['deleteDiagramRelationships'] =
@@ -363,18 +366,18 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
 
     const updateRelationship: StorageContext['updateRelationship'] =
         useCallback(
-            async ({ id, attributes }) => {
+            wrapWithFileSave(async ({ id, attributes }) => {
                 await db.db_relationships.update(id, attributes);
-            },
-            [db]
+            }),
+            [wrapWithFileSave, db]
         );
 
     const deleteRelationship: StorageContext['deleteRelationship'] =
         useCallback(
-            async ({ id, diagramId }) => {
+            wrapWithFileSave(async ({ id, diagramId }) => {
                 await db.db_relationships.where({ id, diagramId }).delete();
-            },
-            [db]
+            }),
+            [wrapWithFileSave, db]
         );
 
     const listRelationships: StorageContext['listRelationships'] = useCallback(
@@ -393,13 +396,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
     );
 
     const addDependency: StorageContext['addDependency'] = useCallback(
-        async ({ diagramId, dependency }) => {
+        wrapWithFileSave(async ({ diagramId, dependency }) => {
             await db.db_dependencies.add({
                 ...dependency,
                 diagramId,
             });
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const getDependency: StorageContext['getDependency'] = useCallback(
@@ -410,17 +413,17 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
     );
 
     const updateDependency: StorageContext['updateDependency'] = useCallback(
-        async ({ id, attributes }) => {
+        wrapWithFileSave(async ({ id, attributes }) => {
             await db.db_dependencies.update(id, attributes);
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const deleteDependency: StorageContext['deleteDependency'] = useCallback(
-        async ({ diagramId, id }) => {
+        wrapWithFileSave(async ({ diagramId, id }) => {
             await db.db_dependencies.where({ id, diagramId }).delete();
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const listDependencies: StorageContext['listDependencies'] = useCallback(
@@ -445,13 +448,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
         );
 
     const addArea: StorageContext['addArea'] = useCallback(
-        async ({ area, diagramId }) => {
+        wrapWithFileSave(async ({ area, diagramId }) => {
             await db.areas.add({
                 ...area,
                 diagramId,
             });
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const getArea: StorageContext['getArea'] = useCallback(
@@ -462,17 +465,17 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
     );
 
     const updateArea: StorageContext['updateArea'] = useCallback(
-        async ({ id, attributes }) => {
+        wrapWithFileSave(async ({ id, attributes }) => {
             await db.areas.update(id, attributes);
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const deleteArea: StorageContext['deleteArea'] = useCallback(
-        async ({ diagramId, id }) => {
+        wrapWithFileSave(async ({ diagramId, id }) => {
             await db.areas.where({ id, diagramId }).delete();
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const listAreas: StorageContext['listAreas'] = useCallback(
@@ -495,13 +498,13 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
 
     // Custom type operations
     const addCustomType: StorageContext['addCustomType'] = useCallback(
-        async ({ diagramId, customType }) => {
+        wrapWithFileSave(async ({ diagramId, customType }) => {
             await db.db_custom_types.add({
                 ...customType,
                 diagramId,
             });
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const getCustomType: StorageContext['getCustomType'] = useCallback(
@@ -512,17 +515,17 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
     );
 
     const updateCustomType: StorageContext['updateCustomType'] = useCallback(
-        async ({ id, attributes }) => {
+        wrapWithFileSave(async ({ id, attributes }) => {
             await db.db_custom_types.update(id, attributes);
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const deleteCustomType: StorageContext['deleteCustomType'] = useCallback(
-        async ({ diagramId, id }) => {
+        wrapWithFileSave(async ({ diagramId, id }) => {
             await db.db_custom_types.where({ id, diagramId }).delete();
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const listCustomTypes: StorageContext['listCustomTypes'] = useCallback(
@@ -551,7 +554,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
         );
 
     const addDiagram: StorageContext['addDiagram'] = useCallback(
-        async ({ diagram }) => {
+        wrapWithFileSave(async ({ diagram }) => {
             const promises = [];
             promises.push(
                 db.diagrams.add({
@@ -567,39 +570,50 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
             const tables = diagram.tables ?? [];
             promises.push(
                 ...tables.map((table) =>
-                    addTable({ diagramId: diagram.id, table })
+                    db.db_tables.add({ ...table, diagramId: diagram.id })
                 )
             );
 
             const relationships = diagram.relationships ?? [];
             promises.push(
                 ...relationships.map((relationship) =>
-                    addRelationship({ diagramId: diagram.id, relationship })
+                    db.db_relationships.add({
+                        ...relationship,
+                        diagramId: diagram.id,
+                    })
                 )
             );
 
             const dependencies = diagram.dependencies ?? [];
             promises.push(
                 ...dependencies.map((dependency) =>
-                    addDependency({ diagramId: diagram.id, dependency })
+                    db.db_dependencies.add({
+                        ...dependency,
+                        diagramId: diagram.id,
+                    })
                 )
             );
 
             const areas = diagram.areas ?? [];
             promises.push(
-                ...areas.map((area) => addArea({ diagramId: diagram.id, area }))
+                ...areas.map((area) =>
+                    db.areas.add({ ...area, diagramId: diagram.id })
+                )
             );
 
             const customTypes = diagram.customTypes ?? [];
             promises.push(
                 ...customTypes.map((customType) =>
-                    addCustomType({ diagramId: diagram.id, customType })
+                    db.db_custom_types.add({
+                        ...customType,
+                        diagramId: diagram.id,
+                    })
                 )
             );
 
             await Promise.all(promises);
-        },
-        [db, addArea, addCustomType, addDependency, addRelationship, addTable]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const listDiagrams: StorageContext['listDiagrams'] = useCallback(
@@ -725,7 +739,7 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
     );
 
     const updateDiagram: StorageContext['updateDiagram'] = useCallback(
-        async ({ id, attributes }) => {
+        wrapWithFileSave(async ({ id, attributes }) => {
             await db.diagrams.update(id, attributes);
 
             if (attributes.id) {
@@ -751,12 +765,12 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
                         .modify({ diagramId: attributes.id }),
                 ]);
             }
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     const deleteDiagram: StorageContext['deleteDiagram'] = useCallback(
-        async (id) => {
+        wrapWithFileSave(async (id) => {
             await Promise.all([
                 db.diagrams.delete(id),
                 db.db_tables.where('diagramId').equals(id).delete(),
@@ -765,8 +779,8 @@ export const StorageProvider: React.FC<React.PropsWithChildren> = ({
                 db.areas.where('diagramId').equals(id).delete(),
                 db.db_custom_types.where('diagramId').equals(id).delete(),
             ]);
-        },
-        [db]
+        }),
+        [wrapWithFileSave, db]
     );
 
     return (

@@ -1,16 +1,23 @@
-import React, { useCallback } from 'react';
-import ChartDBLogo from '@/assets/logo-light.png';
 import ChartDBDarkLogo from '@/assets/logo-dark.png';
+import ChartDBLogo from '@/assets/logo-light.png';
+import { useChartRepositorySync } from '@/hooks/use-chart-repository-sync';
 import { useTheme } from '@/hooks/use-theme';
+import { Download } from 'lucide-react'; // Importa un'icona
+import React, { useCallback } from 'react';
 import { DiagramName } from './diagram-name';
-import { LastSaved } from './last-saved';
 import { LanguageNav } from './language-nav/language-nav';
+import { LastSaved } from './last-saved';
 import { Menu } from './menu/menu';
 
 export interface TopNavbarProps {}
 
 export const TopNavbar: React.FC<TopNavbarProps> = () => {
     const { effectiveTheme } = useTheme();
+    const { saveToRepository } = useChartRepositorySync(); // Usa l'hook
+
+    const handleSaveToRepo = useCallback(async () => {
+        await saveToRepository();
+    }, [saveToRepository]);
 
     const renderStars = useCallback(() => {
         return (
@@ -47,6 +54,15 @@ export const TopNavbar: React.FC<TopNavbarProps> = () => {
             </div>
             <DiagramName />
             <div className="hidden flex-1 items-center justify-end gap-2 sm:flex">
+                <button
+                    onClick={handleSaveToRepo}
+                    className="flex items-center gap-1 rounded px-2 py-1 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
+                    title="Salva dati nel repository (download file JSON)"
+                >
+                    <Download size={16} />
+                    <span className="hidden sm:inline">Save to Repo</span>
+                </button>
+
                 <LastSaved />
                 {renderStars()}
                 <LanguageNav />
